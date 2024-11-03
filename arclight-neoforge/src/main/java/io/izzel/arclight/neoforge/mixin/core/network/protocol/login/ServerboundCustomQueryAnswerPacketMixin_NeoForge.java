@@ -29,7 +29,7 @@ public class ServerboundCustomQueryAnswerPacketMixin_NeoForge {
         if (i >= 0 && i < MAX_PAYLOAD_SIZE) {
             var payload = Unpooled.buffer(i);
             buf.readBytes(payload);
-            cir.setReturnValue(new ArclightCustomQueryAnswerPayload(payload));
+            cir.setReturnValue(new ArclightCustomQueryAnswerPayload(Unpooled.wrappedBuffer(Unpooled.copyBoolean(true), payload)));
         } else {
             throw new IllegalArgumentException("Payload may not be larger than 1048576 bytes");
         }
