@@ -7,6 +7,7 @@ import io.izzel.arclight.common.mod.ArclightMixinPlugin;
 import io.izzel.arclight.i18n.ArclightConfig;
 import io.izzel.arclight.i18n.ArclightLocale;
 import io.izzel.arclight.mixin.MixinTools;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.LoggerFactory;
 
 public class FabricMixinPlugin extends ArclightMixinPlugin implements AbstractBootstrap {
@@ -24,5 +25,6 @@ public class FabricMixinPlugin extends ArclightMixinPlugin implements AbstractBo
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(LogManager::shutdown, "log flusher"));
     }
 }
