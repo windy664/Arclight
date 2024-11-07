@@ -67,7 +67,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mixin(ServerLoginPacketListenerImpl.class)
-public abstract class ServerLoginNetHandlerMixin implements ServerLoginNetHandlerBridge, CraftPlayer.TransferCookieConnection {
+public abstract class ServerLoginPacketListenerImplMixin implements ServerLoginNetHandlerBridge, CraftPlayer.TransferCookieConnection {
 
     // @formatter:off
     @Shadow private ServerLoginPacketListenerImpl.State state;

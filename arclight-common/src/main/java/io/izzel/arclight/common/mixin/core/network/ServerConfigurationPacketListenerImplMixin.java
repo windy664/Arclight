@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
 import net.minecraft.server.players.PlayerList;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v.CraftServerLinks;
+import org.bukkit.craftbukkit.v.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLinksSendEvent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.net.SocketAddress;
 
 @Mixin(ServerConfigurationPacketListenerImpl.class)
-public abstract class ServerConfigurationPacketListenerImplMixin extends ServerCommonPacketListenerImplMixin {
+public abstract class ServerConfigurationPacketListenerImplMixin extends ServerCommonPacketListenerImplMixin implements CraftPlayer.TransferCookieConnection {
 
     @Decorate(method = "startConfiguration", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;serverLinks()Lnet/minecraft/server/ServerLinks;"))
     private ServerLinks arclight$sendLinksEvent(MinecraftServer instance) throws Throwable {

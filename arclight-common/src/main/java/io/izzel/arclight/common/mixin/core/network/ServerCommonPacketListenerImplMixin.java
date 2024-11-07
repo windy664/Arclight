@@ -52,7 +52,7 @@ import java.util.concurrent.ExecutionException;
 public abstract class ServerCommonPacketListenerImplMixin implements ServerCommonPacketListenerBridge, PacketListener, CraftPlayer.TransferCookieConnection {
 
     // @formatter:off
-    @Shadow @Final protected Connection connection;
+    @Shadow @Final public Connection connection;
     @Shadow @Final protected MinecraftServer server;
     @Shadow public abstract void send(Packet<?> p_300558_);
     @Shadow protected abstract boolean isSingleplayerOwner();

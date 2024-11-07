@@ -26,7 +26,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 
 @Mixin(ServerHandshakePacketListenerImpl.class)
-public abstract class ServerHandshakeNetHandlerMixin implements ServerHandshakeNetHandlerBridge {
+public abstract class ServerHandshakePacketListenerImplMixin implements ServerHandshakeNetHandlerBridge {
 
     private static final Gson gson = new Gson();
     private static final java.util.regex.Pattern HOST_PATTERN = java.util.regex.Pattern.compile("[0-9a-f\\.:]{0,45}");

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(ServerStatusPacketListenerImpl.class)
-public class ServerStatusNetHandlerMixin implements ServerStatusPacketListenerBridge {
+public class ServerStatusPacketListenerImplMixin implements ServerStatusPacketListenerBridge {
 
     @Redirect(method = "handleStatusRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/Connection;send(Lnet/minecraft/network/protocol/Packet;)V"))
     private void arclight$handleServerPing(Connection networkManager, Packet<?> packetIn) {
