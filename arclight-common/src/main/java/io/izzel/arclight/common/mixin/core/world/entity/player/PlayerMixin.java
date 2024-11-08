@@ -430,7 +430,7 @@ public abstract class PlayerMixin extends LivingEntityMixin implements PlayerEnt
     }
 
     @Override
-    public void onEquipItem(EquipmentSlot slot, ItemStack stack, boolean silent) {
+    public void setItemSlot(EquipmentSlot slot, ItemStack stack, boolean silent) {
         this.verifyEquippedItem(stack);
         if (slot == EquipmentSlot.MAINHAND) {
             this.equipEventAndSound(slot, this.inventory.items.set(this.inventory.selected, stack), stack, silent);
