@@ -204,6 +204,7 @@ public abstract class LivingEntityMixin extends EntityMixin implements LivingEnt
     @Shadow public abstract int getArmorValue();
     @Shadow public abstract EquipmentSlot getEquipmentSlotForItem(ItemStack itemStack);
     @Shadow protected abstract void dropAllDeathLoot(ServerLevel serverLevel, DamageSource damageSource);
+    @Shadow public abstract void onEquipItem(EquipmentSlot slot, ItemStack original, ItemStack newStack);
     // @formatter:on
 
     public int expToDrop;
@@ -989,13 +990,13 @@ public abstract class LivingEntityMixin extends EntityMixin implements LivingEnt
         this.setItemSlot(slot, stack);
     }
 
-    public void onEquipItem(EquipmentSlot slotIn, ItemStack stack, boolean silent) {
-        this.setItemSlot(slotIn, stack);
+    public void onEquipItem(EquipmentSlot slot, ItemStack stack, ItemStack stack1, boolean silent) {
+        this.onEquipItem(slot, stack, stack1);
     }
 
     @Override
-    public void bridge$setSlot(EquipmentSlot slotIn, ItemStack stack, boolean silent) {
-        this.onEquipItem(slotIn, stack, silent);
+    public void bridge$setSlot(EquipmentSlot slot, ItemStack stack, boolean silent) {
+        this.setItemSlot(slot, stack, silent);
     }
 
     protected void equipEventAndSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, boolean silent) {
