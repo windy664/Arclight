@@ -167,7 +167,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 @Mixin(ServerGamePacketListenerImpl.class)
-public abstract class ServerGamePacketListenerImplMixin extends ServerCommonPacketListenerImplMixin implements ServerPlayNetHandlerBridge, CraftPlayer.TransferCookieConnection {
+public abstract class ServerGamePacketListenerImplMixin extends ServerCommonPacketListenerImplMixin implements ServerPlayNetHandlerBridge {
 
     // @formatter:off
     @Shadow public ServerPlayer player;

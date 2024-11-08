@@ -259,4 +259,9 @@ public abstract class ServerCommonPacketListenerImplMixin implements ServerCommo
     public void sendPacket(Packet<?> packet) {
         this.send(packet);
     }
+
+    @Override
+    public void kickPlayer(Component component) {
+        disconnect(component);
+    }
 }

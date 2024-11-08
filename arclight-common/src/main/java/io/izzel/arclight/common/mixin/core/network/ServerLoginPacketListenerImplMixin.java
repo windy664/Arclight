@@ -377,4 +377,9 @@ public abstract class ServerLoginPacketListenerImplMixin implements ServerLoginN
     public void sendPacket(Packet<?> packet) {
         this.connection.send(packet);
     }
+
+    @Override
+    public void kickPlayer(Component component) {
+        disconnect(component);
+    }
 }

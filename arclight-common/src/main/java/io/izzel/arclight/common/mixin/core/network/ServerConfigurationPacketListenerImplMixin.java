@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.net.SocketAddress;
 
 @Mixin(ServerConfigurationPacketListenerImpl.class)
-public abstract class ServerConfigurationPacketListenerImplMixin extends ServerCommonPacketListenerImplMixin implements CraftPlayer.TransferCookieConnection {
+public abstract class ServerConfigurationPacketListenerImplMixin extends ServerCommonPacketListenerImplMixin {
 
     @Decorate(method = "startConfiguration", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;serverLinks()Lnet/minecraft/server/ServerLinks;"))
     private ServerLinks arclight$sendLinksEvent(MinecraftServer instance) throws Throwable {
