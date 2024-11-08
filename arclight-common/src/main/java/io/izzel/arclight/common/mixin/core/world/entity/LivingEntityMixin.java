@@ -985,6 +985,10 @@ public abstract class LivingEntityMixin extends EntityMixin implements LivingEnt
         return CraftEventFactory.callArrowBodyCountChangeEvent((LivingEntity) (Object) this, this.getArrowCount(), newCount, reset).isCancelled();
     }
 
+    public void setItemSlot(EquipmentSlot slot, ItemStack stack, boolean silent) {
+        this.setItemSlot(slot, stack);
+    }
+
     public void onEquipItem(EquipmentSlot slotIn, ItemStack stack, boolean silent) {
         this.setItemSlot(slotIn, stack);
     }
