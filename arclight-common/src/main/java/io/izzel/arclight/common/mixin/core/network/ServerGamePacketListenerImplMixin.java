@@ -155,6 +155,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -1727,5 +1728,9 @@ public abstract class ServerGamePacketListenerImplMixin extends ServerCommonPack
     @Override
     public boolean bridge$teleportCancelled() {
         return arclight$teleportCancelled;
+    }
+
+    public SocketAddress getRawAddress() {
+        return this.connection.channel.remoteAddress();
     }
 }
