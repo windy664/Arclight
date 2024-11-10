@@ -214,14 +214,14 @@ public abstract class PlayerListMixin implements PlayerListBridge {
     public ServerPlayer bridge$canPlayerLogin(SocketAddress socketAddress, GameProfile gameProfile, ServerLoginPacketListenerImpl handler) {
         UUID uuid = gameProfile.getId();
         List<ServerPlayer> list = Lists.newArrayList();
-        for (ServerPlayer entityplayer : this.players) {
-            if (entityplayer.getUUID().equals(uuid)) {
-                list.add(entityplayer);
+        for (ServerPlayer player : this.players) {
+            if (player.getUUID().equals(uuid)) {
+                list.add(player);
             }
         }
-        for (ServerPlayer entityplayer : list) {
-            this.save(entityplayer);
-            entityplayer.connection.disconnect(Component.translatable("multiplayer.disconnect.duplicate_login"));
+        for (ServerPlayer player : list) {
+            this.save(player);
+            player.connection.disconnect(Component.translatable("multiplayer.disconnect.duplicate_login"));
         }
         ServerPlayer entity = new ServerPlayer(this.server, this.server.getLevel(Level.OVERWORLD), gameProfile, ClientInformation.createDefault());
         ((ServerPlayerEntityBridge) entity).bridge$setTransferCookieConnection((CraftPlayer.TransferCookieConnection) handler);
@@ -231,22 +231,22 @@ public abstract class PlayerListMixin implements PlayerListBridge {
         InetAddress realAddress = handler == null ? ((InetSocketAddress) socketAddress).getAddress() : ((InetSocketAddress) handler.connection.channel.remoteAddress()).getAddress();
 
         PlayerLoginEvent event = new PlayerLoginEvent(player, hostname, ((InetSocketAddress) socketAddress).getAddress(), realAddress);
-        if (this.getBans().isBanned(gameProfile) && !this.getBans().get(gameProfile).hasExpired()) {
-            UserBanListEntry gameprofilebanentry = this.bans.get(gameProfile);
-            var chatmessage = Component.translatable("multiplayer.disconnect.banned.reason", gameprofilebanentry.getReason());
-            if (gameprofilebanentry.getExpires() != null) {
-                chatmessage.append(Component.translatable("multiplayer.disconnect.banned.expiration", BAN_DATE_FORMAT.format(gameprofilebanentry.getExpires())));
+        if (this.getBans().isBanned(gameProfile) && this.getBans().get(gameProfile) != null && !this.getBans().get(gameProfile).hasExpired()) {
+            UserBanListEntry entry = this.bans.get(gameProfile);
+            var message = Component.translatable("multiplayer.disconnect.banned.reason", entry.getReason());
+            if (entry.getExpires() != null) {
+                message.append(Component.translatable("multiplayer.disconnect.banned.expiration", BAN_DATE_FORMAT.format(entry.getExpires())));
             }
-            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(chatmessage));
+            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(message));
         } else if (!this.isWhiteListed(gameProfile)) {
             event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, SpigotConfig.whitelistMessage);
-        } else if (this.getIpBans().isBanned(socketAddress) && !this.getIpBans().get(socketAddress).hasExpired()) {
-            IpBanListEntry ipbanentry = this.ipBans.get(socketAddress);
-            var chatmessage = Component.translatable("multiplayer.disconnect.banned_ip.reason", ipbanentry.getReason());
-            if (ipbanentry.getExpires() != null) {
-                chatmessage.append(Component.translatable("multiplayer.disconnect.banned_ip.expiration", BAN_DATE_FORMAT.format(ipbanentry.getExpires())));
+        } else if (this.getIpBans().isBanned(socketAddress) && this.getIpBans().get(socketAddress) != null && !this.getIpBans().get(socketAddress).hasExpired()) {
+            IpBanListEntry entry = this.ipBans.get(socketAddress);
+            var message = Component.translatable("multiplayer.disconnect.banned_ip.reason", entry.getReason());
+            if (entry.getExpires() != null) {
+                message.append(Component.translatable("multiplayer.disconnect.banned_ip.expiration", BAN_DATE_FORMAT.format(entry.getExpires())));
             }
-            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(chatmessage));
+            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(message));
         } else if (this.players.size() >= this.maxPlayers && !this.canBypassPlayerLimit(gameProfile)) {
             event.disallow(PlayerLoginEvent.Result.KICK_FULL, SpigotConfig.serverFullMessage);
         }
