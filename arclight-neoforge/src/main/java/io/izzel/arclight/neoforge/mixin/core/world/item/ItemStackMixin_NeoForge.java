@@ -38,8 +38,11 @@ public abstract class ItemStackMixin_NeoForge implements ItemStackBridge, IItemS
     // @formatter:on
 
     @Decorate(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Consumer;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;processDurabilityChange(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;I)I"))
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;processDurabilityChange(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;I)I"))
     private int arclight$itemDamage(ServerLevel serverLevel, ItemStack itemStack, int i, @Local(ordinal = 0) LivingEntity damager) throws Throwable {
+        if (itemStack == null) {
+            itemStack = ItemStack.EMPTY;
+        }
         int result = (int) DecorationOps.callsite().invoke(serverLevel, itemStack, i);
         if (damager instanceof ServerPlayer) {
             PlayerItemDamageEvent event = new PlayerItemDamageEvent(((ServerPlayerEntityBridge) damager).bridge$getBukkitEntity(), CraftItemStack.asCraftMirror((ItemStack) (Object) this), result);
@@ -64,7 +67,9 @@ public abstract class ItemStackMixin_NeoForge implements ItemStackBridge, IItemS
     }
 
     @Deprecated
-    public void setItem(Item item) {
+    public void setItem(@Nullable Item item) {
+        if (item == null) { return;
+        }
         this.item = item;
     }
 
