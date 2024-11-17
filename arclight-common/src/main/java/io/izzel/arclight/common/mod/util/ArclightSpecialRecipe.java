@@ -5,6 +5,7 @@ import io.izzel.arclight.common.mod.server.ArclightServer;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v.inventory.CraftComplexRecipe;
 import org.bukkit.craftbukkit.v.inventory.CraftItemStack;
@@ -17,7 +18,7 @@ public class ArclightSpecialRecipe extends CraftComplexRecipe {
     private final Recipe<?> recipe;
 
     public ArclightSpecialRecipe(NamespacedKey id, Recipe<?> recipe) {
-        super(id, null, null);
+        super(id, new ItemStack(Material.AIR), null);
         this.recipe = recipe;
     }
 
