@@ -45,6 +45,7 @@
     "Registry_SimpleRegistryMixin",
     "StandardMessengerMixin",
     "WatchdogThreadMixin",
+    "inventory.CraftItemStackMixin",
     "util.BlockStateListPopulatorMixin",
     "util.DelegatedGeneratorAccessMixin",
     "util.DummyGeneratorAccessMixin"
