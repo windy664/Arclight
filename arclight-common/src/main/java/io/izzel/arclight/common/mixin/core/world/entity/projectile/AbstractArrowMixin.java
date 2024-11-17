@@ -79,6 +79,14 @@ public abstract class AbstractArrowMixin extends ProjectileMixin {
 
     @Inject(method = "setOwner", at = @At("HEAD"))
     private void arclight$setShooter(Entity entityIn, CallbackInfo ci) {
-        this.projectileSource = entityIn == null ? null : (ProjectileSource) ((EntityBridge) entityIn).bridge$getBukkitEntity();
+        if (entityIn != null) {
+            var craftEntity = entityIn.bridge$getBukkitEntity();
+            if (craftEntity instanceof ProjectileSource p) {
+                this.projectileSource = p;
+                return;
+            }
+        }
+
+        this.projectileSource = null;
     }
 }
