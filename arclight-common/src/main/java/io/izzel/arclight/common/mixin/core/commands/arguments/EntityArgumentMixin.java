@@ -4,12 +4,16 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.izzel.arclight.common.bridge.core.command.arguments.EntityArgumentBridge;
 import io.izzel.arclight.common.bridge.core.command.arguments.EntitySelectorParserBridge;
+import io.izzel.arclight.mixin.Decorate;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.commands.arguments.selector.EntitySelectorParser;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 
 import static net.minecraft.commands.arguments.EntityArgument.ERROR_NOT_SINGLE_ENTITY;
 import static net.minecraft.commands.arguments.EntityArgument.ERROR_NOT_SINGLE_PLAYER;
@@ -28,7 +32,7 @@ public class EntityArgumentMixin implements EntityArgumentBridge {
         return this.parse(reader, overridePermissions);
     }
 
-    public EntitySelector parse(StringReader reader, boolean overridePermissions) throws CommandSyntaxException {
+    private EntitySelector parse(StringReader reader, boolean overridePermissions) throws CommandSyntaxException {
         int i = 0;
         EntitySelectorParser entityselectorparser = new EntitySelectorParser(reader, true);
         EntitySelector entityselector = ((EntitySelectorParserBridge) entityselectorparser).bridge$parse(overridePermissions);
