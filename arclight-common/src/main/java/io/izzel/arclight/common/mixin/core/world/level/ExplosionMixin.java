@@ -1,6 +1,5 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
-import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.util.DamageSourceBridge;
@@ -10,11 +9,15 @@ import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.mixin.Local;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TntBlock;
@@ -28,14 +31,10 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.TNTPrimeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityKnockbackEvent;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -69,11 +68,16 @@ public abstract class ExplosionMixin implements ExplosionBridge {
         return this.yield;
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/Entity;DDDFZLnet/minecraft/world/level/Explosion$BlockInteraction;)V", at = @At("RETURN"))
-    public void arclight$adjustSize(Level worldIn, Entity exploderIn, double xIn, double yIn, double zIn, float sizeIn, boolean causesFireIn, Explosion.BlockInteraction modeIn, CallbackInfo ci) {
-        this.radius = Math.max(sizeIn, 0F);
+    @Inject(method = "<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Explosion$BlockInteraction;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/Holder;)V", at = @At("RETURN"))
+    public void arclight$adjustSize(Level level, Entity entity, DamageSource damageSource,
+                                    ExplosionDamageCalculator explosionDamageCalculator,
+                                    double x, double y, double z, float radius, boolean fire,
+                                    Explosion.BlockInteraction blockInteraction,
+                                    ParticleOptions particleOptions, ParticleOptions particleOptions2,
+                                    Holder<SoundEvent> holder, CallbackInfo ci) {
+        this.radius = Math.max(radius, 0F);
         this.yield = this.blockInteraction == Explosion.BlockInteraction.DESTROY_WITH_DECAY ? 1.0F / this.radius : 1.0F;
-        this.damageSource = ((DamageSourceBridge) (this.damageSource == null ? worldIn.damageSources().explosion((Explosion) (Object) this) : this.damageSource)).bridge$customCausingEntity(exploderIn);
+        this.damageSource = ((DamageSourceBridge) (this.damageSource == null ? level.damageSources().explosion((Explosion) (Object) this) : this.damageSource)).bridge$customCausingEntity(entity);
     }
 
     @Inject(method = "explode", cancellable = true, at = @At("HEAD"))
@@ -132,17 +136,18 @@ public abstract class ExplosionMixin implements ExplosionBridge {
         return vec3;
     }
 
-    public boolean wasCanceled = false;
+    @Unique
+    public boolean arclight$wasCanceled = false;
 
     @Override
     public boolean bridge$wasCancelled() {
-        return wasCanceled;
+        return arclight$wasCanceled;
     }
 
     @Inject(method = "finalizeExplosion", cancellable = true, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/Util;shuffle(Ljava/util/List;Lnet/minecraft/util/RandomSource;)V"))
     private void arclight$blockExplode(boolean bl, CallbackInfo ci) {
-        if (this.callBlockExplodeEvent()) {
-            this.wasCanceled = true;
+        if (this.arclight$callBlockExplodeEvent()) {
+            this.arclight$wasCanceled = true;
             ci.cancel();
         }
     }
@@ -174,11 +179,13 @@ public abstract class ExplosionMixin implements ExplosionBridge {
         if (stack.isEmpty()) ci.cancel();
     }
 
-    private boolean callBlockExplodeEvent() {
+    @Unique
+    private boolean arclight$callBlockExplodeEvent() {
+        boolean wasCancelled;
+
         org.bukkit.World world = this.level.bridge$getWorld();
-        org.bukkit.entity.Entity exploder = this.source == null ? null : this.source.bridge$getBukkitEntity();
         Location location = new Location(world, this.x, this.y, this.z);
-        List<org.bukkit.block.Block> blockList = Lists.newArrayList();
+        List<org.bukkit.block.Block> blockList = new ObjectArrayList<>();
         for (int i = this.toBlow.size() - 1; i >= 0; i--) {
             BlockPos blockPos = this.toBlow.get(i);
             org.bukkit.block.Block block = world.getBlockAt(blockPos.getX(), blockPos.getY(), blockPos.getZ());
@@ -187,19 +194,18 @@ public abstract class ExplosionMixin implements ExplosionBridge {
             }
         }
 
-        boolean cancelled;
         List<org.bukkit.block.Block> bukkitBlocks;
 
-        if (exploder != null) {
+        if (this.source != null) {
             EntityExplodeEvent event = CraftEventFactory.callEntityExplodeEvent(this.source, blockList, this.yield, this.getBlockInteraction());
-            cancelled = event.isCancelled();
+            wasCancelled = event.isCancelled();
             bukkitBlocks = event.blockList();
             this.yield = event.getYield();
         } else {
             org.bukkit.block.Block block = location.getBlock();
             org.bukkit.block.BlockState blockState = (((DamageSourceBridge) damageSource).bridge$directBlockState() != null) ? ((DamageSourceBridge) damageSource).bridge$directBlockState() : block.getState();
             BlockExplodeEvent event = CraftEventFactory.callBlockExplodeEvent(block, blockState, blockList, this.yield, this.getBlockInteraction());
-            cancelled = event.isCancelled();
+            wasCancelled = event.isCancelled();
             bukkitBlocks = event.blockList();
             this.yield = event.getYield();
         }
@@ -210,6 +216,6 @@ public abstract class ExplosionMixin implements ExplosionBridge {
             BlockPos blockPos = new BlockPos(block.getX(), block.getY(), block.getZ());
             this.toBlow.add(blockPos);
         }
-        return cancelled;
+        return wasCancelled;
     }
 }

@@ -30,8 +30,9 @@ public abstract class BlockBehaviourMixin implements BlockBehaviourBridge {
     @Decorate(method = "onExplosionHit", inject = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;spawnAfterBreak(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/item/ItemStack;Z)V"))
     private void arclight$setRadius(BlockState blockState, Level level, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer,
                                     @Local(ordinal = -1) LootParams.Builder builder) {
-        if (((ExplosionBridge) explosion).bridge$getYield() < 1.0F) {
-            builder.withParameter(LootContextParams.EXPLOSION_RADIUS, 1.0F / ((ExplosionBridge) explosion).bridge$getYield());
+        var yield = ((ExplosionBridge) explosion).bridge$getYield();
+        if (yield < 1.0F) {
+            builder.withParameter(LootContextParams.EXPLOSION_RADIUS, 1.0F / yield);
         }
     }
 }
