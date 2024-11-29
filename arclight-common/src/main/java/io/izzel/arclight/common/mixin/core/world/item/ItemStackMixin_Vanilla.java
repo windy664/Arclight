@@ -1,54 +1,35 @@
-package io.izzel.arclight.forge.mixin.core.world.item;
+package io.izzel.arclight.common.mixin.core.world.item;
 
+import io.izzel.arclight.api.ArclightPlatform;
 import io.izzel.arclight.common.bridge.core.entity.player.ServerPlayerEntityBridge;
 import io.izzel.arclight.common.bridge.core.world.item.ItemStackBridge;
+import io.izzel.arclight.common.mod.mixins.annotation.OnlyInPlatform;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.mixin.Local;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.LevelReader;
-import net.minecraftforge.common.extensions.IForgeItemStack;
 import org.bukkit.craftbukkit.v.event.CraftEventFactory;
 import org.bukkit.craftbukkit.v.inventory.CraftItemStack;
 import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 @Mixin(ItemStack.class)
-public abstract class ItemStackMixin_Forge implements ItemStackBridge, IForgeItemStack {
+@OnlyInPlatform(value = {ArclightPlatform.VANILLA, ArclightPlatform.FABRIC})
+public abstract class ItemStackMixin_Vanilla implements ItemStackBridge {
 
     // @formatter:off
     @Shadow private int count;
-    @Shadow @Deprecated @Nullable private Item item;
     // @formatter:on
-
-    @Deprecated
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    @Override
-    public InteractionResult bridge$forge$onItemUseFirst(UseOnContext context) {
-        return onItemUseFirst(context);
-    }
-
-    @Override
-    public boolean bridge$forge$doesSneakBypassUse(LevelReader level, BlockPos pos, Player player) {
-        return doesSneakBypassUse(level, pos, player);
-    }
 
     @Decorate(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/server/level/ServerPlayer;Ljava/util/function/Consumer;)V",
             require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;processDurabilityChange(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;I)I"))
@@ -70,7 +51,7 @@ public abstract class ItemStackMixin_Forge implements ItemStackBridge, IForgeIte
     }
 
     @Inject(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/server/level/ServerPlayer;Ljava/util/function/Consumer;)V", require = 0, at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
-    private void arclight$itemBreak(int amount, ServerLevel level, @org.jetbrains.annotations.Nullable ServerPlayer serverPlayer, Consumer<Item> onBroken, CallbackInfo ci) {
+    private void arclight$itemBreak(int amount, ServerLevel level, @Nullable ServerPlayer serverPlayer, Consumer<Item> onBroken, CallbackInfo ci) {
         if (this.count == 1 && serverPlayer != null) {
             CraftEventFactory.callPlayerItemBreakEvent(serverPlayer, (ItemStack) (Object) this);
         }

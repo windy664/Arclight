@@ -32,9 +32,9 @@ import java.util.List;
 public abstract class BeehiveBlockEntityMixin extends BlockEntityMixin {
 
     // @formatter:off
-    @Shadow @Final private List<BeehiveBlockEntity.BeeData> stored;
+    @Shadow private List<BeehiveBlockEntity.BeeData> stored;
     @Shadow @Nullable public BlockPos savedFlowerPos;
-    @Shadow protected static boolean releaseOccupant(Level arg, BlockPos arg2, BlockState arg3, BeehiveBlockEntity.Occupant arg4, @org.jetbrains.annotations.Nullable List<Entity> list, BeehiveBlockEntity.BeeReleaseStatus arg5, @org.jetbrains.annotations.Nullable BlockPos arg6) { return false; }
+    @Shadow private static boolean releaseOccupant(Level arg, BlockPos arg2, BlockState arg3, BeehiveBlockEntity.Occupant arg4, @org.jetbrains.annotations.Nullable List<Entity> list, BeehiveBlockEntity.BeeReleaseStatus arg5, @org.jetbrains.annotations.Nullable BlockPos arg6) { return false; }
     // @formatter:on
 
     public int maxBees = 3;

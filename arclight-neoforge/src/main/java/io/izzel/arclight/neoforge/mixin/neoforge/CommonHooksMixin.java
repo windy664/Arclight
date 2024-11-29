@@ -1,4 +1,4 @@
-package io.izzel.arclight.neoforge.mixin.forge;
+package io.izzel.arclight.neoforge.mixin.neoforge;
 
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import net.minecraft.world.InteractionHand;

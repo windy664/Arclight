@@ -490,14 +490,6 @@ public abstract class EntityMixin implements InternalEntityBridge, EntityBridge,
         }
     }
 
-    @Decorate(method = "updateFluidHeightAndDoFluidPushing", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;getFlow(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;"))
-    private Vec3 arclight$setLava(FluidState instance, BlockGetter level, BlockPos pos) throws Throwable {
-        if (instance.getType().is(FluidTags.LAVA)) {
-            lastLavaContact = pos.immutable();
-        }
-        return (Vec3) DecorationOps.callsite().invoke(instance, level, pos);
-    }
-
     @Override
     public void bridge$setLastLavaContact(BlockPos pos) {
         this.lastLavaContact = pos;

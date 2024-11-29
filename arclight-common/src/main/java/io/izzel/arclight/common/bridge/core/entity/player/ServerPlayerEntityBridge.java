@@ -1,5 +1,6 @@
 package io.izzel.arclight.common.bridge.core.entity.player;
 
+import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import org.bukkit.Location;
@@ -11,6 +12,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.util.Optional;
 
 public interface ServerPlayerEntityBridge extends PlayerEntityBridge {
+
+    <L, R> Either<L, R> bridge$fireBedEvent(Either<L, R> e, BlockPos pos);
 
     @Override
     CraftPlayer bridge$getBukkitEntity();

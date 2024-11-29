@@ -180,28 +180,6 @@ public abstract class LevelMixin implements WorldBridge, LevelAccessor, LevelWri
         return true;
     }
 
-    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", require = 0, cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;updateNeighbourShapes(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V"))
-    private void arclight$callBlockPhysics(BlockPos pos, BlockState state, int i, int j, CallbackInfoReturnable<Boolean> cir) {
-        try {
-            if (this.world != null) {
-                BlockPhysicsEvent event = new BlockPhysicsEvent(CraftBlock.at(this, pos), CraftBlockData.fromData(state));
-                Bukkit.getPluginManager().callEvent(event);
-                if (event.isCancelled()) {
-                    cir.setReturnValue(true);
-                }
-            }
-        } catch (StackOverflowError e) {
-            lastPhysicsProblem = pos;
-        }
-    }
-
-    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", require = 0, cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;onBlockStateChange(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;)V"))
-    private void arclight$preventPoiUpdate(BlockPos blockPos, BlockState blockState, int i, int j, CallbackInfoReturnable<Boolean> cir) {
-        if (this.preventPoiUpdated) {
-            cir.setReturnValue(true);
-        }
-    }
-
     public void notifyAndUpdatePhysics(BlockPos pos, LevelChunk chunk, BlockState oldBlock, BlockState newBlock, BlockState actualBlock, int i, int j) {
         this.bridge$forge$notifyAndUpdatePhysics(pos, chunk, oldBlock, newBlock, i, j);
     }

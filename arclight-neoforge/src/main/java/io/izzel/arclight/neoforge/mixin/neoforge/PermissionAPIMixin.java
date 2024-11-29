@@ -1,4 +1,4 @@
-package io.izzel.arclight.neoforge.mixin.forge;
+package io.izzel.arclight.neoforge.mixin.neoforge;
 
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import io.izzel.arclight.i18n.ArclightConfig;

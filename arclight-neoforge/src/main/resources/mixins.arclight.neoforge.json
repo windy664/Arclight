@@ -69,9 +69,9 @@
     "core.world.level.block.state.BlockBehaviourMixin_Forge",
     "core.world.level.levelgen.structure.templatesystem.StructureTemplateMixin_NeoForge",
     "core.world.level.storage.loot.LootContextMixin_NeoForge",
-    "forge.CommonHooksMixin",
-    "forge.PacketDistributorMixin",
-    "forge.PermissionAPIMixin",
+    "neoforge.CommonHooksMixin",
+    "neoforge.PacketDistributorMixin",
+    "neoforge.PermissionAPIMixin",
     "optimization.general.activationrange.entity.ItemEntityMixin_ActivationRange_NeoForge"
   ]
 }

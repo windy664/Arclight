@@ -1,4 +1,4 @@
-package io.izzel.arclight.neoforge.mixin.forge;
+package io.izzel.arclight.neoforge.mixin.neoforge;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;

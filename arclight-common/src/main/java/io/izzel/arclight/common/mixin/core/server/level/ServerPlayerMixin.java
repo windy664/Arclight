@@ -567,24 +567,14 @@ public abstract class ServerPlayerMixin extends PlayerMixin implements ServerPla
         return Either.left(Player.BedSleepingProblem.OTHER_PROBLEM);
     }
 
-    @Redirect(method = "startSleepInBed", require = 0, at = @At(value = "INVOKE", remap = false, target = "Lcom/mojang/datafixers/util/Either;left(Ljava/lang/Object;)Lcom/mojang/datafixers/util/Either;"))
-    private <L, R> Either<L, R> arclight$failSleep(L value, BlockPos pos) {
-        Either<L, R> either = Either.left(value);
-        return arclight$fireBedEvent(either, pos);
-    }
-
     @Redirect(method = "startSleepInBed", at = @At(value = "INVOKE", remap = false, target = "Lcom/mojang/datafixers/util/Either;ifRight(Ljava/util/function/Consumer;)Lcom/mojang/datafixers/util/Either;"))
     private <L, R> Either<L, R> arclight$successSleep(Either<L, R> either, Consumer<? super R> consumer, BlockPos pos) {
-        return arclight$fireBedEvent(either, pos).ifRight(consumer);
-    }
-
-    @Inject(method = "startSleepInBed", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))
-    private void arclight$bedCause(BlockPos p_9115_, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
-        this.bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause.BED);
+        return bridge$fireBedEvent(either, pos).ifRight(consumer);
     }
 
     @SuppressWarnings("unchecked")
-    private <L, R> Either<L, R> arclight$fireBedEvent(Either<L, R> e, BlockPos pos) {
+    @Override
+    public <L, R> Either<L, R> bridge$fireBedEvent(Either<L, R> e, BlockPos pos) {
         Either<Player.BedSleepingProblem, Unit> either = (Either<Player.BedSleepingProblem, Unit>) e;
         if (either.left().orElse(null) == Player.BedSleepingProblem.OTHER_PROBLEM) {
             return (Either<L, R>) either;

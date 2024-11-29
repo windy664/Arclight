@@ -1,36 +1,36 @@
 package io.izzel.arclight.neoforge.mixin.core.world.entity.player;
 
+import com.mojang.datafixers.util.Either;
 import io.izzel.arclight.common.bridge.core.entity.player.ServerPlayerEntityBridge;
-import net.minecraft.network.protocol.game.CommonPlayerSpawnInfo;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.ServerPlayerGameMode;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.player.Player;
+import org.bukkit.event.player.PlayerSpawnChangeEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import javax.annotation.Nullable;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin_NeoForge extends PlayerMixin_NeoForge implements ServerPlayerEntityBridge {
 
     // @formatter:off
-    @Shadow public abstract ServerLevel serverLevel();
-    @Shadow public boolean isChangingDimension;
-    @Shadow public boolean wonGame;
-    @Shadow public ServerGamePacketListenerImpl connection;
-    @Shadow private boolean seenCredits;
-    @Shadow public abstract CommonPlayerSpawnInfo createCommonSpawnInfo(ServerLevel arg);
     @Shadow @Final public MinecraftServer server;
-    @Shadow @Nullable private Vec3 enteredNetherPosition;
-    @Shadow public abstract void setServerLevel(ServerLevel arg);
-    @Shadow public abstract void triggerDimensionChangeTriggers(ServerLevel arg);
-    @Shadow @Final public ServerPlayerGameMode gameMode;
-    @Shadow public int lastSentExp;
-    @Shadow private float lastSentHealth;
-    @Shadow private int lastSentFood;
     // @formatter:on
+
+    @Inject(method = "lambda$startSleepInBed$13", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))
+    private void arclight$bedCause(BlockPos pos, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
+        this.bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause.BED);
+    }
+
+    @Redirect(method = "lambda$startSleepInBed$13", require = 0, at = @At(value = "INVOKE", remap = false, target = "Lcom/mojang/datafixers/util/Either;left(Ljava/lang/Object;)Lcom/mojang/datafixers/util/Either;"))
+    private <L, R> Either<L, R> arclight$failSleep(L value, BlockPos pos) {
+        Either<L, R> either = Either.left(value);
+        return bridge$fireBedEvent(either, pos);
+    }
 }
