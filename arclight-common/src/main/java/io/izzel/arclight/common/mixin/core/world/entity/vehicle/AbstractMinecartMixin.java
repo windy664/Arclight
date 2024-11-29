@@ -23,6 +23,7 @@ import org.bukkit.util.Vector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -66,6 +67,7 @@ public abstract class AbstractMinecartMixin extends VehicleEntityMixin implement
         maxSpeed = 0.4D;
     }
 
+    @Unique
     private transient Location arclight$prevLocation;
 
     @Decorate(method = "tick", inject = true, at = @At("HEAD"))
@@ -76,14 +78,15 @@ public abstract class AbstractMinecartMixin extends VehicleEntityMixin implement
     @Inject(method = "tick", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/world/entity/vehicle/AbstractMinecart;setRot(FF)V"))
     private void arclight$vehicleUpdateEvent(CallbackInfo ci) {
         org.bukkit.World bworld = this.level().bridge$getWorld();
-        Location from = this.arclight$prevLocation;
-        this.arclight$prevLocation = null;
-        from.setWorld(bworld);
         Location to = new Location(bworld, this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
         Vehicle vehicle = (Vehicle) this.getBukkitEntity();
         Bukkit.getPluginManager().callEvent(new VehicleUpdateEvent(vehicle));
-        if (!from.equals(to)) {
-            Bukkit.getPluginManager().callEvent(new VehicleMoveEvent(vehicle, from, to));
+        Location from = this.arclight$prevLocation;
+        if (from != null) {
+            from.setWorld(bworld);
+            if (!from.equals(to)) {
+                Bukkit.getPluginManager().callEvent(new VehicleMoveEvent(vehicle, from, to));
+            }
         }
     }
 
