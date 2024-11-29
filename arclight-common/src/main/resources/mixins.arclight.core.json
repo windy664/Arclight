@@ -334,7 +334,6 @@
     "world.item.BoatItemMixin",
     "world.item.BoneMealItemMixin",
     "world.item.BucketItemMixin",
-    "world.item.BucketItemMixin_Vanilla",
     "world.item.ChorusFruitItemMixin",
     "world.item.DyeItemMixin",
     "world.item.EggItemMixin",
