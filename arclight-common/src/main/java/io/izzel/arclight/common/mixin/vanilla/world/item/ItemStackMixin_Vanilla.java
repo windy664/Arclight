@@ -18,17 +18,24 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import org.bukkit.craftbukkit.v.event.CraftEventFactory;
 import org.bukkit.craftbukkit.v.inventory.CraftItemStack;
 import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.function.Consumer;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin_Vanilla {
 
     // @formatter:off
+    @Shadow private int count;
     @Shadow public abstract boolean canPlaceOnBlockInAdventureMode(BlockInWorld blockInWorld);
     @Shadow public abstract Item getItem();
     @Shadow public abstract ItemStack copy();
@@ -83,5 +90,12 @@ public abstract class ItemStackMixin_Vanilla {
             result = event.getDamage();
         }
         return result;
+    }
+
+    @Inject(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/server/level/ServerPlayer;Ljava/util/function/Consumer;)V", require = 0, at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
+    private void arclight$itemBreak(int amount, ServerLevel level, @Nullable ServerPlayer serverPlayer, Consumer<Item> onBroken, CallbackInfo ci) {
+        if (this.count == 1 && serverPlayer != null) {
+            CraftEventFactory.callPlayerItemBreakEvent(serverPlayer, (ItemStack) (Object) this);
+        }
     }
 }

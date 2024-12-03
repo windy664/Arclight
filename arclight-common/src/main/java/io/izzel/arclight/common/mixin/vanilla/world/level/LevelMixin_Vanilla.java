@@ -9,7 +9,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v.block.CapturedBlockState;
+import org.bukkit.craftbukkit.v.block.CraftBlock;
+import org.bukkit.craftbukkit.v.block.data.CraftBlockData;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -128,6 +132,28 @@ public abstract class LevelMixin_Vanilla implements LevelAccessor, WorldBridge {
 
                 return true;
             }
+        }
+    }
+
+    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", require = 0, cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;updateNeighbourShapes(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;II)V"))
+    private void arclight$callBlockPhysics(BlockPos pos, BlockState state, int i, int j, CallbackInfoReturnable<Boolean> cir) {
+        try {
+            if (this.bridge$getWorld() != null) {
+                BlockPhysicsEvent event = new BlockPhysicsEvent(CraftBlock.at(this, pos), CraftBlockData.fromData(state));
+                Bukkit.getPluginManager().callEvent(event);
+                if (event.isCancelled()) {
+                    cir.setReturnValue(true);
+                }
+            }
+        } catch (StackOverflowError e) {
+            bridge$setLastPhysicsProblem(pos);
+        }
+    }
+
+    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z", require = 0, cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;onBlockStateChange(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;)V"))
+    private void arclight$preventPoiUpdate(BlockPos blockPos, BlockState blockState, int i, int j, CallbackInfoReturnable<Boolean> cir) {
+        if (bridge$preventPoiUpdated()) {
+            cir.setReturnValue(true);
         }
     }
 }

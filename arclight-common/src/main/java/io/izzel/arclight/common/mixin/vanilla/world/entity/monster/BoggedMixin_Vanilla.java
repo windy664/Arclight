@@ -1,6 +1,7 @@
-package io.izzel.arclight.common.mixin.core.world.entity.monster;
+package io.izzel.arclight.common.mixin.vanilla.world.entity.monster;
 
 import io.izzel.arclight.common.bridge.core.network.datasync.SynchedEntityDataBridge;
+import io.izzel.arclight.common.mixin.core.world.entity.monster.AbstractSkeletonMixin;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Bogged.class)
-public abstract class BoggedMixin extends AbstractSkeletonMixin {
+public abstract class BoggedMixin_Vanilla extends AbstractSkeletonMixin {
 
     @Shadow @Final private static EntityDataAccessor<Boolean> DATA_SHEARED;
 

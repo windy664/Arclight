@@ -1,9 +1,7 @@
-package io.izzel.arclight.common.mixin.core.server.level;
+package io.izzel.arclight.common.mixin.vanilla.world.level;
 
 import com.mojang.datafixers.util.Either;
-import io.izzel.arclight.api.ArclightPlatform;
 import io.izzel.arclight.common.bridge.core.entity.player.ServerPlayerEntityBridge;
-import io.izzel.arclight.common.mod.mixins.annotation.OnlyInPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.*;
 import net.minecraft.util.Unit;
@@ -16,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerPlayer.class)
-@OnlyInPlatform(value = {ArclightPlatform.VANILLA, ArclightPlatform.FABRIC})
 public abstract class ServerPlayerMixin_Vanilla implements ServerPlayerEntityBridge {
 
     @Inject(method = "startSleepInBed", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))

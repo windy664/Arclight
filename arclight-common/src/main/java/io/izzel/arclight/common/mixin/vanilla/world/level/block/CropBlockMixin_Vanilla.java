@@ -1,8 +1,7 @@
-package io.izzel.arclight.common.mixin.core.world.level.block;
+package io.izzel.arclight.common.mixin.vanilla.world.level.block;
 
-import io.izzel.arclight.api.ArclightPlatform;
 import io.izzel.arclight.common.bridge.core.world.WorldBridge;
-import io.izzel.arclight.common.mod.mixins.annotation.OnlyInPlatform;
+import io.izzel.arclight.common.mixin.core.world.level.block.BlockMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -19,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@OnlyInPlatform(value = {ArclightPlatform.FABRIC, ArclightPlatform.VANILLA})
 @Mixin(CropBlock.class)
 public abstract class CropBlockMixin_Vanilla extends BlockMixin {
 

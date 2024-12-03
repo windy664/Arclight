@@ -1,7 +1,6 @@
-package io.izzel.arclight.common.mixin.core.world.level.block;
+package io.izzel.arclight.common.mixin.vanilla.world.level.block;
 
-import io.izzel.arclight.api.ArclightPlatform;
-import io.izzel.arclight.common.mod.mixins.annotation.OnlyInPlatform;
+import io.izzel.arclight.common.mixin.core.world.level.block.BlockMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -23,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TntBlock.class)
-@OnlyInPlatform(value = {ArclightPlatform.VANILLA, ArclightPlatform.FABRIC})
 public abstract class TntBlockMixin_Vanilla extends BlockMixin {
 
     @Redirect(method = "playerWillDestroy", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/TntBlock;explode(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V"))

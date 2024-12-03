@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(SmallFireball.class)
-public abstract class SmallFireballMixin extends FireballMixin {
+public abstract class SmallFireballMixin extends AbstractHurtingProjectileMixin {
 
     @Inject(method = "<init>(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
     private void arclight$init(Level level, LivingEntity livingEntity, Vec3 vec3, CallbackInfo ci) {
