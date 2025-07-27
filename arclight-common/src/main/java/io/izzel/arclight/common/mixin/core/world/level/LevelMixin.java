@@ -182,41 +182,51 @@ public abstract class LevelMixin implements WorldBridge, LevelWriter {
         return (CraftServer) Bukkit.getServer();
     }
 
-    public CraftWorld getWorld() {
-        if (this.world == null) {
-            Optional<Field> delegate = WrappedWorlds.getDelegate(this.getClass());
-            if (delegate.isPresent()) {
-                try {
-                    return ((WorldBridge) delegate.get().get(this)).bridge$getWorld();
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+public CraftWorld getWorld() {
+    if (this.world == null) {
+        Optional<Field> delegate = WrappedWorlds.getDelegate(this.getClass());
+        if (delegate.isPresent()) {
+            try {
+                Object val = delegate.get().get(this);
+                // 关键修改：加 null 判断
+                if (val != null) {
+                    return ((WorldBridge) val).bridge$getWorld();
+                } else {
+                    // delegate 字段为 null，输出警告但不崩溃，转为本地 fallback
+                    System.err.println("[Arclight LevelMixin] delegate field is null for " + this.getClass().getName()
+                        + ", fallback to local CraftWorld initialization.");
                 }
+            } catch (IllegalAccessException e) {
+                // 反射出错直接打印，不抛异常
+                e.printStackTrace();
             }
-            if (environment == null) {
-                environment = ArclightServer.getEnvironment(this.getTypeKey());
-            }
-            if (generator == null) {
-                generator = getCraftServer().getGenerator(((ServerLevelData) this.getLevelData()).getLevelName());
-                if (generator != null && (Object) this instanceof ServerLevel serverWorld) {
-                    org.bukkit.generator.WorldInfo worldInfo = new CraftWorldInfo((ServerLevelData) getLevelData(),
-                        ((ServerWorldBridge) this).bridge$getConvertable(), environment, this.dimensionType());
-                    if (biomeProvider == null && generator != null) {
-                        biomeProvider = generator.getDefaultBiomeProvider(worldInfo);
-                    }
-                    var generator = serverWorld.getChunkSource().getGenerator();
-                    if (biomeProvider != null) {
-                        BiomeSource biomeSource = new CustomWorldChunkManager(worldInfo, biomeProvider, serverWorld.registryAccess().registryOrThrow(Registries.BIOME));
-                        ((ChunkGeneratorBridge) generator).bridge$setBiomeSource(biomeSource);
-                    }
-                    CustomChunkGenerator gen = new CustomChunkGenerator(serverWorld, generator, this.generator);
-                    ((ServerChunkProviderBridge) serverWorld.getChunkSource()).bridge$setChunkGenerator(gen);
-                }
-            }
-            this.world = new CraftWorld((ServerLevel) (Object) this, generator, biomeProvider, environment);
-            getCraftServer().addWorld(this.world);
         }
-        return this.world;
+        // fallback 逻辑，和原来一样
+        if (environment == null) {
+            environment = ArclightServer.getEnvironment(this.getTypeKey());
+        }
+        if (generator == null) {
+            generator = getCraftServer().getGenerator(((ServerLevelData) this.getLevelData()).getLevelName());
+            if (generator != null && (Object) this instanceof ServerLevel serverWorld) {
+                org.bukkit.generator.WorldInfo worldInfo = new CraftWorldInfo((ServerLevelData) getLevelData(),
+                    ((ServerWorldBridge) this).bridge$getConvertable(), environment, this.dimensionType());
+                if (biomeProvider == null && generator != null) {
+                    biomeProvider = generator.getDefaultBiomeProvider(worldInfo);
+                }
+                var mcGenerator = serverWorld.getChunkSource().getGenerator();
+                if (biomeProvider != null) {
+                    BiomeSource biomeSource = new CustomWorldChunkManager(worldInfo, biomeProvider, serverWorld.registryAccess().registryOrThrow(Registries.BIOME));
+                    ((ChunkGeneratorBridge) mcGenerator).bridge$setBiomeSource(biomeSource);
+                }
+                CustomChunkGenerator gen = new CustomChunkGenerator(serverWorld, mcGenerator, this.generator);
+                ((ServerChunkProviderBridge) serverWorld.getChunkSource()).bridge$setChunkGenerator(gen);
+            }
+        }
+        this.world = new CraftWorld((ServerLevel) (Object) this, generator, biomeProvider, environment);
+        getCraftServer().addWorld(this.world);
     }
+    return this.world;
+}
 
     public BlockEntity getBlockEntity(BlockPos pos, boolean validate) {
         return getBlockEntity(pos);
