@@ -5,22 +5,10 @@ import io.izzel.arclight.gradle.api.extension.IArclightMappingsExtension;
 import java.io.File;
 
 public class ArclightMappingsExtension implements IArclightMappingsExtension {
-    private File bukkitToForge;
     private File bukkitToNeoForge;
     private File bukkitToFabric;
     private File bukkitToFabricInheritance;
-    private File bukkitToForgeInheritance;
     private File reobfBukkitPackage;
-
-    @Override
-    public File getBukkitToForge() {
-        return bukkitToForge;
-    }
-
-    @Override
-    public void setBukkitToForge(File bukkitToForge) {
-        this.bukkitToForge = bukkitToForge;
-    }
 
     @Override
     public File getBukkitToNeoForge() {
@@ -50,16 +38,6 @@ public class ArclightMappingsExtension implements IArclightMappingsExtension {
     @Override
     public void setBukkitToFabricInheritance(File bukkitToFabricInheritance) {
         this.bukkitToFabricInheritance = bukkitToFabricInheritance;
-    }
-
-    @Override
-    public File getBukkitToForgeInheritance() {
-        return bukkitToForgeInheritance;
-    }
-
-    @Override
-    public void setBukkitToForgeInheritance(File bukkitToForgeInheritance) {
-        this.bukkitToForgeInheritance = bukkitToForgeInheritance;
     }
 
     @Override
