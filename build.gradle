@@ -2,7 +2,7 @@ import io.izzel.arclight.gradle.ArclightGradlePlugin
 import io.izzel.arclight.gradle.tasks.UploadFilesTask
 
 plugins {
-    id 'architectury-plugin' version '3.4-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.5-SNAPSHOT' apply false
     id 'dev.architectury.loom' apply false  // version: gradle/libs.versions.toml
     id 'com.gradleup.shadow' version '8.3.+' apply false
 }
@@ -13,6 +13,8 @@ allprojects {
     group 'io.izzel.arclight'
     version '1.0.2-SNAPSHOT'
 
+    // Current Use local version
+    /**
     def getGitHash = { ->
         def stdout = new ByteArrayOutputStream()
         exec {
@@ -20,24 +22,23 @@ allprojects {
             standardOutput = stdout
         }
         return stdout.toString().trim()
-    }
+    }*/
 
     ext {
         versionName = 'feudal-kings'
-        gitHash = getGitHash()
-        supportedPlatforms = ['forge', 'neoforge', 'fabric']
+        gitHash = "26.1.2-snapshot"//getGitHash() // Current Use local version
+        supportedPlatforms = ['neoforge', 'fabric']
         commonProject = project(':arclight-common')
-        forgeProject = project(':arclight-forge')
         fabricProject = project(':arclight-fabric')
         neoForgeProject = project(':arclight-neoforge')
-        platformProjects = [ext.forgeProject, ext.fabricProject, ext.neoForgeProject]
+        platformProjects = [ext.fabricProject, ext.neoForgeProject]
         subProjects = ext.platformProjects + [ext.commonProject]
         generatedSpigot = "io.izzel.arclight.generated:spigot:${libs.versions.minecraft.get()}:deobf"
     }
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(25)
         }
     }
 
@@ -95,7 +96,6 @@ rootProject.ext.subProjects.each { Project p ->
 
             compileClasspath.extendsFrom common
             runtimeClasspath.extendsFrom common
-            developmentForge.extendsFrom common
             developmentFabric.extendsFrom common
             developmentNeoForge.extendsFrom common
 
@@ -109,7 +109,6 @@ rootProject.ext.subProjects.each { Project p ->
             minecraft libs.minecraft
             mappings loom.layered() {
                 officialMojangMappings()
-                parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
             }
         }
 
@@ -148,7 +147,6 @@ jar.enabled = false
 
 tasks.register('collect', Copy) {
     destinationDir = file('build/libs')
-    from project(':bootstrap').tasks.forgeJar.outputs
     from project(':bootstrap').tasks.neoforgeJar.outputs
     from project(':bootstrap').tasks.fabricJar.outputs
 }

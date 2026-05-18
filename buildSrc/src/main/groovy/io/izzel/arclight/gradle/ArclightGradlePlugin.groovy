@@ -30,15 +30,11 @@ class ArclightGradlePlugin implements Plugin<Project> {
         }
 
         def mappingsDir = arclight.cacheDir.resolve('arclight_cache/mappings')
-        def forgeMappings = mappingsDir.resolve('bukkit_srg.srg').toFile()
-        def forgeInheritance = mappingsDir.resolve('inheritanceMap.txt').toFile()
         def reobfMappings = mappingsDir.resolve('reobf_bukkit.srg').toFile()
         def neoforgeMappings = mappingsDir.resolve('bukkit_moj.srg').toFile()
         def fabricMappings = mappingsDir.resolve('bukkit_intermediary.srg').toFile()
         def fabricInheritance = mappingsDir.resolve('inheritanceMap_intermediary.txt').toFile()
-        arclight.mappingsConfiguration.bukkitToForge = forgeMappings
         arclight.mappingsConfiguration.reobfBukkitPackage = reobfMappings
-        arclight.mappingsConfiguration.bukkitToForgeInheritance = forgeInheritance
         arclight.mappingsConfiguration.bukkitToNeoForge = neoforgeMappings
         arclight.mappingsConfiguration.bukkitToFabric = fabricMappings
         arclight.mappingsConfiguration.bukkitToFabricInheritance = fabricInheritance
@@ -107,6 +103,8 @@ class ArclightGradlePlugin implements Plugin<Project> {
 
         new LocalMavenHelper("io.izzel.arclight.generated", "spigot", arclight.mcVersion, null, arclightRepo).savePom()
 
+        // Since 26.1,we not need remap and mappings
+        /*
         project.logger.lifecycle(":step3 process mappings")
         def processMapping = new ProcessMappingTask(project)
         processMapping.buildData = new File(buildSpigotWorkDir.toFile(), 'BuildData')
@@ -115,6 +113,7 @@ class ArclightGradlePlugin implements Plugin<Project> {
         processMapping.outDir = mappingsDir.toFile()
         processMapping.inJar = spigotBuilder.outputJar.toFile()
         processMapping.run()
+
 
         project.logger.lifecycle(":step4 remap spigot jar")
         def remapSpigot = new RemapSpigotTask(project)
@@ -128,7 +127,7 @@ class ArclightGradlePlugin implements Plugin<Project> {
         remapSpigot.inAt = arclight.accessTransformer
         remapSpigot.bukkitVersion = arclight.bukkitVersion
         remapSpigot.inExtraSrg = arclight.extraMapping
-        remapSpigot.run()
+        remapSpigot.run()*/
 
         Files.writeString(buildMeta, newBuildMeta)
     }
