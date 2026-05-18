@@ -60,7 +60,7 @@ class ArclightGradlePlugin implements Plugin<Project> {
 
         def spigotDeps = arclightRepo.resolve("io/izzel/arclight/generated/spigot/${arclight.mcVersion}")
         def spigotMapped = spigotDeps.resolve("spigot-${arclight.mcVersion}-mapped.jar")
-        def spigotDeobf = spigotDeps.resolve("spigot-${arclight.mcVersion}-deobf.jar")
+        def spigotJar = spigotDeps.resolve("spigot-${arclight.mcVersion}.jar")
 
         def buildMeta = arclight.cacheDir.resolve('spigot_version.json')
         def rev = arclight.mcVersion
@@ -74,7 +74,7 @@ class ArclightGradlePlugin implements Plugin<Project> {
             var built = Files.readString(buildMeta)
             if (built == newBuildMeta) {
                 if (arclight.mappingsConfiguration.areMappingsExist()
-                        && Files.exists(spigotDeobf)) {
+                        && Files.exists(spigotJar)) {
                     project.logger.lifecycle(":spigot build cache valid, using it")
                     project.logger.debug(built)
                     return

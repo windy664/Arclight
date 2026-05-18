@@ -33,7 +33,7 @@ allprojects {
         neoForgeProject = project(':arclight-neoforge')
         platformProjects = [ext.fabricProject, ext.neoForgeProject]
         subProjects = ext.platformProjects + [ext.commonProject]
-        generatedSpigot = "io.izzel.arclight.generated:spigot:${libs.versions.minecraft.get()}:deobf"
+        generatedSpigot = "io.izzel.arclight.generated:spigot:${libs.versions.minecraft.get()}"
     }
 
     java {

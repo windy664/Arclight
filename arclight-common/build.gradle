@@ -7,11 +7,11 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file('src/main/resources/arclight.accesswidener')
+    accessWidenerPath = file('src/main/resources/arclight.classtweaker')
 }
 
 dependencies {
-    modImplementation libs.fabric.loader
+    implementation libs.fabric.loader
 
     compileOnly rootProject.ext.generatedSpigot
 
