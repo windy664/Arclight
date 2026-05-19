@@ -2,8 +2,10 @@ package io.izzel.arclight.common.mixin.core.commands;
 
 import io.izzel.arclight.common.bridge.core.command.CommandSourceBridge;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.Permissions;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v.command.ServerCommandSender;
+import org.bukkit.craftbukkit.command.ServerCommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -13,7 +15,7 @@ public class CommandSource1Mixin implements CommandSourceBridge {
 
     public CommandSender getBukkitSender(CommandSourceStack wrapper) {
         return new ServerCommandSender() {
-            private final boolean isOp = wrapper.hasPermission(wrapper.getServer().getOperatorUserPermissionLevel());
+            private final boolean isOp = wrapper.getServer().operatorUserPermissions().hasPermission(Permissions.COMMANDS_ADMIN);
 
             @Override
             public boolean isOp() {

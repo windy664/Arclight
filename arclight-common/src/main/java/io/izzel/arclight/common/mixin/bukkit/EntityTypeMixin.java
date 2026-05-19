@@ -4,13 +4,13 @@ import io.izzel.arclight.common.bridge.bukkit.world.entity.EntityTypeBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import io.izzel.arclight.i18n.LocalizedException;
 import io.izzel.arclight.i18n.conf.EntityPropertySpec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.craftbukkit.v.CraftWorld;
-import org.bukkit.craftbukkit.v.util.CraftNamespacedKey;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.util.CraftNamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.spongepowered.asm.mixin.Final;
@@ -34,7 +34,7 @@ public class EntityTypeMixin implements EntityTypeBridge {
     private Function<Location, ? extends net.minecraft.world.entity.Entity> factory;
 
     @Override
-    public void bridge$setup(ResourceLocation location, net.minecraft.world.entity.EntityType<?> entityType, EntityPropertySpec spec) {
+    public void bridge$setup(Identifier location, net.minecraft.world.entity.EntityType<?> entityType, EntityPropertySpec spec) {
         this.key = CraftNamespacedKey.fromMinecraft(location);
         this.name = location.toString();
         this.handleType = entityType;

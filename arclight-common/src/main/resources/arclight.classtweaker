@@ -606,3 +606,8 @@ transitive-accessible method net/minecraft/server/level/ServerLevel getEntities 
 transitive-accessible field net/minecraft/world/level/levelgen/structure/StructurePiece SHAPE_CHECK_BLOCKS Ljava/util/Set;
 transitive-accessible field net/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings palette I
 transitive-accessible method net/minecraft/server/level/ChunkMap tick (Ljava/util/function/BooleanSupplier;)V
+
+# Loom interface Injections
+transitive-inject-interface net/minecraft/advancements/AdvancementHolder io/izzel/arclight/common/bridge/core/advancements/AdvancementHolderBridge
+transitive-inject-interface net/minecraft/commands/Commands io/izzel/arclight/common/bridge/core/commands/CommandsBridge
+transitive-inject-interface net/minecraft/commands/CommandSource$1 io/izzel/arclight/common/bridge/core/command/CommandSourceBridge

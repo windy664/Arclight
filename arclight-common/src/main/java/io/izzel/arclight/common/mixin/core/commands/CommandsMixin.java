@@ -42,8 +42,11 @@ public abstract class CommandsMixin implements CommandsBridge {
     @Shadow public abstract void performCommand(ParseResults<CommandSourceStack> p_242844_, String p_242841_);
     @Shadow public abstract void performPrefixedCommand(CommandSourceStack p_230958_, String p_230959_);
     @Mutable @Shadow @Final private CommandDispatcher<CommandSourceStack> dispatcher;
-    @Shadow protected abstract void fillUsableCommands(CommandNode<CommandSourceStack> rootCommandSource, CommandNode<SharedSuggestionProvider> rootSuggestion, CommandSourceStack source, Map<CommandNode<CommandSourceStack>, CommandNode<SharedSuggestionProvider>> commandNodeToSuggestionNode);
     // @formatter:on
+
+    @Shadow
+    protected static <S> void fillUsableCommands(CommandNode<S> source, CommandNode<S> target, S commandFilter, Map<CommandNode<S>, CommandNode<S>> converted) {
+    }
 
     @CreateConstructor
     public void arclight$constructor() {
@@ -94,7 +97,7 @@ public abstract class CommandsMixin implements CommandsBridge {
     }
 
     @Redirect(method = "fillUsableCommands", at = @At(value = "INVOKE", remap = false, target = "Lcom/mojang/brigadier/tree/CommandNode;canUse(Ljava/lang/Object;)Z"))
-    private <S> boolean arclight$canUse(CommandNode<S> commandNode, S source) {
+    private static <S> boolean arclight$canUse(CommandNode<S> commandNode, S source) {
         return CommandNodeHooks.canUse(commandNode, source);
     }
 

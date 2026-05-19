@@ -4,7 +4,6 @@ import io.izzel.arclight.i18n.conf.MaterialPropertySpec;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.inventory.CraftMetaItem;
@@ -43,7 +42,7 @@ public interface MaterialBridge {
     boolean bridge$shouldApplyStateFactory();
 
     default Item bridge$getCraftRemainingItem(Item item) {
-        return item.getCraftingRemainingItem();
+        return item.getCraftingRemainder().item().value();
     }
 
     default int bridge$forge$getMaxStackSize(Item item) {
@@ -55,7 +54,9 @@ public interface MaterialBridge {
     }
 
     default int bridge$forge$getBurnTime(Item item) {
+        /**
         var result = AbstractFurnaceBlockEntity.getFuel().get(item);
-        return result != null ? result : 0;
+        return result != null ? result : 0;*/
+        return 0;// Arclight TODO fixme
     }
 }
