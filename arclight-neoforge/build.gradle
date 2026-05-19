@@ -34,19 +34,6 @@ dependencies {
     shadowBundle(project(path: ':arclight-common', configuration: 'transformProductionNeoForge')) { transitive = false }
 }
 
-tasks.register('neoforgeMappings', Copy) {
-    destinationDir = file('build/neoforge_mappings')
-    from(arclight.mappingsConfiguration.bukkitToNeoForge) {
-        rename { name -> 'bukkit_srg.srg' }
-    }
-    from(arclight.mappingsConfiguration.bukkitToNeoForge) {
-        rename { name -> 'bukkit_moj.srg'}
-    }
-    // from arclight.mappingsConfiguration.bukkitToForgeInheritance
-}
-
-project.sourceSets.main.output.dir file('build/neoforge_mappings'), builtBy: tasks.neoforgeMappings
-
 processResources {
     def ver = "${project.version}+$gitHash"
     inputs.property 'version', ver

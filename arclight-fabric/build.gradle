@@ -36,21 +36,6 @@ dependencies {
     shadowBundle(project(':bootstrap')) { transitive = false }
 }
 
-tasks.register('fabricMappings', Copy) {
-    destinationDir = file('build/fabric_mappings')
-    from(arclight.mappingsConfiguration.bukkitToFabric) {
-        rename { name -> 'bukkit_srg.srg' }
-    }
-    from(arclight.mappingsConfiguration.bukkitToNeoForge) {
-        rename { name -> 'bukkit_moj.srg' }
-    }
-    from(arclight.mappingsConfiguration.bukkitToFabricInheritance) {
-        rename { name -> 'inheritanceMap.txt' }
-    }
-}
-
-project.sourceSets.main.output.dir file('build/fabric_mappings'), builtBy: tasks.fabricMappings
-
 processResources {
     def ver = "${project.version}+$gitHash"
     inputs.property 'version', ver

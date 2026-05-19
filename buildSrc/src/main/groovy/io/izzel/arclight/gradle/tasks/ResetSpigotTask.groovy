@@ -14,11 +14,11 @@ import java.util.jar.JarEntry
 import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 
-class RemapSpigotTask implements Runnable {
+class ResetSpigotTask implements Runnable {
 
     private final Project project
 
-    RemapSpigotTask(Project project) {
+    ResetSpigotTask(Project project) {
         this.project = project
         includes = new ArrayList<>()
         includes.add('configurations')
@@ -36,58 +36,40 @@ class RemapSpigotTask implements Runnable {
 
     private File ssJar
     private File inJar
-    private File inSrg
     private File inExtraSrg
-    private File inSrgToStable
-    private File inheritanceMap
     private File outJar
     private File outDeobf
     private List<String> includes
     private List<String> excludes
-    private String bukkitVersion
     private File inAt
 
     @Override
     void run() {
-        def tmp = Files.createTempFile("arclight", "jar")
-        SpecialSource.main(new String[]{
-                '-i', inJar.canonicalPath,
-                '-o', tmp.toFile().canonicalPath,
-                '-m', inSrg.canonicalPath,
-                '-h', inheritanceMap.canonicalPath})
         if (inExtraSrg) {
             def tmp2 = Files.createTempFile("arclight", "jar")
-            copy(tmp, tmp2, ['*'], [
+            copy(inJar.toPath(), tmp2, ['*'], [
                     'net/minecraft/world/level/block/entity/LecternBlockEntity$1.class',
                     'net/minecraft/world/level/block/ChestBlock$2$1.class'
             ])
             SpecialSource.main(new String[]{
                     '-i', tmp2.toFile().canonicalPath,
-                    '-o', tmp.toFile().canonicalPath,
+                    '-o', inJar.canonicalPath,
                     '-m', inExtraSrg.canonicalPath})
         }
         def tmpDeobf = Files.createTempFile("arclight", "jar")
         def args = [
-                '-i', tmp.toFile().canonicalPath,
+                '-i', inJar.canonicalPath,
                 '-o', tmpDeobf.toFile().canonicalPath,
-                '-m', inSrgToStable.canonicalPath,
-                '-h', inheritanceMap.canonicalPath
+                '-m', inExtraSrg.canonicalPath // Current added it to success remap
         ]
         Path tmpSrg
-        if (bukkitVersion) {
-            tmpSrg = Files.createTempFile("arclight", "srg")
-            tmpSrg.text = "PK: org/bukkit/craftbukkit/$bukkitVersion org/bukkit/craftbukkit/v"
-            args.add('-m')
-            args.add(tmpSrg.toFile().canonicalPath)
-        }
         if (inAt) {
             args.add('--access-transformer')
             args.add(inAt.canonicalPath)
         }
         SpecialSource.main(args.toArray(new String[0]))
-        copy(tmp, outJar.toPath(), includes, excludes)
+        copy(inJar.toPath(), outJar.toPath(), includes, excludes)
         copy(tmpDeobf, outDeobf.toPath(), includes, excludes)
-        Files.delete(tmp)
         Files.delete(tmpDeobf)
         if (tmpSrg) Files.delete(tmpSrg)
     }

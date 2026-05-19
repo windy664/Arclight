@@ -33,7 +33,7 @@ allprojects {
         neoForgeProject = project(':arclight-neoforge')
         platformProjects = [ext.fabricProject, ext.neoForgeProject]
         subProjects = ext.platformProjects + [ext.commonProject]
-        generatedSpigot = "io.izzel.arclight.generated:spigot:${libs.versions.minecraft.get()}"
+        generatedSpigot = "io.izzel.arclight.generated:spigot:${libs.versions.minecraft.get()}:deobf"
     }
 
     java {
@@ -86,6 +86,7 @@ rootProject.ext.subProjects.each { Project p ->
             spigotReversion = libs.versions.spigot.reversion.get()
             accessTransformer = rootProject.ext.commonProject.file('bukkit.at')
             extraMapping = rootProject.ext.commonProject.file('extra_mapping.tsrg')
+            updatingSpigot = false
         }
 
         configurations {

@@ -24,7 +24,7 @@ public interface IArclightExtension {
     File getExtraMapping();
     void setExtraMapping(File extraMapping);
 
-    IArclightMappingsExtension getMappingsConfiguration();
+    boolean getUpdatingSpigot();
 
-    void mappings(Action<IArclightMappingsExtension> spec);
+    void setUpdatingSpigot(boolean updatingSpigot);
 }

@@ -1,8 +1,6 @@
 package io.izzel.arclight.gradle.extension;
 
 import io.izzel.arclight.gradle.api.extension.IArclightExtension;
-import io.izzel.arclight.gradle.api.extension.IArclightMappingsExtension;
-import org.gradle.api.Action;
 import org.gradle.api.Project;
 
 import java.io.File;
@@ -15,7 +13,7 @@ public class ArclightExtension implements IArclightExtension {
     private String spigotReversion;
     private File accessTransformer;
     private File extraMapping;
-    private final IArclightMappingsExtension mappingsConfiguration = new ArclightMappingsExtension();
+    private boolean updatingSpigot;
 
     public ArclightExtension(Project project) {
         this.cacheDir = project.getRootProject().getRootDir().toPath().resolve(".gradle/arclight");
@@ -82,12 +80,12 @@ public class ArclightExtension implements IArclightExtension {
     }
 
     @Override
-    public IArclightMappingsExtension getMappingsConfiguration() {
-        return mappingsConfiguration;
+    public boolean getUpdatingSpigot() {
+        return updatingSpigot;
     }
 
     @Override
-    public void mappings(Action<IArclightMappingsExtension> spec) {
-        spec.execute(mappingsConfiguration);
+    public void setUpdatingSpigot(boolean updatingSpigot) {
+        this.updatingSpigot = updatingSpigot;
     }
 }

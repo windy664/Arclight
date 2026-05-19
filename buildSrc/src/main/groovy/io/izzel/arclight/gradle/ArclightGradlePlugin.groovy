@@ -3,10 +3,7 @@ package io.izzel.arclight.gradle
 import io.izzel.arclight.gradle.extension.ArclightExtension
 import io.izzel.arclight.gradle.runnable.FileDownloader
 import io.izzel.arclight.gradle.runnable.SpigotBuilder
-import io.izzel.arclight.gradle.tasks.ProcessMappingTask
-import io.izzel.arclight.gradle.tasks.RemapSpigotTask
-import io.izzel.arclight.gradle.tasks.RenameJarTask
-import net.fabricmc.loom.LoomGradlePlugin
+import io.izzel.arclight.gradle.tasks.ResetSpigotTask
 import net.fabricmc.loom.configuration.mods.dependency.LocalMavenHelper
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Plugin
@@ -29,24 +26,6 @@ class ArclightGradlePlugin implements Plugin<Project> {
             url = arclightRepo
         }
 
-        def mappingsDir = arclight.cacheDir.resolve('arclight_cache/mappings')
-        def reobfMappings = mappingsDir.resolve('reobf_bukkit.srg').toFile()
-        def neoforgeMappings = mappingsDir.resolve('bukkit_moj.srg').toFile()
-        def fabricMappings = mappingsDir.resolve('bukkit_intermediary.srg').toFile()
-        def fabricInheritance = mappingsDir.resolve('inheritanceMap_intermediary.txt').toFile()
-        arclight.mappingsConfiguration.reobfBukkitPackage = reobfMappings
-        arclight.mappingsConfiguration.bukkitToNeoForge = neoforgeMappings
-        arclight.mappingsConfiguration.bukkitToFabric = fabricMappings
-        arclight.mappingsConfiguration.bukkitToFabricInheritance = fabricInheritance
-
-        project.tasks.register('relocateCraftBukkit', RenameJarTask) {
-            it.dependsOn project.tasks.remapJar
-            inputJar.set project.tasks.remapJar.archiveFile
-            archiveClassifier.set 'relocated'
-            mappings = arclight.mappingsConfiguration.reobfBukkitPackage
-        }
-        project.tasks.build.dependsOn('relocateCraftBukkit')
-
         project.afterEvaluate {
             setupSpigot(project, arclightRepo)
         }
@@ -56,11 +35,9 @@ class ArclightGradlePlugin implements Plugin<Project> {
         def arclight = project.extensions.getByName('arclight') as ArclightExtension
 
 
-        def mappingsDir = arclight.cacheDir.resolve('arclight_cache/mappings')
-
         def spigotDeps = arclightRepo.resolve("io/izzel/arclight/generated/spigot/${arclight.mcVersion}")
         def spigotMapped = spigotDeps.resolve("spigot-${arclight.mcVersion}-mapped.jar")
-        def spigotJar = spigotDeps.resolve("spigot-${arclight.mcVersion}.jar")
+        def spigotDeobf = spigotDeps.resolve("spigot-${arclight.mcVersion}-deobf.jar")
 
         def buildMeta = arclight.cacheDir.resolve('spigot_version.json')
         def rev = arclight.mcVersion
@@ -68,13 +45,16 @@ class ArclightGradlePlugin implements Plugin<Project> {
             rev = arclight.spigotReversion
         }
 
+        if (Files.exists(spigotDeobf) && !arclight.updatingSpigot) {
+            return
+        }
+
         project.logger.lifecycle("Setup for Spigot ${arclight.mcVersion}(${arclight.spigotReversion})")
         def newBuildMeta = IOUtils.toString(new URI("https://hub.spigotmc.org/versions/${rev}.json").toURL(), StandardCharsets.UTF_8)
         if (Files.exists(buildMeta)) {
             var built = Files.readString(buildMeta)
             if (built == newBuildMeta) {
-                if (arclight.mappingsConfiguration.areMappingsExist()
-                        && Files.exists(spigotJar)) {
+                if (Files.exists(spigotDeobf)) {
                     project.logger.lifecycle(":spigot build cache valid, using it")
                     project.logger.debug(built)
                     return
@@ -103,31 +83,15 @@ class ArclightGradlePlugin implements Plugin<Project> {
 
         new LocalMavenHelper("io.izzel.arclight.generated", "spigot", arclight.mcVersion, null, arclightRepo).savePom()
 
-        // Since 26.1,we not need remap and mappings
-        /*
-        project.logger.lifecycle(":step3 process mappings")
-        def processMapping = new ProcessMappingTask(project)
-        processMapping.buildData = new File(buildSpigotWorkDir.toFile(), 'BuildData')
-        processMapping.mcVersion = arclight.mcVersion
-        processMapping.bukkitVersion = arclight.bukkitVersion
-        processMapping.outDir = mappingsDir.toFile()
-        processMapping.inJar = spigotBuilder.outputJar.toFile()
-        processMapping.run()
-
-
-        project.logger.lifecycle(":step4 remap spigot jar")
-        def remapSpigot = new RemapSpigotTask(project)
-        remapSpigot.ssJar = new File(buildSpigotWorkDir.toFile(), 'BuildData/bin/SpecialSource.jar')
-        remapSpigot.inJar = spigotBuilder.outputJar.toFile()
-        remapSpigot.inSrg = new File(processMapping.outDir, 'bukkit_srg.srg')
-        remapSpigot.inSrgToStable = new File(processMapping.outDir, "srg_to_named.srg")
-        remapSpigot.inheritanceMap = new File(processMapping.outDir, 'inheritanceMap.txt')
-        remapSpigot.outJar = project.file(spigotMapped)
-        remapSpigot.outDeobf = project.file(spigotDeobf)
-        remapSpigot.inAt = arclight.accessTransformer
-        remapSpigot.bukkitVersion = arclight.bukkitVersion
-        remapSpigot.inExtraSrg = arclight.extraMapping
-        remapSpigot.run()*/
+        project.logger.lifecycle(":step3 reset spigot jar")
+        def resetSpigot = new ResetSpigotTask(project)
+        resetSpigot.ssJar = new File(buildSpigotWorkDir.toFile(), 'BuildData/bin/SpecialSource.jar')
+        resetSpigot.inJar = project.file(spigotDeps.resolve("spigot-${arclight.mcVersion}.jar"))
+        resetSpigot.outJar = project.file(spigotMapped)
+        resetSpigot.outDeobf = project.file(spigotDeobf)
+        resetSpigot.inAt = arclight.accessTransformer
+        resetSpigot.inExtraSrg = arclight.extraMapping
+        resetSpigot.run()
 
         Files.writeString(buildMeta, newBuildMeta)
     }
