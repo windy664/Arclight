@@ -7,13 +7,23 @@ import java.util.Set;
 
 public interface ServerEntityBridge {
 
-    void bridge$setTrackedPlayers(Set<ServerPlayerConnection> trackedPlayers);
+    default void bridge$setTrackedPlayers(Set<ServerPlayerConnection> trackedPlayers) {
 
-    Entity bridge$getTrackingEntity();
+    }
 
-    boolean bridge$syncPosition();
+    default Entity bridge$getTrackingEntity() {
+        return null;
+    }
 
-    boolean bridge$instantSyncPosition();
+    default boolean bridge$syncPosition() {
+        return false;
+    }
 
-    boolean bridge$instantSyncMotion();
+    default boolean bridge$instantSyncPosition() {
+        return false;
+    }
+
+    default boolean bridge$instantSyncMotion() {
+        return false;
+    }
 }

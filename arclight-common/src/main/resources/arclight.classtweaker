@@ -625,3 +625,7 @@ transitive-inject-interface net/minecraft/server/bossevents/CustomBossEvent io/i
 transitive-inject-interface net/minecraft/server/dedicated/DedicatedServer io/izzel/arclight/common/bridge/core/server/dedicated/DedicatedServerBridge
 transitive-inject-interface net/minecraft/server/level/ChunkHolder io/izzel/arclight/common/bridge/core/server/level/ChunkHolderBridge
 transitive-inject-interface net/minecraft/server/level/ChunkMap io/izzel/arclight/common/bridge/core/server/level/ChunkMapBridge
+transitive-inject-interface net/minecraft/server/level/ServerChunkCache io/izzel/arclight/common/bridge/core/server/level/ServerChunkCacheBridge
+transitive-inject-interface net/minecraft/server/level/ServerEntity io/izzel/arclight/common/bridge/core/server/level/ServerEntityBridge
+transitive-inject-interface net/minecraft/server/level/ServerEntity$Synchronizer io/izzel/arclight/common/bridge/core/server/level/ServerEntity_SynchronizerBridge
+transitive-inject-interface net/minecraft/server/level/ServerLevel io/izzel/arclight/common/bridge/core/server/level/ServerLevelBridge
