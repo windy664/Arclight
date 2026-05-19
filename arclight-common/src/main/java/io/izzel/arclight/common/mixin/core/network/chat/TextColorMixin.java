@@ -1,5 +1,6 @@
 package io.izzel.arclight.common.mixin.core.network.chat;
 
+import io.izzel.arclight.common.bridge.core.network.chat.TextColorBridge;
 import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
 import io.izzel.arclight.common.mod.mixins.annotation.ShadowConstructor;
 import net.minecraft.ChatFormatting;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.annotation.Nullable;
 
 @Mixin(TextColor.class)
-public class TextColorMixin {
+public class TextColorMixin implements TextColorBridge {
 
     // @formatter:off
     @Shadow @Final @Mutable @Nullable public String name;
@@ -38,5 +39,15 @@ public class TextColorMixin {
     @Inject(method = "<init>(ILjava/lang/String;)V", at = @At("RETURN"))
     private void arclight$withFormat(int color, String name, CallbackInfo ci) {
         this.format = ChatFormatting.getByName(name);
+    }
+
+    @Override
+    public ChatFormatting bridge$getFormat() {
+        return format;
+    }
+
+    @Override
+    public void bridge$setFormat(ChatFormatting format) {
+        this.format = format;
     }
 }

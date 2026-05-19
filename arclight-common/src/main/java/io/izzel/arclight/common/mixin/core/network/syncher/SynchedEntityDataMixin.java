@@ -9,7 +9,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.bukkit.craftbukkit.v.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,6 +39,7 @@ public abstract class SynchedEntityDataMixin implements SynchedEntityDataBridge 
         }
     }
 
+    @Override
     public <T> void markDirty(EntityDataAccessor<T> key) {
         SynchedEntityData.DataItem<T> entry = this.getItem(key);
         entry.setDirty(true);
@@ -46,10 +47,6 @@ public abstract class SynchedEntityDataMixin implements SynchedEntityDataBridge 
     }
 
     @Override
-    public <T> void bridge$markDirty(EntityDataAccessor<T> key) {
-        this.markDirty(key);
-    }
-
     public void refresh(ServerPlayer player) {
         var list = this.getNonDefaultValues();
         if (list != null && this.entity instanceof Entity entity) {
@@ -57,8 +54,4 @@ public abstract class SynchedEntityDataMixin implements SynchedEntityDataBridge 
         }
     }
 
-    @Override
-    public void bridge$refresh(ServerPlayer player) {
-        refresh(player);
-    }
 }

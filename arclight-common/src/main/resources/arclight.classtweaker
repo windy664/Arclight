@@ -606,6 +606,8 @@ transitive-accessible method net/minecraft/server/level/ServerLevel getEntities 
 transitive-accessible field net/minecraft/world/level/levelgen/structure/StructurePiece SHAPE_CHECK_BLOCKS Ljava/util/Set;
 transitive-accessible field net/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings palette I
 transitive-accessible method net/minecraft/server/level/ChunkMap tick (Ljava/util/function/BooleanSupplier;)V
+transitive-accessible field net/minecraft/core/component/DataComponentPatch map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
+transitive-accessible field net/minecraft/core/component/DataComponentPatch$Builder map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 
 # Loom interface Injections
 transitive-inject-interface net/minecraft/advancements/AdvancementHolder io/izzel/arclight/common/bridge/core/advancements/AdvancementHolderBridge
@@ -614,3 +616,12 @@ transitive-inject-interface net/minecraft/commands/CommandSource$1 io/izzel/arcl
 transitive-inject-interface net/minecraft/commands/CommandSourceStack io/izzel/arclight/common/bridge/core/commands/CommandSourceStackBridge
 transitive-inject-interface net/minecraft/commands/arguments/EntityArgument io/izzel/arclight/common/bridge/core/commands/arguments/EntityArgumentBridge
 transitive-inject-interface net/minecraft/commands/arguments/selector/EntitySelectorParser io/izzel/arclight/common/bridge/core/commands/arguments/selector/EntitySelectorParserBridge
+transitive-inject-interface net/minecraft/core/component/DataComponentPatch$Builder io/izzel/arclight/common/bridge/core/core/component/DataComponentPatch_BuilderBridge
+transitive-inject-interface net/minecraft/network/Connection io/izzel/arclight/common/bridge/core/network/ConnectionBridge
+transitive-inject-interface net/minecraft/network/syncher/SynchedEntityData io/izzel/arclight/common/bridge/core/network/syncher/SynchedEntityDataBridge
+transitive-inject-interface net/minecraft/network/chat/Component io/izzel/arclight/common/bridge/core/network/chat/ComponentBridge
+transitive-inject-interface net/minecraft/network/chat/TextColor io/izzel/arclight/common/bridge/core/network/chat/TextColorBridge
+transitive-inject-interface net/minecraft/server/bossevents/CustomBossEvent io/izzel/arclight/common/bridge/core/server/bossevents/CustomBossEventBridge
+transitive-inject-interface net/minecraft/server/dedicated/DedicatedServer io/izzel/arclight/common/bridge/core/server/dedicated/DedicatedServerBridge
+transitive-inject-interface net/minecraft/server/level/ChunkHolder io/izzel/arclight/common/bridge/core/server/level/ChunkHolderBridge
+transitive-inject-interface net/minecraft/server/level/ChunkMap io/izzel/arclight/common/bridge/core/server/level/ChunkMapBridge

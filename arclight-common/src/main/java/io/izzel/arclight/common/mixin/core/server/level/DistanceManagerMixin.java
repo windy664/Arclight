@@ -1,10 +1,8 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
-import io.izzel.arclight.common.bridge.core.world.server.ChunkHolderBridge;
 import io.izzel.arclight.common.bridge.core.server.level.DistanceManagerBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
-import io.izzel.arclight.mixin.Local;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.server.level.*;
@@ -15,7 +13,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 @Mixin(DistanceManager.class)
 public abstract class DistanceManagerMixin implements DistanceManagerBridge {

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
+import io.izzel.arclight.common.bridge.core.server.level.ChunkHolderBridge;
 import io.izzel.arclight.common.bridge.core.world.level.chunk.LevelChunkBridge;
-import io.izzel.arclight.common.bridge.core.world.server.ChunkHolderBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ChunkMapBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import it.unimi.dsi.fastutil.shorts.ShortSet;
@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -47,26 +48,13 @@ public abstract class ChunkHolderMixin extends GenerationChunkHolder implements 
         return this.getFullChunkNowUnchecked();
     }
 
+    @Override
     public LevelChunk getFullChunkNowUnchecked() {
         return (LevelChunk) this.getChunkIfPresentUnchecked(ChunkStatus.FULL);
     }
 
     @Override
-    public LevelChunk bridge$getFullChunkNow() {
-        return this.getFullChunkNow();
-    }
-
-    @Override
-    public LevelChunk bridge$getFullChunkUnchecked() {
-        return this.getFullChunkNowUnchecked();
-    }
-
-    @Override
-    public void bridge$callEventIfUnloading(ChunkMap manager) {
-        callEventIfUnloading(manager);
-    }
-
-    protected void callEventIfUnloading(ChunkMap manager) {
+    public void callEventIfUnloading(ChunkMap manager) {
         FullChunkStatus oldFullChunkStatus = ChunkLevel.fullStatus(this.oldTicketLevel);
         FullChunkStatus newFullChunkStatus = ChunkLevel.fullStatus(this.ticketLevel);
         boolean oldIsFull = oldFullChunkStatus.isOrAfter(FullChunkStatus.FULL);
@@ -102,7 +90,7 @@ public abstract class ChunkHolderMixin extends GenerationChunkHolder implements 
 
     @Inject(method = "blockChanged", cancellable = true,
             at = @At(value = "FIELD", ordinal = 0, target = "Lnet/minecraft/server/level/ChunkHolder;changedBlocksPerSection:[Lit/unimi/dsi/fastutil/shorts/ShortSet;"))
-    private void arclight$outOfBound(BlockPos pos, CallbackInfo ci) {
+    private void arclight$outOfBound(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         int i = this.levelHeightAccessor.getSectionIndex(pos.getY());
         if (i < 0 || i >= this.changedBlocksPerSection.length) {
             ci.cancel();

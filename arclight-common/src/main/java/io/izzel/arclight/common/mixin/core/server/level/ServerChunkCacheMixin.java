@@ -1,11 +1,9 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
 import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import io.izzel.arclight.common.bridge.core.world.server.ChunkHolderBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ChunkMapBridge;
 import io.izzel.arclight.common.bridge.core.world.server.ServerChunkProviderBridge;
 import io.izzel.arclight.common.bridge.core.server.level.DistanceManagerBridge;
-import io.izzel.arclight.mixin.Decorate;
 import net.minecraft.server.level.*;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameRules;

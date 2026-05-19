@@ -1,5 +1,6 @@
 package io.izzel.arclight.common.mixin.core.core.component;
 
+import io.izzel.arclight.common.bridge.core.core.component.DataComponentPatch_BuilderBridge;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
@@ -10,22 +11,26 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 @Mixin(DataComponentPatch.Builder.class)
-public class DataComponentPatch_BuilderMixin {
+public class DataComponentPatch_BuilderMixin implements DataComponentPatch_BuilderBridge {
 
     @Shadow @Final public Reference2ObjectMap<DataComponentType<?>, Optional<?>> map;
 
+    @Override
     public void copy(DataComponentPatch orig) {
         this.map.putAll(orig.map);
     }
 
+    @Override
     public void clear(DataComponentType<?> type) {
         this.map.remove(type);
     }
 
+    @Override
     public boolean isSet(DataComponentType<?> type) {
         return map.containsKey(type);
     }
 
+    @Override
     public boolean isEmpty() {
         return this.map.isEmpty();
     }

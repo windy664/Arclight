@@ -5,7 +5,7 @@ import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
-import org.bukkit.craftbukkit.v.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.event.entity.EntityExhaustionEvent;
 
 public interface PlayerBridge extends LivingEntityBridge {

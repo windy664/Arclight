@@ -4,5 +4,15 @@ import org.bukkit.boss.KeyedBossBar;
 
 public interface CustomBossEventBridge {
 
-    KeyedBossBar bridge$getBukkitEntity();
+    default KeyedBossBar bridge$getBossBar() {
+        return null;
+    }
+
+    default void bridget$setBossBar(KeyedBossBar bossBar) {
+
+    }
+
+    default KeyedBossBar getBukkitEntity() {
+        return null;
+    }
 }

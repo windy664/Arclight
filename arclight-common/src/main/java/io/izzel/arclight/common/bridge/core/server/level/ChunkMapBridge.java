@@ -9,17 +9,31 @@ import java.util.function.BooleanSupplier;
 
 public interface ChunkMapBridge {
 
-    void bridge$tick(BooleanSupplier hasMoreTime);
+    default void bridge$tick(BooleanSupplier hasMoreTime) {
 
-    Iterable<ChunkHolder> bridge$getLoadedChunksIterable();
+    }
 
-    void bridge$tickEntityTracker();
+    default Iterable<ChunkHolder> bridge$getLoadedChunksIterable() {
+        return null;
+    }
 
-    ArclightCallbackExecutor bridge$getCallbackExecutor();
+    default void bridge$tickEntityTracker() {
 
-    ChunkHolder bridge$chunkHolderAt(long chunkPos);
+    }
 
-    void bridge$setViewDistance(int i);
+    default ArclightCallbackExecutor bridge$getCallbackExecutor() {
+        return null;
+    }
 
-    void bridge$setChunkGenerator(ChunkGenerator generator);
+    default ChunkHolder bridge$chunkHolderAt(long chunkPos) {
+        return null;
+    }
+
+    default void bridge$setViewDistance(int i) {
+
+    }
+
+    default void bridge$setChunkGenerator(ChunkGenerator generator) {
+
+    }
 }

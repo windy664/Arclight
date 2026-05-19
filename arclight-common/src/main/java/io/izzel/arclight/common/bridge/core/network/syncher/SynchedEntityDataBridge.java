@@ -5,7 +5,11 @@ import net.minecraft.server.level.ServerPlayer;
 
 public interface SynchedEntityDataBridge {
 
-    <T> void bridge$markDirty(EntityDataAccessor<T> key);
+    default <T> void markDirty(EntityDataAccessor<T> entitydataaccessor) {
 
-    void bridge$refresh(ServerPlayer player);
+    }
+
+    default void refresh(ServerPlayer player) {
+
+    }
 }
