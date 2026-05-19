@@ -6,5 +6,7 @@ import net.minecraft.commands.arguments.selector.EntitySelector;
 
 public interface EntityArgumentBridge {
 
-    EntitySelector bridge$parse(StringReader reader, boolean overridePermissions) throws CommandSyntaxException;
+    default EntitySelector parse(StringReader reader, boolean allowSelectors, boolean overridePermissions) throws CommandSyntaxException {
+        return null;
+    }
 }
