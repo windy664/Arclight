@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin_Vanilla extends PlayerMixin_Vanilla implements ServerPlayerBridge {
 
-    @Decorate(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+    @Decorate(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;"))
     private boolean arclight$capturePlayerDrop(Level instance, Entity entity) throws Throwable {
         if (!bridge$isForceDrops() && this.arclight$captureDrop((ItemEntity) entity)) {
             return true;
@@ -30,7 +30,7 @@ public abstract class ServerPlayerMixin_Vanilla extends PlayerMixin_Vanilla impl
         return (boolean) DecorationOps.callsite().invoke(instance, entity);
     }
 
-    @Inject(method = "startSleepInBed", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))
+    @Inject(method = "startSleepInBed", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/server/level/ServerPlayer$RespawnConfig;Z)V"))
     private void arclight$bedCause(BlockPos p_9115_, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
         this.bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause.BED);
     }

@@ -27,6 +27,7 @@ public abstract class EntityMixin_ActivationRange implements EntityBridge_Activa
     @Shadow public abstract void discard();
     // @formatter:on
 
+    @Shadow public int invulnerableTime;
     public ActivationRange.ActivationType activationType;
     public boolean defaultActivationState;
     public long activatedTick = Integer.MIN_VALUE;

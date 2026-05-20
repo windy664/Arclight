@@ -24,15 +24,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
-import org.bukkit.craftbukkit.v.CraftWorld;
-import org.bukkit.craftbukkit.v.block.CraftBlock;
-import org.bukkit.craftbukkit.v.block.CraftBlockState;
-import org.bukkit.craftbukkit.v.block.CraftBlockStates;
-import org.bukkit.craftbukkit.v.block.CraftSign;
-import org.bukkit.craftbukkit.v.block.data.CraftBlockData;
-import org.bukkit.craftbukkit.v.damage.CraftDamageSource;
-import org.bukkit.craftbukkit.v.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.block.CraftBlockState;
+import org.bukkit.craftbukkit.block.CraftBlockStates;
+import org.bukkit.craftbukkit.block.CraftSign;
+import org.bukkit.craftbukkit.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.damage.CraftDamageSource;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -72,7 +72,7 @@ public abstract class CraftEventFactoryMixin {
         BlockPos damageEventBlock = ArclightCaptures.getDamageEventBlock();
         if (damageEventEntity != null && ((DamageSourceBridge) source).bridge$getCausingEntity() == null) {
             if (source.is(DamageTypes.LIGHTNING_BOLT)) {
-                source = ((DamageSourceBridge) source).bridge$customCausingEntity(damageEventEntity);
+                source = ((DamageSourceBridge) source).customCausingEntityDamager(damageEventEntity);
             }
         }
         if (damageEventBlock != null && ((DamageSourceBridge) source).bridge$directBlock() == null) {

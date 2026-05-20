@@ -608,6 +608,7 @@ transitive-accessible field net/minecraft/world/level/levelgen/structure/templat
 transitive-accessible method net/minecraft/server/level/ChunkMap tick (Ljava/util/function/BooleanSupplier;)V
 transitive-accessible field net/minecraft/core/component/DataComponentPatch map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 transitive-accessible field net/minecraft/core/component/DataComponentPatch$Builder map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
+transitive-accessible class net/minecraft/world/phys/shapes/IndexMerger
 
 # Loom interface Injections
 transitive-inject-interface net/minecraft/advancements/AdvancementHolder io/izzel/arclight/common/bridge/core/advancements/AdvancementHolderBridge
@@ -638,3 +639,4 @@ transitive-inject-interface net/minecraft/world/entity/LivingEntity io/izzel/arc
 transitive-inject-interface net/minecraft/world/level/NaturalSpawner$SpawnState io/izzel/arclight/common/bridge/core/world/level/NaturalSpawner_SpawnStateBridge
 transitive-inject-interface net/minecraft/world/damagesource/DamageSources io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourcesBridge
 transitive-inject-interface net/minecraft/world/damagesource/DamageSource io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourceBridge
+transitive-inject-interface net/minecraft/world/food/FoodData io/izzel/arclight/common/bridge/core/world/food/FoodDataBridge

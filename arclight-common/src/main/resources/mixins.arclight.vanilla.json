@@ -29,7 +29,6 @@
     "world.entity.animal.SheepMixin_Vanilla",
     "world.entity.animal.SnowGolemMixin_Vanilla",
     "world.entity.animal.WolfMixin_Vanilla",
-    "world.entity.animal.frog.TadpoleMixin_Vanilla",
     "world.entity.monster.BoggedMixin_Vanilla",
     "world.entity.monster.ZombieMixin_Vanilla",
     "world.entity.player.PlayerMixin_Vanilla",

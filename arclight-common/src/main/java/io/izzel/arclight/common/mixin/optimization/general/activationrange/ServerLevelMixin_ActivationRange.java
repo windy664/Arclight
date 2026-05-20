@@ -1,7 +1,6 @@
 package io.izzel.arclight.common.mixin.optimization.general.activationrange;
 
 import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
-import io.izzel.arclight.common.bridge.optimization.EntityBridge_ActivationRange;
 import io.izzel.arclight.i18n.ArclightConfig;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +29,7 @@ public class ServerLevelMixin_ActivationRange {
         if (arclight$applyInactive && !ActivationRange.checkIfActive(entityIn)) {
             ++entityIn.tickCount;
             if (((EntityBridge) entityIn).bridge$forge$canUpdate()) {
-                ((EntityBridge_ActivationRange) entityIn).bridge$inactiveTick();
+                entityIn.inactiveTick();
             }
             ci.cancel();
         }
