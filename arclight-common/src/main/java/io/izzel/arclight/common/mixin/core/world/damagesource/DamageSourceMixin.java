@@ -37,19 +37,9 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
         return withSweep;
     }
 
-    @Override
-    public boolean bridge$isSweep() {
-        return isSweep();
-    }
-
     public DamageSource sweep() {
         withSweep = true;
         return (DamageSource) (Object) this;
-    }
-
-    @Override
-    public DamageSource bridge$sweep() {
-        return sweep();
     }
 
     public boolean isMelting() {
@@ -61,11 +51,6 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
         return (DamageSource) (Object) this;
     }
 
-    @Override
-    public DamageSource bridge$melting() {
-        return melting();
-    }
-
     public boolean isPoison() {
         return poison;
     }
@@ -75,19 +60,9 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
         return (DamageSource) (Object) this;
     }
 
-    @Override
-    public DamageSource bridge$poison() {
-        return poison();
-    }
-
     public Entity getDamager() {
         // Arclight: Blame: used causingEntity instead of directEntity and bump into problems :(
         return this.customEntityDamager == null ? this.directEntity : this.customEntityDamager;
-    }
-
-    @Override
-    public Entity bridge$getCausingEntity() {
-        return this.getDamager();
     }
 
     public DamageSource customEntityDamager(Entity entity) {
@@ -102,16 +77,6 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
 
     public Entity getCausingDamager() {
         return (this.customCausingEntityDamager != null) ? this.customCausingEntityDamager : this.causingEntity;
-    }
-
-    @Override
-    public Entity bridge$getCausingEntityDamager() {
-        return this.getCausingDamager();
-    }
-
-    @Override
-    public DamageSource bridge$customCausingEntity(Entity entity) {
-        return customEntityDamager(entity);
     }
 
     @Override
@@ -131,11 +96,6 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
     }
 
     @Override
-    public DamageSource bridge$customCausingEntityDamager(Entity entity) {
-        return customCausingEntityDamager(entity);
-    }
-
-    @Override
     public DamageSource bridge$setCustomCausingEntityDamager(Entity entity) {
         this.customCausingEntityDamager = entity;
         return (DamageSource) (Object) this;
@@ -143,16 +103,6 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
 
     public Block getDirectBlock() {
         return this.directBlock;
-    }
-
-    @Override
-    public Block bridge$directBlock() {
-        return this.getDirectBlock();
-    }
-
-    @Override
-    public DamageSource bridge$directBlock(Block block) {
-        return ((DamageSourceBridge) cloneInstance()).bridge$setDirectBlock(block);
     }
 
     @Override
@@ -176,16 +126,6 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
     }
 
     @Override
-    public BlockState bridge$directBlockState() {
-        return this.directBlockState;
-    }
-
-    @Override
-    public DamageSource bridge$directBlockState(BlockState block) {
-        return directBlockState(block);
-    }
-
-    @Override
     public DamageSource bridge$setDirectBlockState(BlockState block) {
         this.directBlockState = block;
         return (DamageSource) (Object) this;
@@ -194,17 +134,17 @@ public abstract class DamageSourceMixin implements DamageSourceBridge {
     private DamageSource cloneInstance() {
         var damageSource = new DamageSource(this.type, this.directEntity, this.causingEntity, this.damageSourcePosition);
         var br = (DamageSourceBridge) damageSource;
-        br.bridge$setDirectBlock(this.bridge$directBlock());
-        br.bridge$setDirectBlockState(this.bridge$directBlockState());
+        br.bridge$setDirectBlock(this.getDirectBlock());
+        br.bridge$setDirectBlockState(this.getDirectBlockState());
         br.bridge$setCustomCausingEntity(this.customEntityDamager);
         if (this.withSweep) {
-            br.bridge$sweep();
+            br.sweep();
         }
         if (this.poison) {
-            br.bridge$poison();
+            br.poison();
         }
         if (this.melting) {
-            br.bridge$melting();
+            br.melting();
         }
         return damageSource;
     }

@@ -6,5 +6,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import java.util.List;
 
 public interface LivingEntityBridge_Vanilla {
-    void arclight$vanilla$callLivingDropsEvent(DamageSource source, List<ItemEntity> capturedDrops);
+
+    default void arclight$vanilla$callLivingDropsEvent(DamageSource source, List<ItemEntity> capturedDrops) {
+
+    }
 }

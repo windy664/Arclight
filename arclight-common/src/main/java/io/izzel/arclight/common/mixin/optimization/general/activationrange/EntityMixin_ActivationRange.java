@@ -46,16 +46,12 @@ public abstract class EntityMixin_ActivationRange implements EntityBridge_Activa
         }
     }
 
+    @Override
     public void inactiveTick() {
     }
 
     @Override
-    public void bridge$inactiveTick() {
-        this.inactiveTick();
-    }
-
-    @Override
-    public void bridge$updateActivation() {
+    public void updateActivation() {
         if (ArclightConstants.currentTick > this.activatedTick) {
             if (this.defaultActivationState) {
                 this.activatedTick = ArclightConstants.currentTick;

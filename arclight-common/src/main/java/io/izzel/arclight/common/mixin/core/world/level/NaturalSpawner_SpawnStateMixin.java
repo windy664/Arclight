@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
-import io.izzel.arclight.common.bridge.core.world.spawner.WorldEntitySpawnerBridge;
+import io.izzel.arclight.common.bridge.core.world.level.NaturalSpawner_SpawnStateBridge;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(NaturalSpawner.SpawnState.class)
-public abstract class NaturalSpawner_SpawnStateMixin implements WorldEntitySpawnerBridge.EntityDensityManagerBridge {
+public abstract class NaturalSpawner_SpawnStateMixin implements NaturalSpawner_SpawnStateBridge {
 
     // @formatter:off
     @Shadow protected abstract void afterSpawn(Mob p_234990_1_, ChunkAccess p_234990_2_);

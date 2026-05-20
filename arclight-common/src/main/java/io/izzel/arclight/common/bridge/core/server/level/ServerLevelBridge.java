@@ -38,33 +38,6 @@ public interface ServerLevelBridge extends WorldBridge {
         return null;
     }
 
-    default void bridge$setStorageSource(LevelStorageSource.LevelStorageAccess storageSource) {
-
-    }
-
-    default UUID bridge$getUUID() {
-        return null;
-    }
-
-    default void bridge$setUUID(UUID uuid) {
-
-    }
-
-    default SavedDataStorage bridge$getSavedDataStorage() {
-        return null;
-    }
-
-    default void bridge$setSavedDataStorage(SavedDataStorage savedDataStorage) {
-    }
-
-    default GameRules bridge$getGameRules() {
-        return null;
-    }
-
-    default void bridge$setGameRules(GameRules gameRules) {
-
-    }
-
     default WorldGenSettings getWorldGenSettings() {
         return null;
     }

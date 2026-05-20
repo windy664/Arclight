@@ -5,35 +5,80 @@ import net.minecraft.world.entity.Entity;
 
 public interface DamageSourceBridge {
 
-    boolean bridge$isSweep();
+    default DamageSource sweep() {
+        return null;
+    }
 
-    DamageSource bridge$sweep();
+    default boolean isSweep() {
+        return false;
+    }
 
-    DamageSource bridge$poison();
+    default DamageSource melting() {
+        return null;
+    }
 
-    DamageSource bridge$melting();
+    default boolean isMelting() {
+        return false;
+    }
 
-    Entity bridge$getCausingEntity();
+    default DamageSource poison() {
+        return null;
+    }
 
-    Entity bridge$getCausingEntityDamager();
+    default boolean isPoison() {
+        return false;
+    }
 
-    DamageSource bridge$customCausingEntity(Entity entity);
+    default Entity getDamager() {
+        return null;
+    }
 
-    DamageSource bridge$setCustomCausingEntity(Entity entity);
+    default Entity getCausingDamager() {
+        return null;
+    }
 
-    DamageSource bridge$customCausingEntityDamager(Entity entity);
+    default DamageSource customEntityDamager(Entity entity) {
+        return null;
+    }
 
-    DamageSource bridge$setCustomCausingEntityDamager(Entity entity);
+    default DamageSource customCausingEntityDamager(Entity entity) {
+        return null;
+    }
 
-    org.bukkit.block.Block bridge$directBlock();
+    default org.bukkit.block.Block getDirectBlock() {
+        return null;
+    }
 
-    DamageSource bridge$directBlock(org.bukkit.block.Block block);
+    default DamageSource directBlock(net.minecraft.world.level.Level level, net.minecraft.core.BlockPos blockPosition) {
+        return null;
+    }
 
-    DamageSource bridge$setDirectBlock(org.bukkit.block.Block block);
+    default DamageSource directBlock(org.bukkit.block.Block block) {
+        return null;
+    }
 
-    org.bukkit.block.BlockState bridge$directBlockState();
+    default org.bukkit.block.BlockState getDirectBlockState() {
+        return null;
+    }
 
-    DamageSource bridge$directBlockState(org.bukkit.block.BlockState block);
+    default DamageSource directBlockState(org.bukkit.block.BlockState blockState) {
+        return null;
+    }
 
-    DamageSource bridge$setDirectBlockState(org.bukkit.block.BlockState block);
+    default DamageSource bridge$setDirectBlock(org.bukkit.block.Block block) {
+        return null;
+    }
+
+
+    default DamageSource bridge$setDirectBlockState(org.bukkit.block.BlockState blockState) {
+        return null;
+    }
+
+    default DamageSource bridge$setCustomCausingEntity(Entity customEntityDamager) {
+        return null;
+    }
+
+    default DamageSource bridge$setCustomCausingEntityDamager(Entity entity) {
+        return null;
+    }
 }

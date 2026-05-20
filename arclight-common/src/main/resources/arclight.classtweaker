@@ -629,3 +629,12 @@ transitive-inject-interface net/minecraft/server/level/ServerChunkCache io/izzel
 transitive-inject-interface net/minecraft/server/level/ServerEntity io/izzel/arclight/common/bridge/core/server/level/ServerEntityBridge
 transitive-inject-interface net/minecraft/server/level/ServerEntity$Synchronizer io/izzel/arclight/common/bridge/core/server/level/ServerEntity_SynchronizerBridge
 transitive-inject-interface net/minecraft/server/level/ServerLevel io/izzel/arclight/common/bridge/core/server/level/ServerLevelBridge
+transitive-inject-interface net/minecraft/util/TickThrottler io/izzel/arclight/common/bridge/core/util/TickThrottlerBridge
+transitive-inject-interface net/minecraft/world/clock/ServerClockManager io/izzel/arclight/common/bridge/core/world/clock/ServerClockManagerBridge
+transitive-inject-interface net/minecraft/world/damagesource/CombatEntry io/izzel/arclight/common/bridge/core/world/damagesource/CombatEntryBridge
+transitive-inject-interface net/minecraft/world/damagesource/CombatTracker io/izzel/arclight/common/bridge/core/world/damagesource/CombatTrackerBridge
+transitive-inject-interface net/minecraft/world/entity/Entity io/izzel/arclight/common/bridge/optimization/EntityBridge_ActivationRange
+transitive-inject-interface net/minecraft/world/entity/LivingEntity io/izzel/arclight/common/bridge/vanilla/world/entity/LivingEntityBridge_Vanilla
+transitive-inject-interface net/minecraft/world/level/NaturalSpawner$SpawnState io/izzel/arclight/common/bridge/core/world/level/NaturalSpawner_SpawnStateBridge
+transitive-inject-interface net/minecraft/world/damagesource/DamageSources io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourcesBridge
+transitive-inject-interface net/minecraft/world/damagesource/DamageSource io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourceBridge

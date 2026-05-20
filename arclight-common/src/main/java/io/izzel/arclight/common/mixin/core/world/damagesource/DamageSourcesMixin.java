@@ -48,16 +48,6 @@ public abstract class DamageSourcesMixin implements DamageSourcesBridge {
         return melting;
     }
 
-    @Override
-    public DamageSource bridge$poison() {
-        return poison();
-    }
-
-    @Override
-    public DamageSource bridge$melting() {
-        return melting();
-    }
-
     public DamageSource explosion(@Nullable Entity entity, @Nullable Entity entity1, ResourceKey<DamageType> resourceKey) {
         return this.source(resourceKey, entity, entity1);
     }

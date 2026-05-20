@@ -15,6 +15,6 @@ public class ActivationRangeMixin {
      */
     @Overwrite
     private static void activateEntity(Entity entity) {
-        ((EntityBridge_ActivationRange) entity).bridge$updateActivation();
+        ((EntityBridge_ActivationRange) entity).updateActivation();
     }
 }
