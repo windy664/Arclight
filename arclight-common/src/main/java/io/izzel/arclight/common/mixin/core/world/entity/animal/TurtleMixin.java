@@ -1,13 +1,12 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal;
 
-import io.izzel.arclight.common.bridge.core.world.entity.animal.TurtleBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.animal.turtle.TurtleBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.DamageSourceBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.animal.Turtle;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import net.minecraft.world.entity.animal.turtle.Turtle;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;

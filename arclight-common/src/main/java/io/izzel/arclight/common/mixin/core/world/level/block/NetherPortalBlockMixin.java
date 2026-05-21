@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.EntityTypeBridge;
 import io.izzel.arclight.common.bridge.core.world.level.portal.PortalForcerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;

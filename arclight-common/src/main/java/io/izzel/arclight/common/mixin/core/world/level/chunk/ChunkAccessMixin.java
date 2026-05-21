@@ -18,6 +18,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraft.world.level.chunk.PalettedContainerFactory;
 import net.minecraft.world.level.chunk.UpgradeData;
 import net.minecraft.world.level.levelgen.blending.BlendingData;
 import org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry;
@@ -52,8 +53,8 @@ public abstract class ChunkAccessMixin implements BlockGetter, BiomeManager.Nois
     public Registry<Biome> biomeRegistry;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void arclight$init(ChunkPos p_187621_, UpgradeData p_187622_, LevelHeightAccessor p_187623_, Registry<Biome> registry, long p_187625_, LevelChunkSection[] p_187626_, BlendingData p_187627_, CallbackInfo ci) {
-        this.biomeRegistry = registry;
+    private void arclight$init(ChunkPos chunkPos, UpgradeData upgradeData, LevelHeightAccessor levelHeightAccessor, PalettedContainerFactory containerFactory, long inhabitedTime, LevelChunkSection[] sections, BlendingData blendingData, CallbackInfo ci) {
+        this.biomeRegistry = biomeRegistry;
     }
 
     @Inject(method = "setUnsaved", at = @At("HEAD"))

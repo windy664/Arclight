@@ -6,7 +6,11 @@ import java.util.Set;
 
 public interface PiglinBridge {
 
-    Set<Item> bridge$getAllowedBarterItems();
+    default Set<Item> bridge$getAllowedBarterItems() {
+        return null;
+    }
 
-    Set<Item> bridge$getInterestItems();
+    default Set<Item> bridge$getInterestItems() {
+        return null;
+    }
 }

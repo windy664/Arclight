@@ -1,6 +1,6 @@
 package io.izzel.arclight.neoforge.mixin.core.world.entity;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.tools.product.Product;
 import io.izzel.tools.product.Product4;
 import net.minecraft.core.BlockPos;

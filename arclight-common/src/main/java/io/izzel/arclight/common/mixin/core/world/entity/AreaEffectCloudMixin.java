@@ -1,6 +1,5 @@
 package io.izzel.arclight.common.mixin.core.world.entity;
 
-import io.izzel.arclight.common.bridge.core.world.entity.AreaEffectCloudBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(AreaEffectCloud.class)
-public abstract class AreaEffectCloudMixin extends EntityMixin implements AreaEffectCloudBridge {
+public abstract class AreaEffectCloudMixin extends EntityMixin {
 
     // @formatter:off
     @Shadow @Final private Map<Entity, Integer> victims;

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
 import com.google.common.collect.Lists;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.saveddata.maps.MapItemSavedDataBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;

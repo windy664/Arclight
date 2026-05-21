@@ -4,5 +4,7 @@ import net.minecraft.world.item.ItemStack;
 
 public interface InventoryBridge {
 
-    int bridge$canHold(ItemStack stack);
+    default int bridge$canHold(ItemStack stack) {
+        return 0;
+    }
 }

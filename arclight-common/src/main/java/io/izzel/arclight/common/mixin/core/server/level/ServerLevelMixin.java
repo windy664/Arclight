@@ -3,7 +3,7 @@ package io.izzel.arclight.common.mixin.core.server.level;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import io.izzel.arclight.common.bridge.bukkit.CraftServerBridge;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
 import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;

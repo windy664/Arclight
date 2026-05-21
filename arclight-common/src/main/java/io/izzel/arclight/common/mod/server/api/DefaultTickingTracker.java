@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mod.server.api;
 
 import io.izzel.arclight.api.TickingTracker;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;

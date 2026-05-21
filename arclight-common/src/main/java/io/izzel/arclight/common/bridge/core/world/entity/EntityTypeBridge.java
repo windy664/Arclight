@@ -3,10 +3,26 @@ package io.izzel.arclight.common.bridge.core.world.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobSpawnType;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 public interface EntityTypeBridge<T extends Entity> {
 
-    T bridge$spawnCreature(ServerLevel worldIn, BlockPos pos, MobSpawnType mobSpawnType, CreatureSpawnEvent.SpawnReason spawnReason);
+    default @Nullable T spawn(ServerLevel level, @Nullable ItemStack itemStack, @Nullable LivingEntity user, BlockPos spawnPos, EntitySpawnReason spawnReason, boolean tryMoveDown, boolean movedUp, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason bukkitSpawnReason) {
+        return null;
+    }
+
+    default @Nullable T spawn(ServerLevel level, BlockPos spawnPos, EntitySpawnReason spawnReason, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason bukkitSpawnReason) {
+        return null;
+    }
+
+    default @Nullable T spawn(ServerLevel level, @Nullable Consumer<T> postSpawnConfig, BlockPos spawnPos, EntitySpawnReason spawnReason, boolean tryMoveDown, boolean movedUp, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason bukkitSpawnReason) {
+        return null;
+    }
 }
+
+

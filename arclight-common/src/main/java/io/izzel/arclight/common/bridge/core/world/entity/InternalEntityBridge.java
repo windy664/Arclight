@@ -1,4 +1,4 @@
-package io.izzel.arclight.common.bridge.core.entity;
+package io.izzel.arclight.common.bridge.core.world.entity;
 
 import org.bukkit.craftbukkit.entity.CraftEntity;
 

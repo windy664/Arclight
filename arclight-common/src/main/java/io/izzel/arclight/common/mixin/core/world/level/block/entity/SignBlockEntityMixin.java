@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
 import io.izzel.arclight.common.bridge.core.commands.CommandSourceStackBridge;
 import io.izzel.arclight.common.bridge.core.command.CommandSourceBridge;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.entity.SignBlockEntityBridge;
 import net.minecraft.commands.CommandSource;

@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal;
 
-import io.izzel.arclight.common.bridge.core.world.entity.animal.TurtleBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.animal.turtle.TurtleBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;

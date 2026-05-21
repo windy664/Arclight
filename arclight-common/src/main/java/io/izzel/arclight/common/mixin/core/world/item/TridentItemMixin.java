@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.item;
 
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.entity.projectile.ThrownTridentBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.projectile.arrow.ThrownTridentBridge;
 import io.izzel.arclight.common.mod.util.DistValidate;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;

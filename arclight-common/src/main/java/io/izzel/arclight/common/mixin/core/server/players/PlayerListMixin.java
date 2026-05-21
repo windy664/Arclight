@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.server.players;
 
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.network.ConnectionBridge;
 import io.izzel.arclight.common.bridge.core.network.syncher.SynchedEntityDataBridge;

@@ -4,5 +4,7 @@ import io.izzel.arclight.common.bridge.core.world.entity.MobBridge;
 
 public interface CreeperBridge extends MobBridge {
 
-    void bridge$setPowered(boolean power);
+    default void bridge$setPowered(boolean power) {
+
+    }
 }

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
 import com.mojang.datafixers.util.Either;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.AbstractContainerMenuBridge;
 import io.izzel.arclight.common.bridge.core.server.network.ServerGamePacketListenerImplBridge;

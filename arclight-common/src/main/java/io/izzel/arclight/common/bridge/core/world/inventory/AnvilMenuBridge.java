@@ -16,7 +16,11 @@ public interface AnvilMenuBridge {
         return true;
     }
 
-    void arclight$allowZeroCost();
+    default void arclight$allowZeroCost() {
 
-    boolean arclight$isZeroCostAllowed();
+    }
+
+    default boolean arclight$isZeroCostAllowed() {
+        return false;
+    }
 }

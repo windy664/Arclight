@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
 import com.mojang.datafixers.util.Pair;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.DamageSourceBridge;
 import io.izzel.arclight.common.bridge.core.world.level.ExplosionBridge;
 import io.izzel.arclight.mixin.Decorate;

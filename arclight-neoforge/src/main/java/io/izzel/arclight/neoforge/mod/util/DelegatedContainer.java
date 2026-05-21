@@ -1,6 +1,6 @@
 package io.izzel.arclight.neoforge.mod.util;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.entity.BlockEntityBridge;
 import io.izzel.arclight.common.mixin.bukkit.CraftBlockEntityStateAccessor;

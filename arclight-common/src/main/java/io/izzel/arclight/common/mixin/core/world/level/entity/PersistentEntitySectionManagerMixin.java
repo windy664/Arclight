@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.entity;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.Local;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
 import io.izzel.arclight.common.bridge.core.command.CommandSourceBridge;
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.LecternMenuBridge;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;

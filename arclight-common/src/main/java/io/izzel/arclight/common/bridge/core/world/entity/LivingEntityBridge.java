@@ -1,6 +1,5 @@
 package io.izzel.arclight.common.bridge.core.world.entity;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.InteractionHand;
@@ -24,36 +23,66 @@ import java.util.Optional;
 
 public interface LivingEntityBridge extends EntityBridge {
 
-    void bridge$setSlot(EquipmentSlot slotIn, ItemStack stack, boolean silent);
+    default void bridge$setSlot(EquipmentSlot slotIn, ItemStack stack, boolean silent) {
 
-    void bridge$playEquipSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, boolean silent);
+    }
 
-    boolean bridge$canPickUpLoot();
+    default void bridge$playEquipSound(EquipmentSlot slot, ItemStack oldItem, ItemStack newItem, boolean silent) {
 
-    int bridge$getExpReward(Entity entity);
+    }
 
-    void bridge$setExpToDrop(int amount);
+    default boolean bridge$canPickUpLoot() {
+        return false;
+    }
 
-    int bridge$getExpToDrop();
+    default int bridge$getExpReward(Entity entity) {
+        return 0;
+    }
 
-    void bridge$pushHealReason(EntityRegainHealthEvent.RegainReason regainReason);
+    default void bridge$setExpToDrop(int amount) {
 
-    void bridge$heal(float healAmount, EntityRegainHealthEvent.RegainReason regainReason);
+    }
 
-    void bridge$pushEffectCause(EntityPotionEffectEvent.Cause cause);
+    default int bridge$getExpToDrop() {
+        return 0;
+    }
 
-    boolean bridge$addEffect(MobEffectInstance effect, EntityPotionEffectEvent.Cause cause);
+    default void bridge$pushHealReason(EntityRegainHealthEvent.RegainReason regainReason) {
 
-    boolean bridge$removeEffect(Holder<MobEffect> effect, EntityPotionEffectEvent.Cause cause);
+    }
 
-    boolean bridge$removeAllEffects(EntityPotionEffectEvent.Cause cause);
+    default void bridge$heal(float healAmount, EntityRegainHealthEvent.RegainReason regainReason) {
 
-    Optional<EntityPotionEffectEvent.Cause> bridge$getEffectCause();
+    }
 
-    void bridge$pushKnockbackCause(Entity attacker, EntityKnockbackEvent.KnockbackCause cause);
+    default void bridge$pushEffectCause(EntityPotionEffectEvent.Cause cause) {
+
+    }
+
+    default boolean bridge$addEffect(MobEffectInstance effect, EntityPotionEffectEvent.Cause cause) {
+        return false;
+    }
+
+    default boolean bridge$removeEffect(Holder<MobEffect> effect, EntityPotionEffectEvent.Cause cause) {
+        return false;
+    }
+
+    default boolean bridge$removeAllEffects(EntityPotionEffectEvent.Cause cause) {
+        return false;
+    }
+
+    default Optional<EntityPotionEffectEvent.Cause> bridge$getEffectCause() {
+        return null;
+    }
+
+    default void bridge$pushKnockbackCause(Entity attacker, EntityKnockbackEvent.KnockbackCause cause) {
+
+    }
 
     @Override
-    CraftLivingEntity bridge$getBukkitEntity();
+    default CraftLivingEntity bridge$getBukkitEntity() {
+        return null;
+    }
 
     default int bridge$forge$getExperienceDrop(LivingEntity entity, Player attackingPlayer, int originalExperience) {
         return originalExperience;
@@ -75,5 +104,7 @@ public interface LivingEntityBridge extends EntityBridge {
     }
 
     @Nullable
-    EntityDamageEvent arclight$fireEntityDamageEvent(DamageSource source, float original);
+    default EntityDamageEvent arclight$fireEntityDamageEvent(DamageSource source, float original) {
+        return null;
+    }
 }

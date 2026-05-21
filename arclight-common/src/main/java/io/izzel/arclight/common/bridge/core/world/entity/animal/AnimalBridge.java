@@ -5,5 +5,7 @@ import net.minecraft.world.item.ItemStack;
 
 public interface AnimalBridge extends MobBridge {
 
-    ItemStack bridge$getBreedItem();
+    default ItemStack bridge$getBreedItem() {
+        return null;
+    }
 }

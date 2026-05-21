@@ -1,4 +1,4 @@
-package io.izzel.arclight.common.bridge.core.world.entity.vehicle;
+package io.izzel.arclight.common.bridge.core.world.entity.vehicle.minecart;
 
 public interface AbstractMinecartBridge {
 

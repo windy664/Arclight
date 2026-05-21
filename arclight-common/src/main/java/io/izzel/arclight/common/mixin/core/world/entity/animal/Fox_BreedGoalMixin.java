@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.entity.animal;
 
 import io.izzel.arclight.common.bridge.core.world.entity.MobBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.animal.AnimalBridge;
-import io.izzel.arclight.common.bridge.core.world.entity.animal.FoxBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.animal.fox.FoxBridge;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

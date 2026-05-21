@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.entity;
 
-import io.izzel.arclight.common.bridge.core.entity.EntityBridge;
+import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.EntityAccess;
 import org.bukkit.event.entity.EntityRemoveEvent;
