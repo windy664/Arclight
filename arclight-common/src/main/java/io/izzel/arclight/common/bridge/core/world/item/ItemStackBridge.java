@@ -10,9 +10,13 @@ import net.minecraft.world.level.LevelReader;
 
 public interface ItemStackBridge {
 
-    void arclight$restorePatch(DataComponentPatch datacomponentpatch);
+    default void arclight$restorePatch(DataComponentPatch datacomponentpatch) {
 
-    void arclight$setItem(Item item);
+    }
+
+    default void arclight$setItem(Item item) {
+
+    }
 
     default InteractionResult bridge$forge$onItemUseFirst(UseOnContext context) {
         return InteractionResult.PASS;

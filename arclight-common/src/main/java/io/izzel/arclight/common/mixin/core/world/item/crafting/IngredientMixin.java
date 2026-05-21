@@ -17,12 +17,11 @@ public abstract class IngredientMixin implements IngredientBridge {
 
     // @formatter:off
     @Shadow public abstract boolean isEmpty();
-    @Shadow public abstract ItemStack[] getItems();
     // @formatter:on
 
     public boolean exact;
 
-    @Decorate(method = "test(Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"))
+    @Decorate(method = "test(Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/core/HolderSet;)Z"))
     private boolean arclight$exactMatch(ItemStack instance, Item arg, @Nullable ItemStack itemstack) throws Throwable {
         if (exact) {
             if (ItemStack.isSameItemSameComponents(itemstack, instance)) {

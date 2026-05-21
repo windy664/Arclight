@@ -1,6 +1,7 @@
 package io.izzel.arclight.common.bridge.core.world.level.block.state;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -13,7 +14,7 @@ public interface BlockBehaviourBridge {
         return state.getBlock().dropFromExplosion(explosion);
     }
 
-    default void bridge$forge$onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
+    default void bridge$forge$onBlockExploded(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion) {
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         state.getBlock().wasExploded(level, pos, explosion);
     }

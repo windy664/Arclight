@@ -3,23 +3,39 @@ package io.izzel.arclight.common.bridge.core.world.level.chunk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Chunk;
-import org.bukkit.craftbukkit.v.persistence.CraftPersistentDataContainer;
+import org.bukkit.craftbukkit.persistence.CraftPersistentDataContainer;
 
 public interface LevelChunkBridge {
 
-    Chunk bridge$getBukkitChunk();
+    default Chunk bridge$getBukkitChunk() {
+        return null;
+    }
 
-    BlockState bridge$setType(BlockPos pos, BlockState state, boolean isMoving, boolean doPlace);
+    default BlockState bridge$setType(BlockPos pos, BlockState state, boolean isMoving, boolean doPlace) {
+        return null;
+    }
 
-    boolean bridge$isMustNotSave();
+    default boolean bridge$isMustNotSave() {
+        return false;
+    }
 
-    void bridge$setMustNotSave(boolean mustNotSave);
+    default void bridge$setMustNotSave(boolean mustNotSave) {
 
-    boolean bridge$isNeedsDecoration();
+    }
 
-    void bridge$loadCallback();
+    default boolean bridge$isNeedsDecoration() {
+        return false;
+    }
 
-    void bridge$unloadCallback();
+    default void bridge$loadCallback() {
 
-    CraftPersistentDataContainer bridge$getPersistentContainer();
+    }
+
+    default void bridge$unloadCallback() {
+
+    }
+
+    default CraftPersistentDataContainer bridge$getPersistentContainer() {
+        return null;
+    }
 }

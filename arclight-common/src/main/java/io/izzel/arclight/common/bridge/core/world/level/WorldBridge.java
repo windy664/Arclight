@@ -1,6 +1,5 @@
 package io.izzel.arclight.common.bridge.core.world.level;
 
-import io.izzel.arclight.common.bridge.inject.InjectLevelBridge;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,36 +8,50 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.dimension.LevelStem;
-import org.bukkit.craftbukkit.v.CraftServer;
-import org.bukkit.craftbukkit.v.CraftWorld;
-import org.bukkit.craftbukkit.v.block.CapturedBlockState;
+import net.minecraft.world.level.gamerules.GameRules;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CapturedBlockState;
 import org.bukkit.entity.SpawnCategory;
 import org.bukkit.generator.ChunkGenerator;
 import org.spigotmc.SpigotWorldConfig;
 
 import java.util.Map;
 
-public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge, InjectLevelBridge {
+public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge {
 
-    CraftServer bridge$getServer();
+    default CraftServer bridge$getServer() {
+        return null;
+    }
 
-    CraftWorld bridge$getWorld();
+    default CraftWorld bridge$getWorld() {
+        return null;
+    }
 
-    boolean bridge$isPvpMode();
+    default boolean bridge$isPvpMode() {
+        return false;
+    }
 
-    boolean bridge$isPopulating();
+    default boolean bridge$isPopulating() {
+        return false;
+    }
 
-    void bridge$setPopulating(boolean populating);
+    default void bridge$setPopulating(boolean populating) {
 
-    ChunkGenerator bridge$getGenerator();
+    }
 
-    BlockEntity bridge$getTileEntity(BlockPos pos, boolean validate);
+    default ChunkGenerator bridge$getGenerator() {
+        return null;
+    }
+
+    default BlockEntity bridge$getTileEntity(BlockPos pos, boolean validate) {
+        return null;
+    }
 
     SpigotWorldConfig bridge$spigotConfig();
 
@@ -59,7 +72,7 @@ public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge, In
     }
 
     default boolean bridge$forge$mobGriefing(Entity entity) {
-        return ((Level) this).getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+        return ((Level) this).getGameRules().getBoolean(GameRules.MOB_GRIEFING);
     }
 
     default void bridge$forge$onPotionBrewed(NonNullList<ItemStack> stacks) {}

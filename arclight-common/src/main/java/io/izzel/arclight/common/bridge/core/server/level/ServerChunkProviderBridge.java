@@ -1,4 +1,4 @@
-package io.izzel.arclight.common.bridge.core.world.server;
+package io.izzel.arclight.common.bridge.core.server.level;
 
 import java.io.IOException;
 import net.minecraft.server.level.ThreadedLevelLightEngine;

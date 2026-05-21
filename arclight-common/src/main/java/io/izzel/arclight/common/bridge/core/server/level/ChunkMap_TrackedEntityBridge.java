@@ -1,4 +1,4 @@
-package io.izzel.arclight.common.bridge.core.world.server;
+package io.izzel.arclight.common.bridge.core.server.level;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerEntity;

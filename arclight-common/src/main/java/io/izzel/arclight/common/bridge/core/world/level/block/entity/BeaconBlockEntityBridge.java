@@ -4,7 +4,11 @@ import org.bukkit.potion.PotionEffect;
 
 public interface BeaconBlockEntityBridge {
 
-    PotionEffect bridge$getPrimaryEffect();
+    default PotionEffect bridge$getPrimaryEffect() {
+        return null;
+    }
 
-    PotionEffect bridge$getSecondaryEffect();
+    default PotionEffect bridge$getSecondaryEffect() {
+        return null;
+    }
 }

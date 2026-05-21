@@ -4,5 +4,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 public interface BlockEntityBridge {
 
-    InventoryHolder bridge$getOwner();
+    default InventoryHolder bridge$getOwner() {
+        return null;
+    }
 }

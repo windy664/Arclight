@@ -6,7 +6,11 @@ import net.minecraft.world.entity.player.Player;
 
 public interface TransientCraftingContainerBridge extends IInventoryBridge {
 
-    void bridge$setOwner(Player owner);
+    default void bridge$setOwner(Player owner) {
 
-    void bridge$setResultInventory(Container resultInventory);
+    }
+
+    default void bridge$setResultInventory(Container resultInventory) {
+
+    }
 }

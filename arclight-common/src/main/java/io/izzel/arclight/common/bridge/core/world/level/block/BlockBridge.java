@@ -12,9 +12,13 @@ import org.jetbrains.annotations.Nullable;
 
 public interface BlockBridge {
 
-    int bridge$getExpDrop(BlockState blockState, ServerLevel world, BlockPos blockPos, ItemStack itemStack);
+    default int bridge$getExpDrop(BlockState blockState, ServerLevel world, BlockPos blockPos, ItemStack itemStack) {
+        return 0;
+    }
 
-    int bridge$tryDropExperience(ServerLevel worldserver, BlockPos blockposition, ItemStack itemstack, IntProvider intprovider);
+    default int bridge$tryDropExperience(ServerLevel worldserver, BlockPos blockposition, ItemStack itemstack, IntProvider intprovider) {
+        return 0;
+    }
 
     default boolean bridge$forge$onCropsGrowPre(Level level, BlockPos pos, BlockState state, boolean def) {
         return true;

@@ -7,5 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public interface TheEndGatewayBlockEntityBridge {
 
-    void bridge$playerTeleportEvent(Level level, BlockPos pos, BlockState state, Entity entityIn, BlockPos dest);
+    default void bridge$playerTeleportEvent(Level level, BlockPos pos, BlockState state, Entity entityIn, BlockPos dest) {
+
+    }
 }

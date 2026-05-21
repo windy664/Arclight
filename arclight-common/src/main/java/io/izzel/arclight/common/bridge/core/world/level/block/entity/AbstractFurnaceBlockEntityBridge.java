@@ -8,9 +8,15 @@ import java.util.List;
 
 public interface AbstractFurnaceBlockEntityBridge {
 
-    List<RecipeHolder<?>> bridge$dropExp(ServerPlayer entity, ItemStack itemStack, int amount);
+    default List<RecipeHolder<?>> bridge$dropExp(ServerPlayer entity, ItemStack itemStack, int amount) {
+        return null;
+    }
 
-    int bridge$getBurnDuration(ItemStack stack);
+    default int bridge$getBurnDuration(ItemStack stack) {
+        return 0;
+    }
 
-    boolean bridge$isLit();
+    default boolean bridge$isLit() {
+        return false;
+    }
 }

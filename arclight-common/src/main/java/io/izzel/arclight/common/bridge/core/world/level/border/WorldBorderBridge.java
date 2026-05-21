@@ -4,7 +4,11 @@ import net.minecraft.world.level.Level;
 
 public interface WorldBorderBridge {
 
-    Level bridge$getWorld();
+    default Level bridge$getWorld() {
+        return null;
+    }
 
-    void bridge$setWorld(Level world);
+    default void bridge$setWorld(Level world) {
+
+    }
 }

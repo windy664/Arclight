@@ -8,17 +8,40 @@ import org.jetbrains.annotations.Nullable;
 
 public interface BucketItemBridge {
     @Nullable Direction arclight$getDirection();
-    void arclight$setDirection(@Nullable Direction value);
 
-    @Nullable BlockPos arclight$getClick();
-    void arclight$setClick(@Nullable BlockPos value);
+    default void arclight$setDirection(@Nullable Direction value) {
 
-    @Nullable InteractionHand arclight$getHand();
-    void arclight$setHand(@Nullable InteractionHand value);
+    }
 
-    @Nullable ItemStack arclight$getStack();
-    void arclight$setStack(@Nullable ItemStack value);
+    default @Nullable BlockPos arclight$getClick() {
+        return null;
+    }
 
-    @Nullable org.bukkit.inventory.ItemStack arclight$getCaptureItem();
-    void arclight$setCaptureItem(@Nullable org.bukkit.inventory.ItemStack value);
+    default void arclight$setClick(@Nullable BlockPos value) {
+
+    }
+
+    default @Nullable InteractionHand arclight$getHand() {
+        return null;
+    }
+
+    default void arclight$setHand(@Nullable InteractionHand value) {
+
+    }
+
+    default @Nullable ItemStack arclight$getStack() {
+        return null;
+    }
+
+    default void arclight$setStack(@Nullable ItemStack value) {
+
+    }
+
+    default @Nullable org.bukkit.inventory.ItemStack arclight$getCaptureItem() {
+        return null;
+    }
+
+    default void arclight$setCaptureItem(@Nullable org.bukkit.inventory.ItemStack value) {
+
+    }
 }

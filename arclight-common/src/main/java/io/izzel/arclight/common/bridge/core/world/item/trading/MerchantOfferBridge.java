@@ -1,8 +1,10 @@
 package io.izzel.arclight.common.bridge.core.world.item.trading;
 
-import org.bukkit.craftbukkit.v.inventory.CraftMerchantRecipe;
+import org.bukkit.craftbukkit.inventory.CraftMerchantRecipe;
 
 public interface MerchantOfferBridge {
 
-    CraftMerchantRecipe bridge$asBukkit();
+    default CraftMerchantRecipe bridge$asBukkit() {
+        return null;
+    }
 }
