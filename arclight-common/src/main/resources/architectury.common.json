@@ -1,3 +1,240 @@
 {
-  "accessWidener": "arclight.classtweaker"
+  "accessWidener": "arclight.classtweaker",
+  "injected_interfaces": {
+    "net/minecraft/advancements/AdvancementHolder": [
+      "io/izzel/arclight/common/bridge/core/advancements/AdvancementHolderBridge"
+    ],
+    "net/minecraft/commands/Commands": [
+      "io/izzel/arclight/common/bridge/core/commands/CommandsBridge"
+    ],
+    "net/minecraft/commands/CommandSource$1": [
+      "io/izzel/arclight/common/bridge/core/command/CommandSourceBridge"
+    ],
+    "net/minecraft/commands/CommandSourceStack": [
+      "io/izzel/arclight/common/bridge/core/commands/CommandSourceStackBridge"
+    ],
+    "net/minecraft/commands/arguments/EntityArgument": [
+      "io/izzel/arclight/common/bridge/core/commands/arguments/EntityArgumentBridge"
+    ],
+    "net/minecraft/commands/arguments/selector/EntitySelectorParser": [
+      "io/izzel/arclight/common/bridge/core/commands/arguments/selector/EntitySelectorParserBridge"
+    ],
+    "net/minecraft/core/component/DataComponentPatch$Builder": [
+      "io/izzel/arclight/common/bridge/core/core/component/DataComponentPatch_BuilderBridge"
+    ],
+    "net/minecraft/network/Connection": [
+      "io/izzel/arclight/common/bridge/core/network/ConnectionBridge"
+    ],
+    "net/minecraft/network/syncher/SynchedEntityData": [
+      "io/izzel/arclight/common/bridge/core/network/syncher/SynchedEntityDataBridge"
+    ],
+    "net/minecraft/network/chat/Component": [
+      "io/izzel/arclight/common/bridge/core/network/chat/ComponentBridge"
+    ],
+    "net/minecraft/network/chat/TextColor": [
+      "io/izzel/arclight/common/bridge/core/network/chat/TextColorBridge"
+    ],
+    "net/minecraft/server/bossevents/CustomBossEvent": [
+      "io/izzel/arclight/common/bridge/core/server/bossevents/CustomBossEventBridge"
+    ],
+    "net/minecraft/server/dedicated/DedicatedServer": [
+      "io/izzel/arclight/common/bridge/core/server/dedicated/DedicatedServerBridge"
+    ],
+    "net/minecraft/server/level/ChunkHolder": [
+      "io/izzel/arclight/common/bridge/core/server/level/ChunkHolderBridge"
+    ],
+    "net/minecraft/server/level/ChunkMap": [
+      "io/izzel/arclight/common/bridge/core/server/level/ChunkMapBridge"
+    ],
+    "net/minecraft/server/level/ServerChunkCache": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerChunkCacheBridge"
+    ],
+    "net/minecraft/server/level/ServerEntity": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerEntityBridge"
+    ],
+    "net/minecraft/server/level/ServerEntity$Synchronizer": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerEntity_SynchronizerBridge"
+    ],
+    "net/minecraft/server/level/ServerLevel": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerLevelBridge"
+    ],
+    "net/minecraft/util/TickThrottler": [
+      "io/izzel/arclight/common/bridge/core/util/TickThrottlerBridge"
+    ],
+    "net/minecraft/world/clock/ServerClockManager": [
+      "io/izzel/arclight/common/bridge/core/world/clock/ServerClockManagerBridge"
+    ],
+    "net/minecraft/world/damagesource/CombatEntry": [
+      "io/izzel/arclight/common/bridge/core/world/damagesource/CombatEntryBridge"
+    ],
+    "net/minecraft/world/damagesource/CombatTracker": [
+      "io/izzel/arclight/common/bridge/core/world/damagesource/CombatTrackerBridge"
+    ],
+    "net/minecraft/world/entity/Entity": [
+      "io/izzel/arclight/common/bridge/optimization/EntityBridge_ActivationRange",
+      "io/izzel/arclight/common/bridge/core/world/entity/EntityBridge",
+      "io/izzel/arclight/common/bridge/core/world/entity/InternalEntityBridge"
+    ],
+    "net/minecraft/world/entity/LivingEntity": [
+      "io/izzel/arclight/common/bridge/vanilla/world/entity/LivingEntityBridge_Vanilla",
+      "io/izzel/arclight/common/bridge/core/world/entity/LivingEntityBridge"
+    ],
+    "net/minecraft/world/level/NaturalSpawner$SpawnState": [
+      "io/izzel/arclight/common/bridge/core/world/level/NaturalSpawner_SpawnStateBridge"
+    ],
+    "net/minecraft/world/damagesource/DamageSources": [
+      "io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourcesBridge"
+    ],
+    "net/minecraft/world/damagesource/DamageSource": [
+      "io/izzel/arclight/common/bridge/core/world/damagesource/DamageSourceBridge"
+    ],
+    "net/minecraft/world/food/FoodData": [
+      "io/izzel/arclight/common/bridge/core/world/food/FoodDataBridge"
+    ],
+    "net/minecraft/world/level/chunk/ChunkAccess": [
+      "io/izzel/arclight/common/bridge/core/world/chunk/ChunkAccessBridge"
+    ],
+    "net/minecraft/world/level/block/SculkSpreader": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/SculkSpreaderBridge"
+    ],
+    "net/minecraft/world/entity/Mob": [
+      "io/izzel/arclight/common/bridge/core/world/entity/MobBridge"
+    ],
+    "net/minecraft/world/entity/EntityType": [
+      "io/izzel/arclight/common/bridge/core/world/entity/EntityTypeBridge"
+    ],
+    "net/minecraft/world/entity/AgeableMob": [
+      "io/izzel/arclight/common/bridge/core/world/entity/AgeableMobBridge"
+    ],
+    "net/minecraft/world/entity/animal/Animal": [
+      "io/izzel/arclight/common/bridge/core/world/entity/animal/AnimalBridge"
+    ],
+    "net/minecraft/world/entity/animal/fox/Fox": [
+      "io/izzel/arclight/common/bridge/core/world/entity/animal/fox/FoxBridge"
+    ],
+    "net/minecraft/world/entity/animal/turtle/Turtle": [
+      "io/izzel/arclight/common/bridge/core/world/entity/animal/turtle/TurtleBridge"
+    ],
+    "net/minecraft/world/entity/item/ItemEntity": [
+      "io/izzel/arclight/common/bridge/core/world/entity/item/ItemEntityBridge"
+    ],
+    "net/minecraft/world/entity/monster/piglin/Piglin": [
+      "io/izzel/arclight/common/bridge/core/world/entity/monster/piglin/PiglinBridge"
+    ],
+    "net/minecraft/world/entity/monster/Creeper": [
+      "io/izzel/arclight/common/bridge/core/world/entity/monster/CreeperBridge"
+    ],
+    "net/minecraft/world/entity/monster/EnderMan": [
+      "io/izzel/arclight/common/bridge/core/world/entity/monster/EnderManBridge"
+    ],
+    "net/minecraft/world/entity/player/Inventory": [
+      "io/izzel/arclight/common/bridge/core/world/entity/player/InventoryBridge"
+    ],
+    "net/minecraft/world/entity/player/Player": [
+      "io/izzel/arclight/common/bridge/core/world/entity/player/PlayerBridge"
+    ],
+    "net/minecraft/world/entity/projectile/FishingHook": [
+      "io/izzel/arclight/common/bridge/core/world/entity/projectile/FishingHookBridge"
+    ],
+    "net/minecraft/world/entity/projectile/arrow/ThrownTrident": [
+      "io/izzel/arclight/common/bridge/core/world/entity/projectile/arrow/ThrownTridentBridge"
+    ],
+    "net/minecraft/world/entity/raid/Raid": [
+      "io/izzel/arclight/common/bridge/core/world/entity/raid/RaidBridge"
+    ],
+    "net/minecraft/world/entity/vehicle/minecart/AbstractMinecart": [
+      "io/izzel/arclight/common/bridge/core/world/entity/vehicle/minecart/AbstractMinecartBridge"
+    ],
+    "net/minecraft/world/inventory/AbstractContainerMenu": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/AbstractContainerMenuBridge",
+      "io/izzel/arclight/common/bridge/core/world/inventory/PosContainerBridge"
+    ],
+    "net/minecraft/world/inventory/AnvilMenu": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/AnvilMenuBridge"
+    ],
+    "net/minecraft/world/inventory/ContainerLevelAccess": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/ContainerLevelAccessBridge"
+    ],
+    "net/minecraft/world/inventory/EnchantmentMenu": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/EnchantmentMenuBridge"
+    ],
+    "net/minecraft/world/inventory/LecternMenu": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/LecternMenuBridge"
+    ],
+    "net/minecraft/world/inventory/TransientCraftingContainer": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/TransientCraftingContainerBridge"
+    ],
+    "net/minecraft/world/inventory/Slot": [
+      "io/izzel/arclight/common/bridge/core/world/inventory/SlotBridge"
+    ],
+    "net/minecraft/world/item/BucketItem": [
+      "io/izzel/arclight/common/bridge/core/world/item/BucketItemBridge"
+    ],
+    "net/minecraft/world/item/ItemStack": [
+      "io/izzel/arclight/common/bridge/core/world/item/ItemStackBridge"
+    ],
+    "net/minecraft/world/item/Item": [
+      "io/izzel/arclight/common/bridge/core/world/item/ItemBridge"
+    ],
+    "net/minecraft/world/item/trading/Merchant": [
+      "io/izzel/arclight/common/bridge/core/world/item/trading/MerchantBridge"
+    ],
+    "net/minecraft/world/item/trading/MerchantOffer": [
+      "io/izzel/arclight/common/bridge/core/world/item/trading/MerchantOfferBridge"
+    ],
+    "net/minecraft/world/item/crafting/Ingredient": [
+      "io/izzel/arclight/common/bridge/core/world/item/crafting/IngredientBridge"
+    ],
+    "net/minecraft/world/item/crafting/Recipe": [
+      "io/izzel/arclight/common/bridge/core/world/item/crafting/RecipeBridge"
+    ],
+    "net/minecraft/world/item/crafting/RecipeHolder": [
+      "io/izzel/arclight/common/bridge/core/world/item/crafting/RecipeHolderBridge"
+    ],
+    "net/minecraft/world/item/crafting/RecipeManager": [
+      "io/izzel/arclight/common/bridge/core/world/item/crafting/RecipeManagerBridge"
+    ],
+    "net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/AbstractFurnaceBlockEntityBridge"
+    ],
+    "net/minecraft/world/level/block/entity/SculkCatalystBlockEntity$CatalystListener": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/SculkCatalystListenerBridge"
+    ],
+    "net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/TheEndGatewayBlockEntityBridge"
+    ],
+    "net/minecraft/world/level/block/entity/SignBlockEntity": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/SignBlockEntityBridge"
+    ],
+    "net/minecraft/world/level/block/entity/BlockEntity": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/BlockEntityBridge"
+    ],
+    "net/minecraft/world/level/block/entity/BeaconBlockEntity": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/entity/BeaconBlockEntityBridge"
+    ],
+    "net/minecraft/world/level/block/state/BlockBehaviour": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/state/BlockBehaviourBridge"
+    ],
+    "net/minecraft/world/level/block/Block": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/BlockBridge"
+    ],
+    "net/minecraft/world/level/block/FireBlock": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/FireBlockBridge"
+    ],
+    "net/minecraft/world/level/block/MultifaceSpreader$SpreadPos": [
+      "io/izzel/arclight/common/bridge/core/world/level/block/MultifaceSpreaderSpreadPosBridge"
+    ],
+    "net/minecraft/world/level/border/WorldBorder": [
+      "io/izzel/arclight/common/bridge/core/world/level/border/WorldBorderBridge"
+    ],
+    "net/minecraft/world/level/chunk/ChunkGenerator": [
+      "io/izzel/arclight/common/bridge/core/world/level/chunk/ChunkGeneratorBridge"
+    ],
+    "net/minecraft/world/level/chunk/LevelChunkSection": [
+      "io/izzel/arclight/common/bridge/core/world/level/chunk/LevelChunkSectionBridge"
+    ],
+    "net/minecraft/world/level/chunk/LevelChunk": [
+      "io/izzel/arclight/common/bridge/core/world/level/chunk/LevelChunkBridge"
+    ]
+  }
 }
