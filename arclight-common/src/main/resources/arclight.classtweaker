@@ -693,3 +693,6 @@ transitive-inject-interface net/minecraft/world/level/border/WorldBorder io/izze
 transitive-inject-interface net/minecraft/world/level/chunk/ChunkGenerator io/izzel/arclight/common/bridge/core/world/level/chunk/ChunkGeneratorBridge
 transitive-inject-interface net/minecraft/world/level/chunk/LevelChunkSection io/izzel/arclight/common/bridge/core/world/level/chunk/LevelChunkSectionBridge
 transitive-inject-interface net/minecraft/world/level/chunk/LevelChunk io/izzel/arclight/common/bridge/core/world/level/chunk/LevelChunkBridge
+
+# enum extensions
+transitive-extend-enum net/minecraft/world/level/Level$ExplosionInteraction STANDARD

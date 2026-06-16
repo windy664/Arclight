@@ -1,0 +1,10 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/level/Level$ExplosionInteraction",
+      "name": "STANDARD",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": ["standard"]
+    }
+  ]
+}
