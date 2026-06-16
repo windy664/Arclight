@@ -10,6 +10,7 @@ import io.izzel.arclight.common.mod.server.command.ArclightDummyCommandSender;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.players.NameAndId;
 import net.minecraft.server.players.PlayerList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -39,9 +40,9 @@ public abstract class CommandSourceStackMixin implements CommandSourceStackBridg
 
     public CommandNode currentCommand;
 
-    @Redirect(method = "broadcastToAdmins", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;isOp(Lcom/mojang/authlib/GameProfile;)Z"))
-    private boolean arclight$feedbackPermission(PlayerList instance, GameProfile profile) {
-        return ((ServerPlayerBridge) instance.getPlayer(profile.getId())).bridge$getBukkitEntity().hasPermission("minecraft.admin.command_feedback");
+    @Redirect(method = "broadcastToAdmins", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;isOp(Lnet/minecraft/server/players/NameAndId;)Z"))
+    private boolean arclight$feedbackPermission(PlayerList instance, NameAndId nameAndId) {
+        return ((ServerPlayerBridge) instance.getPlayer(nameAndId.id())).bridge$getBukkitEntity().hasPermission("minecraft.admin.command_feedback");
     }
 
     @Override

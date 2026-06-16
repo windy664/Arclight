@@ -22,10 +22,6 @@ public abstract class EntitySelectorParserMixin implements EntitySelectorParserB
     private Boolean arclight$overridePermissions;
 
     @Override
-    public EntitySelector bridge$parse(boolean overridePermissions) throws CommandSyntaxException {
-        return this.parse(overridePermissions);
-    }
-
     public EntitySelector parse(boolean overridePermissions) throws CommandSyntaxException {
         try {
             this.arclight$overridePermissions = overridePermissions;
@@ -36,10 +32,6 @@ public abstract class EntitySelectorParserMixin implements EntitySelectorParserB
     }
 
     @Override
-    public void bridge$parseSelector(boolean overridePermissions) throws CommandSyntaxException {
-        this.parseSelector(overridePermissions);
-    }
-
     public void parseSelector(boolean overridePermissions) throws CommandSyntaxException {
         this.usesSelectors = !overridePermissions;
         this.parseSelector();

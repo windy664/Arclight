@@ -7,15 +7,27 @@ import java.util.UUID;
 
 public interface ConnectionBridge {
 
-    UUID bridge$getSpoofedUUID();
+    default UUID bridge$getSpoofedUUID() {
+        return null;
+    }
 
-    void bridge$setSpoofedUUID(UUID spoofedUUID);
+    default void bridge$setSpoofedUUID(UUID spoofedUUID) {
 
-    Property[] bridge$getSpoofedProfile();
+    }
 
-    void bridge$setSpoofedProfile(Property[] spoofedProfile);
+    default Property[] bridge$getSpoofedProfile() {
+        return null;
+    }
 
-    String bridge$getHostname();
+    default void bridge$setSpoofedProfile(Property[] spoofedProfile) {
 
-    void bridge$setHostname(String hostname);
+    }
+
+    default String bridge$getHostname() {
+        return null;
+    }
+
+    default void bridge$setHostname(String hostname) {
+
+    }
 }

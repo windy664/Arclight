@@ -18,8 +18,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.NbtException;
 import net.minecraft.nbt.ReportedNbtException;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.RegistryLayer;
 import net.minecraft.server.WorldLoader;
@@ -32,9 +32,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.ai.village.VillageSiege;
 import net.minecraft.world.entity.npc.CatSpawner;
-import net.minecraft.world.entity.npc.WanderingTraderSpawner;
 import net.minecraft.world.level.CustomSpawner;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.biome.BiomeManager;
@@ -51,12 +49,12 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v.CraftServer;
-import org.bukkit.craftbukkit.v.CraftWorld;
-import org.bukkit.craftbukkit.v.command.CraftCommandMap;
-import org.bukkit.craftbukkit.v.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v.generator.CraftWorldInfo;
-import org.bukkit.craftbukkit.v.scheduler.CraftScheduler;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.command.CraftCommandMap;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.generator.CraftWorldInfo;
+import org.bukkit.craftbukkit.scheduler.CraftScheduler;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.BiomeProvider;
@@ -92,7 +90,6 @@ public abstract class CraftServerMixin implements CraftServerBridge {
     @Shadow @Final private CraftCommandMap commandMap;
     @Shadow @Final private SimplePluginManager pluginManager;
     @Shadow @Final protected DedicatedServer console;
-    @Shadow @Final @Mutable private String serverName;
     @Shadow @Final @Mutable protected DedicatedPlayerList playerList;
     @Shadow @Final @Mutable private List<CraftPlayer> playerView;
     @Shadow @Final private Map<String, World> worlds;
@@ -127,11 +124,6 @@ public abstract class CraftServerMixin implements CraftServerBridge {
     @Shadow
     public abstract DedicatedServer getServer();
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void arclight$setBrand(DedicatedServer console, PlayerList playerList, CallbackInfo ci) {
-        this.serverName = "Arclight";
-    }
-
     /**
      * @author IzzelAliz
      * @reason
@@ -157,15 +149,6 @@ public abstract class CraftServerMixin implements CraftServerBridge {
         this.playerView = Collections.unmodifiableList(Lists.transform(playerList.players, player ->
                 ((ServerPlayerBridge)player).bridge$getBukkitEntity()
                 ));
-    }
-
-    /**
-     * @author IzzelAliz
-     * @reason
-     */
-    @Overwrite(remap = false)
-    public ConsoleReader getReader() {
-        return null;
     }
 
     @Inject(method = "dispatchCommand", remap = false, cancellable = true, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lorg/spigotmc/AsyncCatcher;catchOp(Ljava/lang/String;)V"))
@@ -320,7 +303,7 @@ public abstract class CraftServerMixin implements CraftServerBridge {
                 case CUSTOM -> {
                     if (ArclightConfig.spec().getExperimental().canOverrideWorldgen()) {
                         isCustom = true;
-                        final var location = ResourceLocation.tryBuild("bukkit", name);
+                        final var location = Identifier.tryBuild("bukkit", name);
                         if (location == null) {
                             throw new IllegalArgumentException("Illegal world name: " + name);
                         }

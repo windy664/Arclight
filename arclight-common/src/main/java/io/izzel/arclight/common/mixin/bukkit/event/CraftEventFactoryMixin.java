@@ -70,16 +70,16 @@ public abstract class CraftEventFactoryMixin {
     private static DamageSource arclight$captureSource(DamageSource source, Entity entity) {
         Entity damageEventEntity = ArclightCaptures.getDamageEventEntity();
         BlockPos damageEventBlock = ArclightCaptures.getDamageEventBlock();
-        if (damageEventEntity != null && ((DamageSourceBridge) source).bridge$getCausingEntity() == null) {
+        if (damageEventEntity != null && source.getCausingDamager() == null) {
             if (source.is(DamageTypes.LIGHTNING_BOLT)) {
-                source = ((DamageSourceBridge) source).customCausingEntityDamager(damageEventEntity);
+                source = source.customCausingEntityDamager(damageEventEntity);
             }
         }
-        if (damageEventBlock != null && ((DamageSourceBridge) source).bridge$directBlock() == null) {
+        if (damageEventBlock != null && source.getDirectBlock() == null) {
             if (source.is(DamageTypes.CACTUS)
                     || source.is(DamageTypes.SWEET_BERRY_BUSH)
                     || source.is(DamageTypes.HOT_FLOOR)) {
-                source = ((DamageSourceBridge) source).bridge$directBlock(CraftBlock.at(entity.getCommandSenderWorld(), damageEventBlock));
+                source = source.directBlock(CraftBlock.at(entity.getCommandSenderWorld(), damageEventBlock));
             }
         }
         return source;

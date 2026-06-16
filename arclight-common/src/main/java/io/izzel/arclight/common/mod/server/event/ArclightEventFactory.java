@@ -5,7 +5,6 @@ import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
 import io.izzel.arclight.common.bridge.core.world.item.ItemStackBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.BlockBridge;
-import io.izzel.arclight.common.bridge.inject.InjectEntityBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.DistValidate;
 import net.minecraft.core.BlockPos;
@@ -16,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -26,13 +26,13 @@ import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v.block.CraftBlock;
-import org.bukkit.craftbukkit.v.block.CraftBlockState;
-import org.bukkit.craftbukkit.v.block.CraftBlockStates;
-import org.bukkit.craftbukkit.v.damage.CraftDamageSource;
-import org.bukkit.craftbukkit.v.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.block.CraftBlockState;
+import org.bukkit.craftbukkit.block.CraftBlockStates;
+import org.bukkit.craftbukkit.damage.CraftDamageSource;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -90,15 +90,15 @@ public abstract class ArclightEventFactory {
 
         CraftBlockState blockState = CraftBlockStates.getBlockState(world, pos, flag);
         blockState.setData(block);
-        BlockFormEvent event = entity == null ? new BlockFormEvent(blockState.getBlock(), blockState) : new EntityBlockFormEvent(entity.bridge$getBukkitEntity(), blockState.getBlock(), blockState);
+        BlockFormEvent event = entity == null ? new BlockFormEvent(blockState.getBlock(), blockState) : new EntityBlockFormEvent(entity.getBukkitEntity(), blockState.getBlock(), blockState);
         return callEvent(event);
     }
 
     /**
      * @return if we can drop the item
      */
-    public static<T extends ItemEntity & InjectEntityBridge> boolean callEntityDropItemEvent(InjectEntityBridge entity, T drop) {
-        EntityDropItemEvent bukkitEvent = new EntityDropItemEvent(entity.bridge$getBukkitEntity(), (Item) drop.bridge$getBukkitEntity());
+    public static<T extends ItemEntity> boolean callEntityDropItemEvent(Entity entity, T drop) {
+        EntityDropItemEvent bukkitEvent = new EntityDropItemEvent(entity.getBukkitEntity(), (Item) drop.getBukkitEntity());
         callEvent(bukkitEvent);
         return !bukkitEvent.isCancelled();
     }
@@ -226,7 +226,7 @@ public abstract class ArclightEventFactory {
                 var blockData = world.getBlockState(position);
 
                 if (blockData.getBlock() instanceof BedBlock) {
-                    world.blockUpdated(position, Blocks.AIR);
+                    world.sendBlockUpdated(position, Blocks.AIR.defaultBlockState(), world.getBlockState(position), 3);
                     blockData.updateNeighbourShapes(world, position, 3);
                 }
             }

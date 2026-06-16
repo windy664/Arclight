@@ -2,11 +2,11 @@ package io.izzel.arclight.common.mod.server.entity;
 
 import net.minecraft.world.entity.Mob;
 import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.craftbukkit.entity.CraftMob;
+import org.bukkit.entity.Flying;
 
-public class ArclightModMob extends CraftMob {
+public class ArclightModFlying extends ArclightModMob implements Flying {
 
-    public ArclightModMob(CraftServer server, Mob entity) {
+    public ArclightModFlying(CraftServer server, Mob entity) {
         super(server, entity);
     }
 }

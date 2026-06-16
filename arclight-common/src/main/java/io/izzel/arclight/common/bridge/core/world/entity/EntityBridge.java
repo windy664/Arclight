@@ -26,7 +26,7 @@ public interface EntityBridge extends CommandSourceBridge {
 
     }
 
-    default CraftEntity bridge$getBukkitEntity() {
+    default CraftEntity getBukkitEntity() {
         return null;
     }
 

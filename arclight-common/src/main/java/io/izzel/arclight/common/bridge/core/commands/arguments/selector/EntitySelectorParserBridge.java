@@ -5,7 +5,11 @@ import net.minecraft.commands.arguments.selector.EntitySelector;
 
 public interface EntitySelectorParserBridge {
 
-    default EntitySelector parse(boolean overridePermissions) throws CommandSyntaxException {
+   default EntitySelector parse(boolean overridePermissions) throws CommandSyntaxException {
        return null;
+   }
+
+   default void parseSelector(boolean overridePermissions) throws CommandSyntaxException {
+
    }
 }
