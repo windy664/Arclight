@@ -35,7 +35,7 @@ neoforge = '26.1.2.59-beta'
 fabric-permissions-api = '0.3.1'
 
 # spigot dependencies (CHECK when migrating Spigot Versions)
-spigot-reversion = '4626'
+spigot-reversion = '4631'
 bukkit-api = 'v26_1_R1'
 spigot-api = '26.1.2-R0.1-SNAPSHOT'
 bungeecord-chat-api = '1.20-R0.2'
