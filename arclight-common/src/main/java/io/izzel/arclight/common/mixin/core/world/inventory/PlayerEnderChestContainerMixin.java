@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.mixin.core.world.SimpleContainerMixin;
 import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
 import io.izzel.arclight.common.mod.mixins.annotation.ShadowConstructor;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PlayerEnderChestContainer.class)
-public abstract class PlayerEnderChestContainerMixin extends SimpleContainerMixin implements IInventoryBridge, Container {
+public abstract class PlayerEnderChestContainerMixin extends SimpleContainerMixin implements ContainerBridge, Container {
 
     // @formatter:off
     @Shadow private EnderChestBlockEntity activeChest;

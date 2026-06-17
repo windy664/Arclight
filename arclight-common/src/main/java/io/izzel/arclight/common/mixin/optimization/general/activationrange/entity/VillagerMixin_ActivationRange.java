@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.optimization.general.activationrange.entity;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.optimization.general.activationrange.EntityMixin_ActivationRange;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.npc.villager.Villager;
@@ -16,7 +16,7 @@ public abstract class VillagerMixin_ActivationRange extends EntityMixin_Activati
 
     @Override
     public void inactiveTick() {
-        if (((WorldBridge) this.level()).bridge$spigotConfig().tickInactiveVillagers
+        if (((LevelBridge) this.level()).bridge$spigotConfig().tickInactiveVillagers
             && ((Villager) (Object) this).isEffectiveAi()) {
             if (this.level() instanceof ServerLevel serverLevel) {
                 this.customServerAiStep(serverLevel);

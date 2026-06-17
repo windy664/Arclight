@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.vanilla.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.core.world.level.block.BlockMixin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -23,13 +23,13 @@ public abstract class CropBlockMixin_Vanilla extends BlockMixin {
 
     @Redirect(method = "entityInside", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
     public boolean arclight$entityChangeBlock(GameRules instance, GameRules.Key<GameRules.BooleanValue> arg, BlockState state, Level world, BlockPos pos, Entity entity) {
-        boolean result = ((WorldBridge) world).bridge$forge$mobGriefing(entity);
+        boolean result = ((LevelBridge) world).bridge$forge$mobGriefing(entity);
         return !CraftEventFactory.callEntityChangeBlockEvent(entity, pos, state, result);
     }
 
     @Inject(method = "getGrowthSpeed", cancellable = true, at = @At("RETURN"))
     private static void arclight$spigotModifier(Block block, BlockGetter blockGetter, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-        if (blockGetter instanceof WorldBridge bridge) {
+        if (blockGetter instanceof LevelBridge bridge) {
             int modifier;
             if (block == Blocks.BEETROOTS) {
                 modifier = bridge.bridge$spigotConfig().beetrootModifier;

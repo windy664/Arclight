@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.entity.player;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.player.InventoryBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(Inventory.class)
-public abstract class InventoryMixin implements Container, IInventoryBridge, InventoryBridge {
+public abstract class InventoryMixin implements Container, ContainerBridge, InventoryBridge {
 
     // @formatter:off
     @Shadow @Final public NonNullList<ItemStack> items;

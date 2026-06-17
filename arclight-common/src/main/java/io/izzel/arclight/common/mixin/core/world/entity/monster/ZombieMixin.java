@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.entity.monster;
 
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.MobBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.PathfinderMobMixin;
 import io.izzel.arclight.common.mod.mixins.annotation.TransformAccess;
 import io.izzel.arclight.mixin.Decorate;
@@ -40,7 +40,7 @@ public abstract class ZombieMixin extends PathfinderMobMixin {
     @Inject(method = "convertToZombieType", at = @At("HEAD"))
     private void arclight$transformReason(EntityType<? extends net.minecraft.world.entity.monster.Zombie> entityType, CallbackInfo ci) {
         this.bridge$pushTransformReason(EntityTransformEvent.TransformReason.DROWNED);
-        ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.DROWNED);
+        ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.DROWNED);
     }
 
     @Inject(method = "convertToZombieType", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;handleAttributes(F)V"))
@@ -62,7 +62,7 @@ public abstract class ZombieMixin extends PathfinderMobMixin {
     @SuppressWarnings("unchecked")
     @Decorate(method = "killedEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/npc/Villager;convertTo(Lnet/minecraft/world/entity/EntityType;Z)Lnet/minecraft/world/entity/Mob;"))
     private <T extends Mob> T arclight$transform(Villager villagerEntity, EntityType<T> entityType, boolean flag) throws Throwable {
-        ((WorldBridge) villagerEntity.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.INFECTION);
+        ((LevelBridge) villagerEntity.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.INFECTION);
         ((MobBridge) villagerEntity).bridge$pushTransformReason(EntityTransformEvent.TransformReason.INFECTION);
         T t = (T) DecorationOps.callsite().invoke(villagerEntity, entityType, flag);
         if (t == null) {
@@ -73,12 +73,12 @@ public abstract class ZombieMixin extends PathfinderMobMixin {
 
     @Inject(method = "finalizeSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/ServerLevelAccessor;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private void arclight$mount(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CallbackInfoReturnable<SpawnGroupData> cir) {
-        ((WorldBridge) worldIn.getLevel()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.MOUNT);
+        ((LevelBridge) worldIn.getLevel()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.MOUNT);
     }
 
     @Decorate(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/Zombie;setTarget(Lnet/minecraft/world/entity/LivingEntity;)V"))
     private void arclight$spawnWithReasonForge(net.minecraft.world.entity.monster.Zombie zombie, LivingEntity livingEntity) throws Throwable {
-        ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.REINFORCEMENTS);
+        ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.REINFORCEMENTS);
         if (livingEntity != null) {
             ((MobBridge) zombie).bridge$pushGoalTargetReason(EntityTargetEvent.TargetReason.REINFORCEMENT_TARGET, true);
         }
@@ -87,7 +87,7 @@ public abstract class ZombieMixin extends PathfinderMobMixin {
 
     @TransformAccess(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
     private static ZombieVillager zombifyVillager(ServerLevel level, Villager villager, BlockPos blockPosition, boolean silent, CreatureSpawnEvent.SpawnReason spawnReason) {
-        ((WorldBridge) villager.level()).bridge$pushAddEntityReason(spawnReason);
+        ((LevelBridge) villager.level()).bridge$pushAddEntityReason(spawnReason);
         ((MobBridge) villager).bridge$pushTransformReason(EntityTransformEvent.TransformReason.INFECTION);
         ZombieVillager zombieVillager = villager.convertTo(EntityType.ZOMBIE_VILLAGER, false);
         if (zombieVillager != null) {

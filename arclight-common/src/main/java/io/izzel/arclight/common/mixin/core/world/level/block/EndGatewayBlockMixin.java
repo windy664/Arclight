@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;
+import io.izzel.arclight.common.bridge.core.world.level.portal.TeleportTransitionBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +19,7 @@ public class EndGatewayBlockMixin {
     private void arclight$setCause(ServerLevel serverLevel, Entity entity, BlockPos blockPos, CallbackInfoReturnable<DimensionTransition> cir) {
         var dimensionTransition = cir.getReturnValue();
         if (dimensionTransition != null) {
-            ((DimensionTransitionBridge) ((Object) dimensionTransition)).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.END_GATEWAY);
+            ((TeleportTransitionBridge) ((Object) dimensionTransition)).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.END_GATEWAY);
         }
     }
 }

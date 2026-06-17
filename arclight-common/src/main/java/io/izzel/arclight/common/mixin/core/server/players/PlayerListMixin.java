@@ -8,7 +8,7 @@ import io.izzel.arclight.common.bridge.core.network.ConnectionBridge;
 import io.izzel.arclight.common.bridge.core.network.syncher.SynchedEntityDataBridge;
 import io.izzel.arclight.common.bridge.core.server.network.ServerGamePacketListenerImplBridge;
 import io.izzel.arclight.common.bridge.core.server.players.PlayerListBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import io.izzel.arclight.common.mod.server.world.border.ArclightBorderChangeListener;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
@@ -62,11 +62,11 @@ import net.minecraft.world.level.storage.PlayerDataStorage;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v.CraftServer;
-import org.bukkit.craftbukkit.v.CraftWorld;
-import org.bukkit.craftbukkit.v.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v.util.CraftChatMessage;
-import org.bukkit.craftbukkit.v.util.CraftLocation;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
+import org.bukkit.craftbukkit.util.CraftLocation;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRemoveEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -153,12 +153,12 @@ public abstract class PlayerListMixin implements PlayerListBridge {
 
     @Redirect(method = "placeNewPlayer", at = @At(value = "FIELD", target = "Lnet/minecraft/server/players/PlayerList;viewDistance:I"))
     private int arclight$spigotViewDistance(PlayerList playerList, Connection netManager, ServerPlayer playerIn) {
-        return ((WorldBridge) playerIn.serverLevel()).bridge$spigotConfig().viewDistance;
+        return ((LevelBridge) playerIn.serverLevel()).bridge$spigotConfig().viewDistance;
     }
 
     @Redirect(method = "placeNewPlayer", at = @At(value = "FIELD", target = "Lnet/minecraft/server/players/PlayerList;simulationDistance:I"))
     private int arclight$spigotSimDistance(PlayerList instance, Connection netManager, ServerPlayer playerIn) {
-        return ((WorldBridge) playerIn.serverLevel()).bridge$spigotConfig().simulationDistance;
+        return ((LevelBridge) playerIn.serverLevel()).bridge$spigotConfig().simulationDistance;
     }
 
     @Eject(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastSystemMessage(Lnet/minecraft/network/chat/Component;Z)V"))
@@ -325,9 +325,9 @@ public abstract class PlayerListMixin implements PlayerListBridge {
         }
         LevelData worlddata = serverWorld.getLevelData();
         playerIn.connection.send(new ClientboundRespawnPacket(playerIn.createCommonSpawnInfo(serverWorld), (byte) (flag ? 1 : 0)));
-        playerIn.connection.send(new ClientboundSetChunkCacheRadiusPacket(((WorldBridge) serverWorld).bridge$spigotConfig().viewDistance));
-        playerIn.connection.send(new ClientboundSetSimulationDistancePacket(((WorldBridge) serverWorld).bridge$spigotConfig().simulationDistance));
-        ((ServerGamePacketListenerImplBridge) playerIn.connection).bridge$teleport(new Location(((WorldBridge) serverWorld).bridge$getWorld(), playerIn.getX(), playerIn.getY(), playerIn.getZ(), playerIn.getYRot(), playerIn.getXRot()));
+        playerIn.connection.send(new ClientboundSetChunkCacheRadiusPacket(((LevelBridge) serverWorld).bridge$spigotConfig().viewDistance));
+        playerIn.connection.send(new ClientboundSetSimulationDistancePacket(((LevelBridge) serverWorld).bridge$spigotConfig().simulationDistance));
+        ((ServerGamePacketListenerImplBridge) playerIn.connection).bridge$teleport(new Location(((LevelBridge) serverWorld).bridge$getWorld(), playerIn.getX(), playerIn.getY(), playerIn.getZ(), playerIn.getYRot(), playerIn.getXRot()));
         playerIn.connection.send(new ClientboundSetDefaultSpawnPositionPacket(serverWorld.getSharedSpawnPos(), serverWorld.getSharedSpawnAngle()));
         playerIn.connection.send(new ClientboundChangeDifficultyPacket(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
         playerIn.connection.send(new ClientboundSetExperiencePacket(playerIn.experienceProgress, playerIn.totalExperience, playerIn.experienceLevel));
@@ -396,8 +396,8 @@ public abstract class PlayerListMixin implements PlayerListBridge {
 
     @Decorate(method = "respawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;teleport(DDDFF)V"))
     private void arclight$respawnPackets(ServerGamePacketListenerImpl instance, double d, double e, double f, float g, float h, @Local(ordinal = -1) ServerPlayer player) throws Throwable {
-        player.connection.send(new ClientboundSetChunkCacheRadiusPacket(((WorldBridge) player.serverLevel()).bridge$spigotConfig().viewDistance));
-        player.connection.send(new ClientboundSetSimulationDistancePacket(((WorldBridge) player.serverLevel()).bridge$spigotConfig().simulationDistance));
+        player.connection.send(new ClientboundSetChunkCacheRadiusPacket(((LevelBridge) player.serverLevel()).bridge$spigotConfig().viewDistance));
+        player.connection.send(new ClientboundSetSimulationDistancePacket(((LevelBridge) player.serverLevel()).bridge$spigotConfig().simulationDistance));
         ((ServerGamePacketListenerImplBridge) player.connection).bridge$teleport(new Location(player.serverLevel().bridge$getWorld(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot()));
         if (Blackhole.actuallyFalse()) {
             DecorationOps.callsite().invoke(instance, d, e, f, g, h);

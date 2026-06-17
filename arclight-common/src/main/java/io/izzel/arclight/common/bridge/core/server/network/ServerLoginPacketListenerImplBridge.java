@@ -10,11 +10,17 @@ public interface ServerLoginPacketListenerImplBridge {
         return new Thread(runnable, name);
     }
 
-    int bridge$getVelocityLoginId();
+    default int bridge$getVelocityLoginId() {
+        return 0;
+    }
 
-    void bridge$preLogin(GameProfile authenticatedProfile) throws Exception;
+    default void bridge$preLogin(GameProfile authenticatedProfile) throws Exception {
 
-    void bridge$disconnect(String reason);
+    }
+
+    default void bridge$disconnect(String reason) {
+
+    }
 
     default FriendlyByteBuf arclight$platform$customQAData(ServerboundCustomQueryAnswerPacket packet) {
         return ArclightCustomQueryAnswerPayload.tryUnwrap(packet.payload());

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.entity;
 
 import io.izzel.arclight.common.bridge.core.world.entity.EntityTypeBridge;
-import io.izzel.arclight.common.bridge.core.world.level.IWorldWriterBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelWriterBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -31,9 +31,9 @@ public abstract class EntityTypeMixin<T extends Entity> implements EntityTypeBri
     @Inject(method = "spawn(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/MobSpawnType;ZZ)Lnet/minecraft/world/entity/Entity;",
         at = @At(value = "HEAD"))
     private void arclight$spawnReason(ServerLevel worldIn, ItemStack p_20594_, Player p_20595_, BlockPos p_20596_, MobSpawnType p_20597_, boolean p_20598_, boolean p_20599_, CallbackInfoReturnable<T> cir) {
-        CreatureSpawnEvent.SpawnReason spawnReason = ((IWorldWriterBridge) worldIn).bridge$getAddEntityReason();
+        CreatureSpawnEvent.SpawnReason spawnReason = ((LevelWriterBridge) worldIn).bridge$getAddEntityReason();
         if (spawnReason == null) {
-            ((IWorldWriterBridge) worldIn).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
+            ((LevelWriterBridge) worldIn).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG);
         }
     }
 
@@ -53,7 +53,7 @@ public abstract class EntityTypeMixin<T extends Entity> implements EntityTypeBri
     public T spawn(ServerLevel p_262704_, @Nullable Consumer<T> p_262621_, BlockPos p_262672_, MobSpawnType p_262644_, boolean p_262690_, boolean p_262590_, CreatureSpawnEvent.SpawnReason spawnReason) {
         T t = this.create(p_262704_, p_262621_, p_262672_, p_262644_, p_262690_, p_262590_);
         if (t != null) {
-            ((IWorldWriterBridge) p_262704_).bridge$pushAddEntityReason(spawnReason);
+            ((LevelWriterBridge) p_262704_).bridge$pushAddEntityReason(spawnReason);
             p_262704_.addFreshEntityWithPassengers(t);
             return t.isRemoved() ? null : t;
         }

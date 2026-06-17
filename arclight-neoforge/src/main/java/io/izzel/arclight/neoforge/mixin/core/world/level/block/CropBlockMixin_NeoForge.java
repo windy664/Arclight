@@ -1,6 +1,6 @@
 package io.izzel.arclight.neoforge.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
@@ -28,7 +28,7 @@ public abstract class CropBlockMixin_NeoForge {
     @Inject(method = "getGrowthSpeed", cancellable = true, at = @At("RETURN"))
     private static void arclight$spigotModifier(BlockState state, BlockGetter blockGetter, BlockPos pos, CallbackInfoReturnable<Float> cir) {
         var block = state.getBlock();
-        if (blockGetter instanceof WorldBridge bridge) {
+        if (blockGetter instanceof LevelBridge bridge) {
             int modifier;
             if (block == Blocks.BEETROOTS) {
                 modifier = bridge.bridge$spigotConfig().beetrootModifier;

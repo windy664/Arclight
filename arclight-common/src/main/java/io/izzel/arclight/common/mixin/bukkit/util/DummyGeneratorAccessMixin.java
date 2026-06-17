@@ -1,13 +1,13 @@
 package io.izzel.arclight.common.mixin.bukkit.util;
 
-import io.izzel.arclight.common.bridge.core.world.level.IWorldWriterBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelWriterBridge;
 import net.minecraft.world.entity.Entity;
 import org.bukkit.craftbukkit.v.util.DummyGeneratorAccess;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(DummyGeneratorAccess.class)
-public class DummyGeneratorAccessMixin implements IWorldWriterBridge {
+public class DummyGeneratorAccessMixin implements LevelWriterBridge {
     @Override
     public boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
         throw new UnsupportedOperationException("Not supported yet.");

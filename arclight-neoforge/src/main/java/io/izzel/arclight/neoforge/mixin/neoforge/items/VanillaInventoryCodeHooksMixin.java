@@ -1,8 +1,8 @@
 package io.izzel.arclight.neoforge.mixin.neoforge.items;
 
 import com.google.common.base.Preconditions;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.neoforge.mod.util.DelegatedContainer;
@@ -56,11 +56,11 @@ public abstract class VanillaInventoryCodeHooksMixin {
             CraftItemStack original = CraftItemStack.asCraftMirror(stack);
 
             Inventory destInventory = DelegatedContainer.getOwnerInventory(destination, instance);
-            InventoryMoveItemEvent event = new InventoryMoveItemEvent(((IInventoryBridge) source).getOwnerInventory(), original.clone(), destInventory, true);
+            InventoryMoveItemEvent event = new InventoryMoveItemEvent(((ContainerBridge) source).getOwnerInventory(), original.clone(), destInventory, true);
             Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 if (source instanceof HopperBlockEntity hopper) {
-                    hopper.setCooldown(((WorldBridge) source.getLevel()).bridge$spigotConfig().hopperTransfer);
+                    hopper.setCooldown(((LevelBridge) source.getLevel()).bridge$spigotConfig().hopperTransfer);
                 }
                 // Delay hopper checks
                 // Arclight: we can return stack directly so we use vanilla revert logic and eventually return false if none is transferred
@@ -93,11 +93,11 @@ public abstract class VanillaInventoryCodeHooksMixin {
         CraftItemStack original = CraftItemStack.asCraftMirror(stack);
         Inventory sourceInventory = DelegatedContainer.getOwnerInventory(destination, instance);
 
-        InventoryMoveItemEvent event = new InventoryMoveItemEvent(sourceInventory, original.clone(), ((IInventoryBridge) hopper).getOwnerInventory(), false);
+        InventoryMoveItemEvent event = new InventoryMoveItemEvent(sourceInventory, original.clone(), ((ContainerBridge) hopper).getOwnerInventory(), false);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             if (hopper instanceof HopperBlockEntity entity) {
-                entity.setCooldown(((WorldBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer);
+                entity.setCooldown(((LevelBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer);
             }
             // Delay hopper checks
             // Arclight: we can return stack directly so we use vanilla revert logic and eventually return false if none is transferred

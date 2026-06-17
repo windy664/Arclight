@@ -1,13 +1,11 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
 import io.izzel.arclight.common.bridge.core.world.level.GameRulesBridge;
-import io.izzel.arclight.common.bridge.core.world.level.GameRules_TypeBridge;
-import io.izzel.arclight.common.bridge.core.world.level.GameRules_ValueBridge;
 import net.minecraft.network.protocol.game.ClientboundEntityEventPacket;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

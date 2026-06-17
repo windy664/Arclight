@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(MerchantContainer.class)
-public abstract class MerchantContainerMixin implements IInventoryBridge, Container {
+public abstract class MerchantContainerMixin implements ContainerBridge, Container {
 
     // @formatter:off
     @Shadow @Final private NonNullList<ItemStack> itemStacks;

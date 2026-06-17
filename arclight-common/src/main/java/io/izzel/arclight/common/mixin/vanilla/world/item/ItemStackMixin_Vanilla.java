@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.vanilla.world.item;
 
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.server.event.ArclightEventFactory;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
@@ -56,10 +56,10 @@ public abstract class ItemStackMixin_Vanilla {
             InteractionResult interactionResult;
             ItemStack oldStack = this.copy();
             if (!(item instanceof BucketItem || item instanceof SolidBucketItem)) {
-                ((WorldBridge) useOnContext.getLevel()).bridge$platform$startCaptureBlockBreak();
+                ((LevelBridge) useOnContext.getLevel()).bridge$platform$startCaptureBlockBreak();
             }
             interactionResult = item.useOn(useOnContext);
-            ((WorldBridge) useOnContext.getLevel()).bridge$platform$endCaptureBlockBreak();
+            ((LevelBridge) useOnContext.getLevel()).bridge$platform$endCaptureBlockBreak();
             if (player != null && interactionResult.indicateItemUse()) {
                 interactionResult = ArclightEventFactory.onBlockPlace(useOnContext, player, oldStack, (ItemStack) (Object) this, interactionResult);
                 if (interactionResult != InteractionResult.FAIL) {
@@ -67,8 +67,8 @@ public abstract class ItemStackMixin_Vanilla {
                 }
             }
 
-            ((WorldBridge) useOnContext.getLevel()).bridge$getCapturedBlockEntity().clear();
-            ((WorldBridge) useOnContext.getLevel()).bridge$getCapturedBlockState().clear();
+            ((LevelBridge) useOnContext.getLevel()).bridge$getCapturedBlockEntity().clear();
+            ((LevelBridge) useOnContext.getLevel()).bridge$getCapturedBlockState().clear();
             return interactionResult;
         }
     }

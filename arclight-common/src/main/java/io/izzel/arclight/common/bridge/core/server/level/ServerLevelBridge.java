@@ -15,24 +15,18 @@ import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerExplosion;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraft.world.level.storage.SavedDataStorage;
 import net.minecraft.world.level.timers.TimerQueue;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.weather.LightningStrikeEvent;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import net.minecraft.core.BlockPos;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-public interface ServerLevelBridge extends WorldBridge {
+public interface ServerLevelBridge extends LevelBridge {
 
     default LevelStorageSource.LevelStorageAccess bridge$getStorageSource() {
         return null;

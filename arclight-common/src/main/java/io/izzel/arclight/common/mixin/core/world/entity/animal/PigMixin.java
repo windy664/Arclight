@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.Pig;
@@ -23,7 +23,7 @@ public abstract class PigMixin extends AnimalMixin {
         if (CraftEventFactory.callPigZapEvent((Pig) (Object) this, lightningBolt, piglin).isCancelled()) {
             ci.cancel();
         } else {
-            ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.LIGHTNING);
+            ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.LIGHTNING);
             this.bridge$pushEntityRemoveCause(EntityRemoveEvent.Cause.TRANSFORMATION);
         }
     }

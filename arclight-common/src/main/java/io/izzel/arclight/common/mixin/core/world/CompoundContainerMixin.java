@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(CompoundContainer.class)
-public abstract class CompoundContainerMixin implements IInventoryBridge, Container {
+public abstract class CompoundContainerMixin implements ContainerBridge, Container {
 
     @Shadow @Final public Container container1;
     @Shadow @Final public Container container2;
@@ -35,15 +35,15 @@ public abstract class CompoundContainerMixin implements IInventoryBridge, Contai
 
     @Override
     public void onOpen(CraftHumanEntity who) {
-        ((IInventoryBridge) this.container1).onOpen(who);
-        ((IInventoryBridge) this.container2).onOpen(who);
+        ((ContainerBridge) this.container1).onOpen(who);
+        ((ContainerBridge) this.container2).onOpen(who);
         this.transactions.add(who);
     }
 
     @Override
     public void onClose(CraftHumanEntity who) {
-        ((IInventoryBridge) this.container1).onClose(who);
-        ((IInventoryBridge) this.container2).onClose(who);
+        ((ContainerBridge) this.container1).onClose(who);
+        ((ContainerBridge) this.container2).onClose(who);
         this.transactions.remove(who);
     }
 
@@ -65,13 +65,13 @@ public abstract class CompoundContainerMixin implements IInventoryBridge, Contai
 
     @Override
     public void setMaxStackSize(int size) {
-        ((IInventoryBridge) this.container1).setMaxStackSize(size);
-        ((IInventoryBridge) this.container2).setMaxStackSize(size);
+        ((ContainerBridge) this.container1).setMaxStackSize(size);
+        ((ContainerBridge) this.container2).setMaxStackSize(size);
     }
 
     @Override
     public Location getLocation() {
-        return ((IInventoryBridge) this.container1).getLocation();
+        return ((ContainerBridge) this.container1).getLocation();
     }
 
     @Override

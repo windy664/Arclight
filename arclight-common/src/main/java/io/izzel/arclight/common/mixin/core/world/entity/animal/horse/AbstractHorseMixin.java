@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal.horse;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.animal.AnimalMixin;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
@@ -41,7 +41,7 @@ public abstract class AbstractHorseMixin extends AnimalMixin {
     @Redirect(method = "createInventory", at = @At(value = "NEW", target = "(I)Lnet/minecraft/world/SimpleContainer;"))
     private SimpleContainer arclight$createInv(int slots) {
         SimpleContainer inventory = new SimpleContainer(slots);
-        ((IInventoryBridge) inventory).setOwner((InventoryHolder) this.getBukkitEntity());
+        ((ContainerBridge) inventory).setOwner((InventoryHolder) this.getBukkitEntity());
         return inventory;
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractHorseMixin extends AnimalMixin {
     }
 
     @Mixin(targets = "net/minecraft/world/entity/animal/horse/AbstractHorse$1")
-    public abstract static class ContainerMixin implements IInventoryBridge, ContainerSingleItem {
+    public abstract static class ContainerMixin implements ContainerBridge, ContainerSingleItem {
 
         @Shadow(aliases = {"field_48831", "this$0"}) private AbstractHorse outerThis;
 

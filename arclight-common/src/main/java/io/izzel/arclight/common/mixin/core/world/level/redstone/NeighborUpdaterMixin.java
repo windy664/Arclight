@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.redstone;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.mixin.Local;
@@ -37,7 +37,7 @@ public interface NeighborUpdaterMixin {
     @Decorate(method = "executeUpdate", inject = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/CrashReport;forThrowable(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/CrashReport;"))
     private static void arclight$setLastPhysicsProblem(Level level, BlockState instance, BlockPos pos, @Local(ordinal = -1) Throwable t) {
         if (t instanceof StackOverflowError) {
-            ((WorldBridge) level).bridge$setLastPhysicsProblem(pos.immutable());
+            ((LevelBridge) level).bridge$setLastPhysicsProblem(pos.immutable());
         }
     }
 }

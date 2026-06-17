@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.util.DistValidate;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ChiseledBookShelfBlockEntity.class)
-public abstract class ChiseledBookShelfBlockEntityMixin extends BlockEntityMixin implements IInventoryBridge, Container {
+public abstract class ChiseledBookShelfBlockEntityMixin extends BlockEntityMixin implements ContainerBridge, Container {
 
     @Shadow @Final private NonNullList<ItemStack> items;
 
@@ -66,7 +66,7 @@ public abstract class ChiseledBookShelfBlockEntityMixin extends BlockEntityMixin
     @Override
     public Location getLocation() {
         if (!DistValidate.isValid(level)) return null;
-        return new org.bukkit.Location(((WorldBridge) level).bridge$getWorld(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
+        return new org.bukkit.Location(((LevelBridge) level).bridge$getWorld(), worldPosition.getX(), worldPosition.getY(), worldPosition.getZ());
     }
 
     @Inject(method = "updateState", cancellable = true, at = @At("HEAD"))

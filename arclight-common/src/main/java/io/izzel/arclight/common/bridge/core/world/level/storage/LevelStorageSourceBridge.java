@@ -9,12 +9,22 @@ import java.io.IOException;
 
 public interface LevelStorageSourceBridge {
 
-    LevelStorageSource.LevelStorageAccess arclight$validateAndCreateAccess(String saveName, ResourceKey<LevelStem> world) throws IOException, ContentValidationException;
+    default LevelStorageSource.LevelStorageAccess createAccess(String saveName, ResourceKey<LevelStem> world) throws IOException {
+        return null;
+    }
+
+    default LevelStorageSource.LevelStorageAccess validateAndCreateAccess(String saveName, ResourceKey<LevelStem> world) throws IOException, ContentValidationException {
+        return null;
+    }
 
     interface LevelStorageAccessBridge {
 
-        void bridge$setDimType(ResourceKey<LevelStem> typeKey);
+        default void bridge$setDimType(ResourceKey<LevelStem> typeKey) {
 
-        ResourceKey<LevelStem> bridge$getTypeKey();
+        }
+
+        default ResourceKey<LevelStem> bridge$getTypeKey() {
+            return null;
+        }
     }
 }

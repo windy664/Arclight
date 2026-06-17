@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mod.server.event;
 
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.world.item.ItemStackBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.BlockBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
@@ -164,7 +164,7 @@ public abstract class ArclightEventFactory {
         var blockposition = context.getClickedPos();
         var enumhand = context.getHand();
         org.bukkit.event.block.BlockPlaceEvent placeEvent = null;
-        List<org.bukkit.block.BlockState> blocks = new java.util.ArrayList<>(((WorldBridge) world).bridge$getCapturedBlockState().values());
+        List<org.bukkit.block.BlockState> blocks = new java.util.ArrayList<>(((LevelBridge) world).bridge$getCapturedBlockState().values());
 
         // save new item data
         int newSize = currentStack.getCount();
@@ -187,11 +187,11 @@ public abstract class ArclightEventFactory {
             // PAIL: Remove this when MC-99075 fixed
             placeEvent.getPlayer().updateInventory();
             // revert back all captured blocks
-            ((WorldBridge) world).bridge$preventPoiUpdated(true); // CraftBukkit - SPIGOT-5710
+            ((LevelBridge) world).bridge$preventPoiUpdated(true); // CraftBukkit - SPIGOT-5710
             for (org.bukkit.block.BlockState blockstate : blocks) {
                 blockstate.update(true, false);
             }
-            ((WorldBridge) world).bridge$preventPoiUpdated(false);
+            ((LevelBridge) world).bridge$preventPoiUpdated(false);
 
             // Brute force all possible updates
             var placedPos = ((CraftBlock) placeEvent.getBlock()).getPosition();
@@ -206,7 +206,7 @@ public abstract class ArclightEventFactory {
                 currentStack.setCount(newSize);
             }
 
-            for (var e : ((WorldBridge) world).bridge$getCapturedBlockEntity().entrySet()) {
+            for (var e : ((LevelBridge) world).bridge$getCapturedBlockEntity().entrySet()) {
                 world.setBlockEntity(e.getValue());
             }
 
@@ -217,7 +217,7 @@ public abstract class ArclightEventFactory {
                 var block = world.getBlockState(newblockposition);
                 block.onPlace(world, newblockposition, oldBlock, true);
 
-                ((WorldBridge) world).bridge$forge$notifyAndUpdatePhysics(newblockposition, null, oldBlock, block, updateFlag, 512); // send null chunk as chunk.k() returns false by this point
+                ((LevelBridge) world).bridge$forge$notifyAndUpdatePhysics(newblockposition, null, oldBlock, block, updateFlag, 512); // send null chunk as chunk.k() returns false by this point
             }
 
             // SPIGOT-7315: Moved from BlockBed#setPlacedBy

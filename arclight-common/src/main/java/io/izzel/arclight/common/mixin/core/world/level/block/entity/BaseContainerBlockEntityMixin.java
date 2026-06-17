@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -9,7 +9,7 @@ import org.bukkit.craftbukkit.v.block.CraftBlock;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BaseContainerBlockEntity.class)
-public abstract class BaseContainerBlockEntityMixin extends BlockEntityMixin implements IInventoryBridge, Container {
+public abstract class BaseContainerBlockEntityMixin extends BlockEntityMixin implements ContainerBridge, Container {
 
     @Override
     public Location getLocation() {

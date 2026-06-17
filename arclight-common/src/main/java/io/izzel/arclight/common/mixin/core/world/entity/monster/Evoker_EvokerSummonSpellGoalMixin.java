@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.monster;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.monster.Evoker;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -15,6 +15,6 @@ public class Evoker_EvokerSummonSpellGoalMixin {
 
     @Inject(method = "performSpellCasting", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"))
     private void arclight$reason(CallbackInfo ci, ServerLevel level) {
-        ((WorldBridge) level).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPELL);
+        ((LevelBridge) level).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPELL);
     }
 }

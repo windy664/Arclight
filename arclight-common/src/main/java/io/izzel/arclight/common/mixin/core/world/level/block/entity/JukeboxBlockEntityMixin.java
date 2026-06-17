@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.mod.util.DistValidate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Mixin(JukeboxBlockEntity.class)
-public abstract class JukeboxBlockEntityMixin extends BlockEntityMixin implements IInventoryBridge, Container {
+public abstract class JukeboxBlockEntityMixin extends BlockEntityMixin implements ContainerBridge, Container {
 
     // @formatter:off
     @Shadow private ItemStack item;

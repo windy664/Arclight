@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.world.level.border.WorldBorderBridge;
 import io.izzel.arclight.common.mod.ArclightConstants;
 import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
@@ -16,7 +16,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.FullChunkStatus;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
@@ -30,7 +29,6 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.BitRandomSource;
 import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.bukkit.Bukkit;
@@ -61,7 +59,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @Mixin(Level.class)
-public abstract class LevelMixin implements WorldBridge, LevelAccessor, LevelWriter {
+public abstract class LevelMixin implements LevelBridge, LevelAccessor, LevelWriter {
 
     // @formatter:off
     @Shadow @Nullable public BlockEntity getBlockEntity(BlockPos pos) { return null; }
@@ -286,7 +284,7 @@ public abstract class LevelMixin implements WorldBridge, LevelAccessor, LevelWri
     @Override
     public boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
         if (getWorld().getHandle() != (Object) this) {
-            return ((WorldBridge) getWorld().getHandle()).bridge$addEntity(entity, reason);
+            return ((LevelBridge) getWorld().getHandle()).bridge$addEntity(entity, reason);
         } else {
             this.bridge$pushAddEntityReason(reason);
             return this.addFreshEntity(entity);
@@ -296,14 +294,14 @@ public abstract class LevelMixin implements WorldBridge, LevelAccessor, LevelWri
     @Override
     public void bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason reason) {
         if (getWorld().getHandle() != (Object) this) {
-            ((WorldBridge) getWorld().getHandle()).bridge$pushAddEntityReason(reason);
+            ((LevelBridge) getWorld().getHandle()).bridge$pushAddEntityReason(reason);
         }
     }
 
     @Override
     public CreatureSpawnEvent.SpawnReason bridge$getAddEntityReason() {
         if (getWorld().getHandle() != (Object) this) {
-            return ((WorldBridge) getWorld().getHandle()).bridge$getAddEntityReason();
+            return ((LevelBridge) getWorld().getHandle()).bridge$getAddEntityReason();
         }
         return null;
     }

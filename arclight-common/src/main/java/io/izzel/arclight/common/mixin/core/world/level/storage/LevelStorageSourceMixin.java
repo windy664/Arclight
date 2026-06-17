@@ -27,20 +27,17 @@ public abstract class LevelStorageSourceMixin implements LevelStorageSourceBridg
     @Shadow
     public abstract LevelStorageSource.LevelStorageAccess validateAndCreateAccess(String saveName) throws IOException, ContentValidationException;
 
+    @Override
     public LevelStorageSource.LevelStorageAccess validateAndCreateAccess(String s, ResourceKey<LevelStem> dimensionType) throws IOException, ContentValidationException {
         final var result = this.validateAndCreateAccess(s);
         ((LevelStorageAccessBridge) result).bridge$setDimType(dimensionType);
         return result;
     }
 
+    @Override
     public LevelStorageSource.LevelStorageAccess createAccess(String saveName, ResourceKey<LevelStem> world) throws IOException {
         LevelStorageSource.LevelStorageAccess save = createAccess(saveName);
         ((LevelStorageAccessBridge) save).bridge$setDimType(world);
         return save;
-    }
-
-    @Override
-    public LevelStorageSource.LevelStorageAccess arclight$validateAndCreateAccess(String saveName, ResourceKey<LevelStem> world) throws IOException, ContentValidationException {
-        return validateAndCreateAccess(saveName, world);
     }
 }

@@ -5,9 +5,9 @@ import com.mojang.datafixers.util.Either;
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.food.FoodDataBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerLevelBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.LivingEntityMixin;
 import io.izzel.arclight.mixin.Decorate;
@@ -134,7 +134,7 @@ public abstract class PlayerMixin extends LivingEntityMixin implements PlayerBri
     private void arclight$init(CallbackInfo ci) {
         oldLevel = -1;
         ((FoodDataBridge) this.foodData).bridge$setEntityHuman((net.minecraft.world.entity.player.Player) (Object) this);
-        ((IInventoryBridge) this.enderChestInventory).setOwner(this.getBukkitEntity());
+        ((ContainerBridge) this.enderChestInventory).setOwner(this.getBukkitEntity());
     }
 
     @Override
@@ -357,7 +357,7 @@ public abstract class PlayerMixin extends LivingEntityMixin implements PlayerBri
 
     @ModifyArg(method = "jumpFromGround", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;causeFoodExhaustion(F)V"))
     private float arclight$exhaustInfo(float f) {
-        SpigotWorldConfig config = ((WorldBridge) level()).bridge$spigotConfig();
+        SpigotWorldConfig config = ((LevelBridge) level()).bridge$spigotConfig();
         if (config != null) {
             if (this.isSprinting()) {
                 f = config.jumpSprintExhaustion;

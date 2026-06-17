@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -56,7 +56,7 @@ public abstract class PressurePlateBlockMixin extends BasePressurePlateBlockMixi
         // CraftBukkit start - Call interact event when turning on a pressure plate
         for (Entity entity : getEntities(world, TOUCH_AABB.move(blockposition), oclass)) {
             if (this.getSignalForState(world.getBlockState(blockposition)) == 0) {
-                org.bukkit.World bworld = ((WorldBridge) world).bridge$getWorld();
+                org.bukkit.World bworld = ((LevelBridge) world).bridge$getWorld();
                 org.bukkit.plugin.PluginManager manager = Bukkit.getPluginManager();
                 org.bukkit.event.Cancellable cancellable;
 

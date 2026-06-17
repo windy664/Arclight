@@ -4,7 +4,11 @@ import net.minecraft.world.entity.Entity;
 
 public interface PortalForcerBridge {
 
-    void bridge$pushSearchRadius(int searchRadius);
+    default void bridge$pushSearchRadius(int searchRadius) {
 
-    void bridge$pushPortalCreate(Entity entity, int createRadius);
+    }
+
+    default void bridge$pushPortalCreate(Entity entity, int createRadius) {
+
+    }
 }

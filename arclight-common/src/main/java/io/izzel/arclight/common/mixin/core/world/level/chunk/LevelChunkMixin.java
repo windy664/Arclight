@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level.chunk;
 
 import io.izzel.arclight.common.bridge.core.world.level.LevelAccessorBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.world.chunk.ChunkAccessBridge;
 import io.izzel.arclight.common.bridge.core.world.level.chunk.LevelChunkBridge;
 import io.izzel.arclight.mixin.Decorate;
@@ -139,15 +139,15 @@ public abstract class LevelChunkMixin extends ChunkAccessMixin implements LevelC
                 long zRand = random.nextLong() / 2L * 2L + 1L;
                 random.setSeed((long) this.chunkPos.x * xRand + (long) this.chunkPos.z * zRand ^ ((ServerLevel) level).getSeed());
 
-                org.bukkit.World world = ((WorldBridge) this.level).bridge$getWorld();
+                org.bukkit.World world = ((LevelBridge) this.level).bridge$getWorld();
                 if (world != null) {
-                    ((WorldBridge) this.level).bridge$setPopulating(true);
+                    ((LevelBridge) this.level).bridge$setPopulating(true);
                     try {
                         for (org.bukkit.generator.BlockPopulator populator : world.getPopulators()) {
                             populator.populate(world, random, bukkitChunk);
                         }
                     } finally {
-                        ((WorldBridge) this.level).bridge$setPopulating(false);
+                        ((LevelBridge) this.level).bridge$setPopulating(false);
                     }
                 }
                 server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkPopulateEvent(bukkitChunk));

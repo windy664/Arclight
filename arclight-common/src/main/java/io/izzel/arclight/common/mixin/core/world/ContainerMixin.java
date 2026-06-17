@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.mod.inventory.SideViewingTracker;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.List;
 
 @Mixin(Container.class)
-public interface ContainerMixin extends IInventoryBridge {
+public interface ContainerMixin extends ContainerBridge {
 
     @Override
     default void onOpen(CraftHumanEntity who) {

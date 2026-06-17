@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal.allay;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.MobMixin;
 import io.izzel.arclight.common.mod.mixins.annotation.RenameInto;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -60,7 +60,7 @@ public abstract class AllayMixin extends MobMixin {
 
     @Redirect(method = "duplicateAllay", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private boolean arclight$captureDuplicate(Level instance, Entity entity) {
-        ((WorldBridge) instance).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.DUPLICATION);
+        ((LevelBridge) instance).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.DUPLICATION);
         if (instance.addFreshEntity(entity)) {
             arclight$duplicate = (Allay) entity;
             return true;

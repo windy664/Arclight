@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.vehicle;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(AbstractMinecartContainer.class)
-public abstract class AbstractMinecartContainerMixin extends AbstractMinecartMixin implements IInventoryBridge, Container {
+public abstract class AbstractMinecartContainerMixin extends AbstractMinecartMixin implements ContainerBridge, Container {
 
     @Shadow private NonNullList<ItemStack> itemStacks;
 

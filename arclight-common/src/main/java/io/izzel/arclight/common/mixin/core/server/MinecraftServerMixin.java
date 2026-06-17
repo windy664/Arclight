@@ -5,7 +5,7 @@ import io.izzel.arclight.api.ArclightVersion;
 import io.izzel.arclight.common.bridge.bukkit.CraftServerBridge;
 import io.izzel.arclight.common.bridge.core.command.CommandSourceBridge;
 import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.ArclightConstants;
 import io.izzel.arclight.common.mod.mixins.annotation.TransformAccess;
 import io.izzel.arclight.common.mod.server.ArclightServer;
@@ -24,7 +24,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.CrashReport;
 import net.minecraft.ReportedException;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -41,16 +40,12 @@ import net.minecraft.server.WorldLoader;
 import net.minecraft.server.WorldStem;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.progress.ChunkProgressListener;
-import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeSource;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.ForcedChunksSavedData;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.BorderChangeListener;
 import net.minecraft.world.level.border.WorldBorder;
@@ -285,9 +280,9 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
             if (((CraftServer) Bukkit.getServer()).scoreboardManager == null) {
                 ((CraftServer) Bukkit.getServer()).scoreboardManager = new CraftScoreboardManager((MinecraftServer) (Object) this, level.getScoreboard());
             }
-            if (((WorldBridge) level).bridge$getGenerator() != null) {
+            if (((LevelBridge) level).bridge$getGenerator() != null) {
                 level.bridge$getWorld().getPopulators().addAll(
-                    ((WorldBridge) level).bridge$getGenerator().getDefaultPopulators(
+                    ((LevelBridge) level).bridge$getGenerator().getDefaultPopulators(
                         level.bridge$getWorld()));
             }
             Bukkit.getPluginManager().callEvent(new WorldInitEvent(level.bridge$getWorld()));
@@ -351,9 +346,9 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     // bukkit methods
     public void initWorld(ServerLevel serverWorld, ServerLevelData worldInfo, WorldData saveData, WorldOptions worldOptions) {
         boolean flag = saveData.isDebugWorld();
-        if (((WorldBridge) serverWorld).bridge$getGenerator() != null) {
+        if (((LevelBridge) serverWorld).bridge$getGenerator() != null) {
             serverWorld.bridge$getWorld().getPopulators().addAll(
-                ((WorldBridge) serverWorld).bridge$getGenerator().getDefaultPopulators(
+                ((LevelBridge) serverWorld).bridge$getGenerator().getDefaultPopulators(
                     serverWorld.bridge$getWorld()));
         }
         WorldBorder worldborder = serverWorld.getWorldBorder();

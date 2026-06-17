@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ChunkMapBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerChunkProviderBridge;
 import io.izzel.arclight.common.bridge.core.server.level.DistanceManagerBridge;
@@ -88,7 +88,7 @@ public abstract class ServerChunkCacheMixin implements ServerChunkProviderBridge
     @Redirect(method = "tickChunks", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/storage/LevelData;getGameTime()J"))
     private long arclight$ticksPer(LevelData worldInfo) {
         long gameTime = worldInfo.getGameTime();
-        long ticksPer = ((WorldBridge) this.level).bridge$ticksPerSpawnCategory().getLong(SpawnCategory.ANIMAL);
+        long ticksPer = ((LevelBridge) this.level).bridge$ticksPerSpawnCategory().getLong(SpawnCategory.ANIMAL);
         return (ticksPer != 0L && gameTime % ticksPer == 0) ? 0 : 1;
     }
 

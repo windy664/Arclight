@@ -238,6 +238,117 @@
     ],
     "net/minecraft/world/entity/projectile/hurtingprojectile/AbstractHurtingProjectile": [
       "io/izzel/arclight/common/bridge/core/world/entity/projectile/hurtingprojectile/AbstractHurtingProjectileBridge"
+    ],
+    "net/minecraft/world/level/levelgen/flat/FlatLevelGeneratorSettings": [
+      "io/izzel/arclight/common/bridge/core/world/level/levelgen/flat/FlatLevelGeneratorSettingsBridge"
+    ],
+    "net/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate": [
+      "io/izzel/arclight/common/bridge/core/world/level/levelgen/structure/templatesystem/StructureTemplateBridge"
+    ],
+    "net/minecraft/world/level/levelgen/structure/StructureStart": [
+      "io/izzel/arclight/common/bridge/core/world/level/levelgen/structure/StructureStartBridge"
+    ],
+    "net/minecraft/world/level/levelgen/structure/StructurePiece": [
+      "io/izzel/arclight/common/bridge/core/world/level/levelgen/structure/StructurePieceBridge"
+    ],
+    "net/minecraft/world/level/material/LavaFluid": [
+      "io/izzel/arclight/common/bridge/core/world/level/material/LavaFluidBridge"
+    ],
+    "net/minecraft/world/level/portal/TeleportTransition": [
+      "io/izzel/arclight/common/bridge/core/world/level/portal/TeleportTransitionBridge"
+    ],
+    "net/minecraft/world/level/portal/PortalShape": [
+      "io/izzel/arclight/common/bridge/core/world/level/portal/PortalShapeBridge"
+    ],
+    "net/minecraft/world/level/portal/PortalForcer": [
+      "io/izzel/arclight/common/bridge/core/world/level/portal/PortalForcerBridge"
+    ],
+    "net/minecraft/world/level/saveddata/maps/MapItemSavedData": [
+      "io/izzel/arclight/common/bridge/core/world/level/saveddata/maps/MapItemSavedDataBridge"
+    ],
+    "net/minecraft/world/level/storage/loot/LootContext": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/loot/LootContextBridge"
+    ],
+    "net/minecraft/world/level/storage/loot/LootTable": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/loot/LootTableBridge"
+    ],
+    "net/minecraft/world/level/storage/DerivedLevelData": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/DerivedLevelDataBridge"
+    ],
+    "net/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/LevelStorageSourceBridge$LevelStorageAccessBridge"
+    ],
+    "net/minecraft/world/level/storage/LevelStorageSource": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/LevelStorageSourceBridge"
+    ],
+    "net/minecraft/world/level/storage/PlayerDataStorage": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/PlayerDataStorageBridge"
+    ],
+    "net/minecraft/world/level/storage/PrimaryLevelData": [
+      "io/izzel/arclight/common/bridge/core/world/level/storage/PrimaryLevelDataBridge"
+    ],
+    "net/minecraft/world/level/BlockGetter": [
+      "io/izzel/arclight/common/bridge/core/world/level/BlockGetterBridge"
+    ],
+    "net/minecraft/world/level/LevelAccessor": [
+      "io/izzel/arclight/common/bridge/core/world/level/LevelAccessorBridge"
+    ],
+    "net/minecraft/world/level/Explosion": [
+      "io/izzel/arclight/common/bridge/core/world/level/ExplosionBridge"
+    ],
+    "net/minecraft/world/level/LevelWriter": [
+      "io/izzel/arclight/common/bridge/core/world/level/LevelWriterBridge"
+    ],
+    "net/minecraft/world/level/gamerules/GameRules": [
+      "io/izzel/arclight/common/bridge/core/world/level/GameRulesBridge"
+    ],
+    "net/minecraft/world/level/Level": [
+      "io/izzel/arclight/common/bridge/core/world/level/LevelBridge"
+    ],
+    "net/minecraft/server/level/ChunkMap$TrackedEntity": [
+      "io/izzel/arclight/common/bridge/core/server/level/ChunkMap_TrackedEntityBridge"
+    ],
+    "net/minecraft/server/level/DistanceManager": [
+      "io/izzel/arclight/common/bridge/core/server/level/DistanceManagerBridge"
+    ],
+    "net/minecraft/server/level/ServerChunkCache": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerChunkProviderBridge"
+    ],
+    "net/minecraft/server/level/TicketType": [
+      "io/izzel/arclight/common/bridge/core/server/level/TicketTypeBridge"
+    ],
+    "net/minecraft/server/level/ServerPlayerGameMode": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerPlayerGameModeBridge"
+    ],
+    "net/minecraft/server/level/ServerPlayer": [
+      "io/izzel/arclight/common/bridge/core/server/level/ServerPlayerBridge"
+    ],
+    "net/minecraft/server/network/ServerGamePacketListenerImpl": [
+      "io/izzel/arclight/common/bridge/core/server/network/ServerGamePacketListenerImplBridge"
+    ],
+    "net/minecraft/server/network/ServerLoginPacketListenerImpl": [
+      "io/izzel/arclight/common/bridge/core/server/network/ServerLoginPacketListenerImplBridge"
+    ],
+    "net/minecraft/server/network/ServerStatusPacketListenerImpl": [
+      "io/izzel/arclight/common/bridge/core/server/network/ServerStatusPacketListenerImplBridge"
+    ],
+    "net/minecraft/server/network/ServerCommonPacketListenerImpl": [
+      "io/izzel/arclight/common/bridge/core/server/network/ServerCommonPacketListenerImplBridge"
+    ],
+    "net/minecraft/server/players/BanListEntry": [
+      "io/izzel/arclight/common/bridge/core/server/players/BanListEntryBridge"
+    ],
+    "net/minecraft/server/players/PlayerList": [
+      "io/izzel/arclight/common/bridge/core/server/players/PlayerListBridge"
+    ],
+    "net/minecraft/server/players/StoredUserList": [
+      "io/izzel/arclight/common/bridge/core/server/players/StoredUserListBridge"
+    ],
+    "net/minecraft/server/rcon/RconConsoleSource": [
+      "io/izzel/arclight/common/bridge/core/server/rcon/RconConsoleSourceBridge"
+    ],
+    "net/minecraft/server/MinecraftServer": [
+      "io/izzel/arclight/common/bridge/core/server/MinecraftServerBridge"
     ]
   }
 }

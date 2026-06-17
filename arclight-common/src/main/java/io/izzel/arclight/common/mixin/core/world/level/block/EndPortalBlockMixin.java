@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.level.block;
 
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;
+import io.izzel.arclight.common.bridge.core.world.level.portal.TeleportTransitionBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -56,7 +56,7 @@ public class EndPortalBlockMixin {
         }
         Location to = event.getTo();
         var newDt = new DimensionTransition(((CraftWorld) to.getWorld()).getHandle(), CraftLocation.toVec3D(to), entity.getDeltaMovement(), to.getYaw(), to.getPitch(), DimensionTransition.PLAY_PORTAL_SOUND.then(DimensionTransition.PLACE_PORTAL_TICKET));
-        ((DimensionTransitionBridge) (Object) newDt).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.END_PORTAL);
+        ((TeleportTransitionBridge) (Object) newDt).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.END_PORTAL);
         cir.setReturnValue(newDt);
     }
 }

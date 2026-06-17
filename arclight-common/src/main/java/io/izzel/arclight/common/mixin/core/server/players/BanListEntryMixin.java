@@ -15,12 +15,8 @@ public class BanListEntryMixin implements BanListEntryBridge {
     @Shadow @Final protected Date created;
     // @formatter:on
 
+    @Override
     public Date getCreated() {
         return this.created;
-    }
-
-    @Override
-    public Date bridge$getCreated() {
-        return getCreated();
     }
 }

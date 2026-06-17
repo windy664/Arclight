@@ -4,5 +4,7 @@ import java.util.Collection;
 
 public interface StoredUserListBridge<V> {
 
-    Collection<V> bridge$getValues();
+    default Collection<V> getValues() {
+        return null;
+    }
 }

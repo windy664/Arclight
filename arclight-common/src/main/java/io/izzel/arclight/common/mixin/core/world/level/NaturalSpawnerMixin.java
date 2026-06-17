@@ -1,8 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.IWorldWriterBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import io.izzel.arclight.common.bridge.core.world.level.NaturalSpawner_SpawnStateBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelWriterBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -50,7 +49,7 @@ public abstract class NaturalSpawnerMixin {
             int limit = classification.getMaxInstancesPerChunk();
             SpawnCategory spawnCategory = CraftSpawnCategory.toBukkit(classification);
             if (CraftSpawnCategory.isValidForLimits(spawnCategory)) {
-                spawnThisTick = ((WorldBridge) world).bridge$ticksPerSpawnCategory().getLong(spawnCategory) != 0 && worldInfo.getGameTime() % ((WorldBridge) world).bridge$ticksPerSpawnCategory().getLong(spawnCategory) == 0;
+                spawnThisTick = ((LevelBridge) world).bridge$ticksPerSpawnCategory().getLong(spawnCategory) != 0 && worldInfo.getGameTime() % ((LevelBridge) world).bridge$ticksPerSpawnCategory().getLong(spawnCategory) == 0;
                 limit = world.bridge$getWorld().getSpawnLimit(spawnCategory);
             }
             if (spawnThisTick) {
@@ -68,7 +67,7 @@ public abstract class NaturalSpawnerMixin {
     @Inject(method = "spawnCategoryForPosition(Lnet/minecraft/world/entity/MobCategory;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/NaturalSpawner$SpawnPredicate;Lnet/minecraft/world/level/NaturalSpawner$AfterSpawnCallback;)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"))
     private static void arclight$naturalSpawn(MobCategory p_234966_0_, ServerLevel worldIn, ChunkAccess p_234966_2_, BlockPos p_234966_3_, NaturalSpawner.SpawnPredicate p_234966_4_, NaturalSpawner.AfterSpawnCallback p_234966_5_, CallbackInfo ci) {
-        ((WorldBridge) worldIn).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
+        ((LevelBridge) worldIn).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
     }
 
     @Redirect(method = "spawnCategoryForPosition(Lnet/minecraft/world/entity/MobCategory;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/chunk/ChunkAccess;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/NaturalSpawner$SpawnPredicate;Lnet/minecraft/world/level/NaturalSpawner$AfterSpawnCallback;)V",
@@ -81,6 +80,6 @@ public abstract class NaturalSpawnerMixin {
 
     @Inject(method = "spawnMobsForChunkGeneration", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/ServerLevelAccessor;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"))
     private static void arclight$worldGenSpawn(ServerLevelAccessor accessor, Holder<Biome> p_151618_, ChunkPos p_151619_, RandomSource p_151620_, CallbackInfo ci) {
-        ((IWorldWriterBridge) accessor).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.CHUNK_GEN);
+        ((LevelWriterBridge) accessor).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.CHUNK_GEN);
     }
 }

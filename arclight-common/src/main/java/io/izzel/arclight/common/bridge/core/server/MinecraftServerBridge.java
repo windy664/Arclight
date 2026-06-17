@@ -17,21 +17,37 @@ public interface MinecraftServerBridge {
 
     }
 
-    CraftServer bridge$getServer();
+    default CraftServer bridge$getServer() {
+        return null;
+    }
 
-    RemoteConsoleCommandSender bridge$getRemoteConsole();
+    default RemoteConsoleCommandSender bridge$getRemoteConsole() {
+        return null;
+    }
 
-    void bridge$queuedProcess(Runnable runnable);
+    default void bridge$queuedProcess(Runnable runnable) {
 
-    void bridge$drainQueuedTasks();
+    }
 
-    boolean bridge$hasStopped();
+    default void bridge$drainQueuedTasks() {
 
-    Commands bridge$getVanillaCommands();
+    }
 
-    void arclight$onServerLoad(ServerLevel level);
+    default boolean bridge$hasStopped() {
+        return false;
+    }
 
-    void arclight$onServerUnload(ServerLevel level);
+    default Commands bridge$getVanillaCommands() {
+        return null;
+    }
+
+    default void arclight$onServerLoad(ServerLevel level) {
+
+    }
+
+    default void arclight$onServerUnload(ServerLevel level) {
+
+    }
 
     default void bridge$forge$markLevelsDirty() {}
 
@@ -41,5 +57,7 @@ public interface MinecraftServerBridge {
 
     default void bridge$forge$unlockRegistries() {}
 
-    void arclight$extendNextTickTimeTo(TimeSource.NanoTimeSource timeSource);
+    default void arclight$extendNextTickTimeTo(TimeSource.NanoTimeSource timeSource) {
+
+    }
 }

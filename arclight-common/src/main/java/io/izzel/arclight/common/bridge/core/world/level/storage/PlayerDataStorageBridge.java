@@ -5,7 +5,11 @@ import net.minecraft.nbt.CompoundTag;
 
 public interface PlayerDataStorageBridge {
 
-    File bridge$getPlayerDir();
+    default File getPlayerDir() {
+        return null;
+    }
 
-    CompoundTag bridge$getPlayerData(String uuid);
+    default CompoundTag getPlayerData(String uuid) {
+        return null;
+    }
 }

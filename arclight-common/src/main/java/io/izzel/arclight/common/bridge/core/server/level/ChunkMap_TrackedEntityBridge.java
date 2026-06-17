@@ -6,11 +6,19 @@ import net.minecraft.world.entity.Entity;
 
 public interface ChunkMap_TrackedEntityBridge {
 
-    ServerEntity bridge$getServerEntity();
+    default ServerEntity bridge$getServerEntity() {
+        return null;
+    }
 
-    Entity bridge$getEntity();
+    default Entity bridge$getEntity() {
+        return null;
+    }
 
-    SectionPos bridge$getLastSectionPos();
+    default SectionPos bridge$getLastSectionPos() {
+        return null;
+    }
 
-    void bridge$setLastSectionPos(SectionPos pos);
+    default void bridge$setLastSectionPos(SectionPos pos) {
+
+    }
 }

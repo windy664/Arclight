@@ -1,8 +1,8 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.entity.BlockEntityBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @SuppressWarnings("public-target")
 @Mixin(targets = "net/minecraft/world/level/block/entity/LecternBlockEntity$1")
-public abstract class LecternTileEntity1Mixin implements IInventoryBridge, Container {
+public abstract class LecternTileEntity1Mixin implements ContainerBridge, Container {
     @Shadow(aliases = {"this$0", "f_59572_", "field_17391"}, remap = false)
     private LecternBlockEntity outerThis;
     public List<HumanEntity> transaction = new ArrayList<>();
@@ -80,7 +80,7 @@ public abstract class LecternTileEntity1Mixin implements IInventoryBridge, Conta
     @Override
     public Location getLocation() {
         if (outerThis.getLevel() == null) return null;
-        return new Location(((WorldBridge) outerThis.getLevel()).bridge$getWorld(), outerThis.getBlockPos().getX(), outerThis.getBlockPos().getY(), outerThis.getBlockPos().getZ());
+        return new Location(((LevelBridge) outerThis.getLevel()).bridge$getWorld(), outerThis.getBlockPos().getX(), outerThis.getBlockPos().getY(), outerThis.getBlockPos().getZ());
     }
 
     @Override

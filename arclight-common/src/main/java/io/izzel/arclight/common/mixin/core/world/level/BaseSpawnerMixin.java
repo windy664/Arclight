@@ -1,19 +1,17 @@
 package io.izzel.arclight.common.mixin.core.world.level;
 
 import io.izzel.arclight.common.bridge.core.world.entity.MobBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import io.izzel.arclight.common.bridge.core.world.level.BaseSpawnerBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.mixin.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.SpawnData;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BaseSpawner.class)
-public abstract class BaseSpawnerMixin implements BaseSpawnerBridge {
+public abstract class BaseSpawnerMixin {
 
     // @formatter:off
     @Shadow public SimpleWeightedRandomList<SpawnData> spawnPotentials;
@@ -35,7 +33,7 @@ public abstract class BaseSpawnerMixin implements BaseSpawnerBridge {
 
     @Decorate(method = "serverTick", inject = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/SpawnData;getEquipment()Ljava/util/Optional;"))
     private void arclight$nerf(@Local(ordinal = -1) Mob mob) {
-        if (((WorldBridge) mob.level()).bridge$spigotConfig().nerfSpawnerMobs) {
+        if (((LevelBridge) mob.level()).bridge$spigotConfig().nerfSpawnerMobs) {
             ((MobBridge) mob).bridge$setAware(false);
         }
     }
@@ -45,7 +43,7 @@ public abstract class BaseSpawnerMixin implements BaseSpawnerBridge {
         if (CraftEventFactory.callSpawnerSpawnEvent(entity, pos).isCancelled()) {
             throw DecorationOps.jumpToLoopStart();
         }
-        ((WorldBridge) instance).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPAWNER);
+        ((LevelBridge) instance).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SPAWNER);
         return (boolean) DecorationOps.callsite().invoke(instance, entity);
     }
 }

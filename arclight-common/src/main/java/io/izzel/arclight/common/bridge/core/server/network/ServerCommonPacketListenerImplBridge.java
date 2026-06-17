@@ -6,18 +6,32 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 
 public interface ServerCommonPacketListenerImplBridge {
 
-    boolean bridge$processedDisconnect();
+    default boolean bridge$processedDisconnect() {
+        return false;
+    }
 
-    boolean bridge$isDisconnected();
+    default boolean bridge$isDisconnected() {
+        return false;
+    }
 
-    void bridge$disconnect(String s);
+    default void bridge$disconnect(String s) {
 
-    CraftServer bridge$getCraftServer();
+    }
 
-    CraftPlayer bridge$getCraftPlayer();
+    default CraftServer bridge$getCraftServer() {
+        return null;
+    }
 
-    ServerPlayer bridge$getPlayer();
+    default CraftPlayer bridge$getCraftPlayer() {
+        return null;
+    }
 
-    void bridge$setPlayer(ServerPlayer player);
+    default ServerPlayer bridge$getPlayer() {
+        return null;
+    }
+
+    default void bridge$setPlayer(ServerPlayer player) {
+
+    }
 
 }

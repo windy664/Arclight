@@ -4,7 +4,7 @@ import com.google.common.base.Function;
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.DamageSourceBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.server.event.ArclightEventFactory;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.DistValidate;
@@ -288,7 +288,7 @@ public abstract class CraftEventFactoryMixin {
         if (CraftBlockStates.getBlockState(block) instanceof Sign sign1) {
             sign = sign1;
         } else {
-            sign = new CraftSign<>(((WorldBridge) tileEntitySign.getLevel()).bridge$getWorld(), tileEntitySign);
+            sign = new CraftSign<>(((LevelBridge) tileEntitySign.getLevel()).bridge$getWorld(), tileEntitySign);
         }
         Side side = front ? Side.FRONT : Side.BACK;
         return callPlayerSignOpenEvent(((ServerPlayerBridge) player).bridge$getBukkitEntity(), sign, side, cause);

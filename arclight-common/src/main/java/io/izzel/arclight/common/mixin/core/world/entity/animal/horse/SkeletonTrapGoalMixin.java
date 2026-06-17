@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.animal.horse;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerLevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -28,7 +28,7 @@ public class SkeletonTrapGoalMixin {
     @Inject(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"),
         slice = @Slice(to = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/horse/SkeletonTrapGoal;createHorse(Lnet/minecraft/world/DifficultyInstance;)Lnet/minecraft/world/entity/animal/horse/AbstractHorse;")))
     private void arclight$thunder(CallbackInfo ci) {
-        ((WorldBridge) this.horse.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.TRAP);
+        ((LevelBridge) this.horse.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.TRAP);
     }
 
     @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
@@ -40,6 +40,6 @@ public class SkeletonTrapGoalMixin {
     @Inject(method = "*", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"),
         slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/horse/SkeletonTrapGoal;createHorse(Lnet/minecraft/world/DifficultyInstance;)Lnet/minecraft/world/entity/animal/horse/AbstractHorse;")))
     private void arclight$jockey(CallbackInfo ci) {
-        ((WorldBridge) this.horse.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.JOCKEY);
+        ((LevelBridge) this.horse.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.JOCKEY);
     }
 }

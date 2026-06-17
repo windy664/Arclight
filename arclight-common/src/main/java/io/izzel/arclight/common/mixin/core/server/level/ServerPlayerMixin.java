@@ -6,9 +6,9 @@ import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.AbstractContainerMenuBridge;
 import io.izzel.arclight.common.bridge.core.server.network.ServerGamePacketListenerImplBridge;
 import io.izzel.arclight.common.bridge.core.world.food.FoodDataBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.CombatTrackerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;
+import io.izzel.arclight.common.bridge.core.world.level.portal.TeleportTransitionBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.player.PlayerMixin;
 import io.izzel.arclight.common.mod.mixins.annotation.RenameInto;
 import io.izzel.arclight.common.mod.server.ArclightServer;
@@ -391,7 +391,7 @@ public abstract class ServerPlayerMixin extends PlayerMixin implements ServerPla
 
     @Inject(method = "isPvpAllowed", cancellable = true, at = @At("HEAD"))
     private void arclight$pvpMode(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(((WorldBridge) this.level()).bridge$isPvpMode());
+        cir.setReturnValue(((LevelBridge) this.level()).bridge$isPvpMode());
     }
 
     @Unique private PlayerRespawnEvent.RespawnReason arclight$respawnReason;
@@ -432,9 +432,9 @@ public abstract class ServerPlayerMixin extends PlayerMixin implements ServerPla
                 return;
             }
             location = respawnEvent.getRespawnLocation();
-            var cause = ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause();
+            var cause = ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause();
             dimensionTransition = new DimensionTransition(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3D(location), dimensionTransition.speed(), location.getYaw(), location.getPitch(), dimensionTransition.missingRespawnBlock(), dimensionTransition.postDimensionTransition());
-            ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(cause);
+            ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(cause);
             arclight$respawnReason = null;
         }
         DecorationOps.callsite().invoke(dimensionTransition);
@@ -488,7 +488,7 @@ public abstract class ServerPlayerMixin extends PlayerMixin implements ServerPla
     private void arclight$fireTeleportEvent(DimensionTransition dimensionTransition, @Local(ordinal = 0) ServerLevel newLevel, @Local(ordinal = 1) ServerLevel oldLevel) throws Throwable {
         Location enter = this.getBukkitEntity().getLocation();
         Location exit = (newLevel == null) ? null : CraftLocation.toBukkit(dimensionTransition.pos(), newLevel.bridge$getWorld(), dimensionTransition.yRot(), dimensionTransition.xRot());
-        PlayerTeleportEvent tpEvent = new PlayerTeleportEvent(this.getBukkitEntity(), enter, exit, ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause());
+        PlayerTeleportEvent tpEvent = new PlayerTeleportEvent(this.getBukkitEntity(), enter, exit, ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause());
         Bukkit.getServer().getPluginManager().callEvent(tpEvent);
         if (tpEvent.isCancelled() || tpEvent.getTo() == null) {
             DecorationOps.cancel().invoke((Entity) null);

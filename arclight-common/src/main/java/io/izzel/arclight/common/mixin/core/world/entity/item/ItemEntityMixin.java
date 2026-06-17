@@ -6,7 +6,7 @@ import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.player.InventoryBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.network.syncher.SynchedEntityDataBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.EntityMixin;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
@@ -129,7 +129,7 @@ public abstract class ItemEntityMixin extends EntityMixin implements ItemEntityB
 
     @Redirect(method = "mergeWithNeighbours", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;inflate(DDD)Lnet/minecraft/world/phys/AABB;"))
     private AABB arclight$mergeRadius(AABB instance, double pX, double pY, double pZ) {
-        double radius = ((WorldBridge) level()).bridge$spigotConfig().itemMerge;
+        double radius = ((LevelBridge) level()).bridge$spigotConfig().itemMerge;
         return instance.inflate(radius);
     }
 }

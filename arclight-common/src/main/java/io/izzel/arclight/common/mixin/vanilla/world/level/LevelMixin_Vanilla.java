@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.vanilla.world.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.world.level.Level;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = Level.class, priority = 450)
-public abstract class LevelMixin_Vanilla implements LevelAccessor, WorldBridge {
+public abstract class LevelMixin_Vanilla implements LevelAccessor, LevelBridge {
 
     // @formatter:off
     @Shadow @Final public boolean isClientSide;

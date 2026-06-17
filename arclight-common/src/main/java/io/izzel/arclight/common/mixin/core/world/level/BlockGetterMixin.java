@@ -23,6 +23,7 @@ public interface BlockGetterMixin extends BlockGetterBridge {
     @Shadow @Nullable BlockHitResult clipWithInteractionOverride(Vec3 startVec, Vec3 endVec, BlockPos pos, VoxelShape shape, BlockState state);
     // @formatter:on
 
+    @Override
     default BlockHitResult clip(ClipContext context, BlockPos pos) {
         BlockState blockstate = this.getBlockState(pos);
         FluidState ifluidstate = this.getFluidState(pos);
@@ -35,10 +36,5 @@ public interface BlockGetterMixin extends BlockGetterBridge {
         double d0 = blockraytraceresult == null ? Double.MAX_VALUE : context.getFrom().distanceToSqr(blockraytraceresult.getLocation());
         double d1 = blockraytraceresult1 == null ? Double.MAX_VALUE : context.getFrom().distanceToSqr(blockraytraceresult1.getLocation());
         return d0 <= d1 ? blockraytraceresult : blockraytraceresult1;
-    }
-
-    @Override
-    default BlockHitResult bridge$rayTraceBlock(ClipContext context, BlockPos pos) {
-        return clip(context, pos);
     }
 }

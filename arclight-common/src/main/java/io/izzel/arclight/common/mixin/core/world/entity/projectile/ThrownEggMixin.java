@@ -3,7 +3,7 @@ package io.izzel.arclight.common.mixin.core.world.entity.projectile;
 import io.izzel.arclight.common.bridge.bukkit.world.entity.EntityTypeBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.util.Blackhole;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -71,7 +71,7 @@ public abstract class ThrownEggMixin extends ThrowableProjectileMixin {
                         if (!entity.fudgePositionAfterSizeChange(ZERO_SIZED_DIMENSIONS)) {
                             break;
                         }
-                        ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.EGG);
+                        ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.EGG);
                         this.level().addFreshEntity(entity);
                     }
                 }

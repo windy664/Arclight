@@ -1,8 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import io.izzel.arclight.common.mod.server.ArclightServer;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.DistValidate;
 import io.izzel.arclight.mixin.Decorate;
@@ -58,8 +57,8 @@ public abstract class HopperBlockEntityMixin extends BaseContainerBlockEntityMix
     @Redirect(method = "pushItemsTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/HopperBlockEntity;tryMoveItems(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/entity/HopperBlockEntity;Ljava/util/function/BooleanSupplier;)Z"))
     private static boolean arclight$hopperCheck(Level level, BlockPos pos, BlockState state, HopperBlockEntity hopper, BooleanSupplier flag) {
         var result = tryMoveItems(level, pos, state, hopper, flag);
-        if (!result && DistValidate.isValid(level) && ((WorldBridge) level).bridge$spigotConfig().hopperCheck > 1) {
-            hopper.setCooldown(((WorldBridge) level).bridge$spigotConfig().hopperCheck);
+        if (!result && DistValidate.isValid(level) && ((LevelBridge) level).bridge$spigotConfig().hopperCheck > 1) {
+            hopper.setCooldown(((LevelBridge) level).bridge$spigotConfig().hopperCheck);
         }
         return result;
     }
@@ -79,13 +78,13 @@ public abstract class HopperBlockEntityMixin extends BaseContainerBlockEntityMix
                 destinationInventory = new CraftInventoryDoubleChest(((CompoundContainer) destination));
             } else {
                 // Arclight: Owner nullity check already done inside getOwnerInventory
-                destinationInventory = ((IInventoryBridge) destination).getOwnerInventory();
+                destinationInventory = ((ContainerBridge) destination).getOwnerInventory();
             }
 
-            InventoryMoveItemEvent event = new InventoryMoveItemEvent(((IInventoryBridge) source).getOwnerInventory(), original.clone(), destinationInventory, true);
+            InventoryMoveItemEvent event = new InventoryMoveItemEvent(((ContainerBridge) source).getOwnerInventory(), original.clone(), destinationInventory, true);
             Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) {
-                entity.setCooldown(((WorldBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer); // Delay hopper checks
+                entity.setCooldown(((LevelBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer); // Delay hopper checks
                 // Arclight: we can return stack directly so we use vanilla revert logic and eventually return false if none is transferred
                 // Arclight: but CraftBukkit makes it delayed directly, don't know why, so have to catch the index to revert change?
                 return stack;
@@ -107,14 +106,14 @@ public abstract class HopperBlockEntityMixin extends BaseContainerBlockEntityMix
                 sourceInventory = new CraftInventoryDoubleChest(((CompoundContainer) source));
             } else {
                 // Arclight: Owner nullity check already done inside getOwnerInventory
-                sourceInventory = ((IInventoryBridge) source).getOwnerInventory();
+                sourceInventory = ((ContainerBridge) source).getOwnerInventory();
             }
 
-            InventoryMoveItemEvent event = new InventoryMoveItemEvent(sourceInventory, original.clone(), ((IInventoryBridge) destination).getOwnerInventory(), false);
+            InventoryMoveItemEvent event = new InventoryMoveItemEvent(sourceInventory, original.clone(), ((ContainerBridge) destination).getOwnerInventory(), false);
             Bukkit.getPluginManager().callEvent(event);
             if (event.isCancelled()) {
                 // inv.setItem(index, origin);
-                entity.setCooldown(((WorldBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer); // Delay hopper checks
+                entity.setCooldown(((LevelBridge) entity.getLevel()).bridge$spigotConfig().hopperTransfer); // Delay hopper checks
                 // Arclight: we can return stack directly so we use vanilla revert logic and eventually return false if none is transferred
                 // Arclight: but CraftBukkit makes it delayed directly, don't know why, so have to catch the index to revert change?
                 return stack;
@@ -126,7 +125,7 @@ public abstract class HopperBlockEntityMixin extends BaseContainerBlockEntityMix
 
     @Inject(method = "addItem(Lnet/minecraft/world/Container;Lnet/minecraft/world/entity/item/ItemEntity;)Z", cancellable = true, at = @At("HEAD"))
     private static void arclight$pickupItem(Container inventory, ItemEntity itemEntity, CallbackInfoReturnable<Boolean> cir) {
-        InventoryPickupItemEvent event = new InventoryPickupItemEvent(((IInventoryBridge) inventory).getOwnerInventory(), (Item) itemEntity.bridge$getBukkitEntity());
+        InventoryPickupItemEvent event = new InventoryPickupItemEvent(((ContainerBridge) inventory).getOwnerInventory(), (Item) itemEntity.bridge$getBukkitEntity());
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             cir.setReturnValue(false);

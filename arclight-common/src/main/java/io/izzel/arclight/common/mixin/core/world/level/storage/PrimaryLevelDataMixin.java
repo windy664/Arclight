@@ -92,10 +92,6 @@ public abstract class PrimaryLevelDataMixin implements PrimaryLevelDataBridge {
     }
 
     @Override
-    public void bridge$setWorld(ServerLevel world) {
-        setWorld(world);
-    }
-
     public void setWorld(ServerLevel world) {
         if (this.world == null) {
             this.world = world;
@@ -107,15 +103,11 @@ public abstract class PrimaryLevelDataMixin implements PrimaryLevelDataBridge {
         return world;
     }
 
+    @Override
     public void checkName(String name) {
         if (!this.settings.levelName.equals(name)) {
             this.settings.levelName = name;
         }
-    }
-
-    @Override
-    public void arclight$checkName(String name) {
-        checkName(name);
     }
 
     @Override

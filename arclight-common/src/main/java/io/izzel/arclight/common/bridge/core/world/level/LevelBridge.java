@@ -5,10 +5,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -23,7 +23,7 @@ import org.spigotmc.SpigotWorldConfig;
 
 import java.util.Map;
 
-public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge {
+public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
 
     default CraftServer bridge$getServer() {
         return null;
@@ -53,26 +53,43 @@ public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge {
         return null;
     }
 
-    SpigotWorldConfig bridge$spigotConfig();
+    default SpigotWorldConfig bridge$spigotConfig() {
+        return null;
+    }
 
-    Object2LongOpenHashMap<SpawnCategory> bridge$ticksPerSpawnCategory();
+    default Object2LongOpenHashMap<SpawnCategory> bridge$ticksPerSpawnCategory() {
+        return null;
+    }
 
-    ResourceKey<LevelStem> bridge$getTypeKey();
+    default ResourceKey<LevelStem> bridge$getTypeKey() {
+        return null;
+    }
 
-    void bridge$setLastPhysicsProblem(BlockPos pos);
+    default void bridge$setLastPhysicsProblem(BlockPos pos) {
 
-    boolean bridge$preventPoiUpdated();
+    }
 
-    void bridge$preventPoiUpdated(boolean b);
+    default boolean bridge$preventPoiUpdated() {
+        return false;
+    }
 
-    void bridge$forge$notifyAndUpdatePhysics(BlockPos pos, LevelChunk chunk, BlockState oldBlock, BlockState newBlock, int i, int j);
+    default void bridge$preventPoiUpdated(boolean b) {
+
+    }
+
+    default void bridge$forge$notifyAndUpdatePhysics(BlockPos pos, LevelChunk chunk, BlockState oldBlock, BlockState newBlock, int i, int j) {
+
+    }
 
     default boolean bridge$forge$onBlockPlace(BlockPos pos, LivingEntity livingEntity, Direction direction) {
         return false;
     }
 
     default boolean bridge$forge$mobGriefing(Entity entity) {
-        return ((Level) this).getGameRules().getBoolean(GameRules.MOB_GRIEFING);
+        if (this instanceof ServerLevel serverLevel) {
+            return serverLevel.getGameRules().get(GameRules.MOB_GRIEFING);
+        }
+        return GameRules.MOB_GRIEFING.defaultValue();
     }
 
     default void bridge$forge$onPotionBrewed(NonNullList<ItemStack> stacks) {}
@@ -81,9 +98,13 @@ public interface WorldBridge extends IWorldWriterBridge, LevelAccessorBridge {
         return false;
     }
 
-    Map<BlockPos, CapturedBlockState> bridge$getCapturedBlockState();
+    default Map<BlockPos, CapturedBlockState> bridge$getCapturedBlockState() {
+        return null;
+    }
 
-    Map<BlockPos, BlockEntity> bridge$getCapturedBlockEntity();
+    default Map<BlockPos, BlockEntity> bridge$getCapturedBlockEntity() {
+        return null;
+    }
 
     default void bridge$platform$startCaptureBlockBreak() {}
 

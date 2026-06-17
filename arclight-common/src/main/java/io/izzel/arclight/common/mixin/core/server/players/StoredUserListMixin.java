@@ -17,12 +17,8 @@ public class StoredUserListMixin<K, V extends StoredUserEntry<K>> implements Sto
     @Shadow @Final private Map<String, V> map;
     // @formatter:on
 
+    @Override
     public Collection<V> getValues() {
         return this.map.values();
-    }
-
-    @Override
-    public Collection<V> bridge$getValues() {
-        return getValues();
     }
 }

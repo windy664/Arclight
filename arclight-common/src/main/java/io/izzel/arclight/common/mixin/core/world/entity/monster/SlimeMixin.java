@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.monster;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.MobMixin;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -81,7 +81,7 @@ public abstract class SlimeMixin extends MobMixin {
                 float f2 = ((float) (l % 2) - 0.5F) * f;
                 float f3 = ((float) (l / 2) - 0.5F) * f;
                 net.minecraft.world.entity.monster.Slime living = (net.minecraft.world.entity.monster.Slime) arclight$slimes.get(l);
-                ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SLIME_SPLIT);
+                ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SLIME_SPLIT);
                 this.level().addFreshEntity(living);
             }
             arclight$slimes = null;

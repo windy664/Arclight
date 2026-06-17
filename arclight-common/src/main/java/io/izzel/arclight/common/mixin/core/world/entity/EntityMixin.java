@@ -7,8 +7,8 @@ import io.izzel.arclight.common.bridge.core.world.entity.InternalEntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.network.syncher.SynchedEntityDataBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.DamageSourceBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
-import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
+import io.izzel.arclight.common.bridge.core.world.level.portal.TeleportTransitionBridge;
 import io.izzel.arclight.common.mod.server.BukkitRegistry;
 import io.izzel.arclight.common.mod.server.entity.ArclightSpawnReason;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
@@ -645,8 +645,8 @@ public abstract class EntityMixin implements InternalEntityBridge, EntityBridge,
 
     @Inject(method = "saveWithoutId", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 0, target = "Lnet/minecraft/nbt/CompoundTag;putUUID(Ljava/lang/String;Ljava/util/UUID;)V"))
     public void arclight$writeWithoutTypeId$CraftBukkitNBT(CompoundTag compound, CallbackInfoReturnable<CompoundTag> cir) {
-        compound.putLong("WorldUUIDLeast", ((WorldBridge) this.level()).bridge$getWorld().getUID().getLeastSignificantBits());
-        compound.putLong("WorldUUIDMost", ((WorldBridge) this.level()).bridge$getWorld().getUID().getMostSignificantBits());
+        compound.putLong("WorldUUIDLeast", ((LevelBridge) this.level()).bridge$getWorld().getUID().getLeastSignificantBits());
+        compound.putLong("WorldUUIDMost", ((LevelBridge) this.level()).bridge$getWorld().getUID().getMostSignificantBits());
         compound.putInt("Bukkit.updateLevel", CURRENT_LEVEL);
         compound.putInt("Spigot.ticksLived", this.tickCount);
         if (!this.persist) {
@@ -703,7 +703,7 @@ public abstract class EntityMixin implements InternalEntityBridge, EntityBridge,
             }
 
             if (bworld == null) {
-                bworld = ((WorldBridge) ((CraftServer) server).getServer().getLevel(Level.OVERWORLD)).bridge$getWorld();
+                bworld = ((LevelBridge) ((CraftServer) server).getServer().getLevel(Level.OVERWORLD)).bridge$getWorld();
             }
 
             ((ServerPlayer) (Object) this).setServerLevel(bworld == null ? null : ((CraftWorld) bworld).getHandle());
@@ -940,9 +940,9 @@ public abstract class EntityMixin implements InternalEntityBridge, EntityBridge,
                 return;
             }
             to = teleEvent.getTo();
-            var cause = ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause();
+            var cause = ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$getTeleportCause();
             dimensionTransition = new DimensionTransition(((CraftWorld) to.getWorld()).getHandle(), CraftLocation.toVec3D(to), dimensionTransition.speed(), to.getYaw(), to.getPitch(), dimensionTransition.missingRespawnBlock(), dimensionTransition.postDimensionTransition());
-            ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(cause);
+            ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(cause);
         }
     }
 

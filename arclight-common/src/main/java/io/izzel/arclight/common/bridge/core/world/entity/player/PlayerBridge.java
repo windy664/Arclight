@@ -15,7 +15,7 @@ public interface PlayerBridge extends LivingEntityBridge {
     }
 
     @Override
-    default CraftHumanEntity bridge$getBukkitEntity() {
+    default CraftHumanEntity getBukkitEntity() {
         return null;
     }
 

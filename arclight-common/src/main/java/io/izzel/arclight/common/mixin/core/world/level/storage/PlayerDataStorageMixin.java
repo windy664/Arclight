@@ -12,7 +12,7 @@ import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.PlayerDataStorage;
 import org.slf4j.Logger;
-import org.bukkit.craftbukkit.v.entity.CraftPlayer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -54,10 +54,12 @@ public class PlayerDataStorageMixin implements PlayerDataStorageBridge {
         });
     }
 
+    @Override
     public File getPlayerDir() {
         return this.playerDir;
     }
 
+    @Override
     public CompoundTag getPlayerData(String uuid) {
         try {
             final File file1 = new File(this.playerDir, uuid + ".dat");
@@ -157,15 +159,5 @@ public class PlayerDataStorageMixin implements PlayerDataStorageBridge {
             // entityhuman.load(nbttagcompound); // CraftBukkit - handled above
             return nbttagcompound;
         });
-    }
-
-    @Override
-    public File bridge$getPlayerDir() {
-        return getPlayerDir();
-    }
-
-    @Override
-    public CompoundTag bridge$getPlayerData(String uuid) {
-        return getPlayerData(uuid);
     }
 }

@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.core.BlockPos;
@@ -48,7 +48,7 @@ public class BaseFireBlockMixin {
      */
     @Overwrite
     private static boolean inPortalDimension(Level level) {
-        var typeKey = ((WorldBridge) level).bridge$getTypeKey();
+        var typeKey = ((LevelBridge) level).bridge$getTypeKey();
         return typeKey == LevelStem.NETHER || typeKey == LevelStem.OVERWORLD;
     }
 }

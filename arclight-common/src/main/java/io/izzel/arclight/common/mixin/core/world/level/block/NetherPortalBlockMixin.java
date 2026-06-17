@@ -3,7 +3,7 @@ package io.izzel.arclight.common.mixin.core.world.level.block;
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.EntityTypeBridge;
 import io.izzel.arclight.common.bridge.core.world.level.portal.PortalForcerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.portal.DimensionTransitionBridge;
+import io.izzel.arclight.common.bridge.core.world.level.portal.TeleportTransitionBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.BlockUtil;
@@ -69,7 +69,7 @@ public class NetherPortalBlockMixin {
     private static void arclight$setCause(ServerLevel serverLevel, BlockUtil.FoundRectangle foundRectangle, Direction.Axis axis, Vec3 vec3, Entity entity, Vec3 vec32, float f, float g, DimensionTransition.PostDimensionTransition postDimensionTransition, CallbackInfoReturnable<DimensionTransition> cir) {
         var dimensionTransition = cir.getReturnValue();
         if (dimensionTransition != null) {
-            ((DimensionTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL);
+            ((TeleportTransitionBridge) (Object) dimensionTransition).bridge$setTeleportCause(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL);
         }
     }
 }

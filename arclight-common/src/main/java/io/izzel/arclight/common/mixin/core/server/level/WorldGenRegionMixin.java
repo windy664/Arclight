@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.entity.Entity;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(WorldGenRegion.class)
-public abstract class WorldGenRegionMixin implements WorldBridge {
+public abstract class WorldGenRegionMixin implements LevelBridge {
 
     // @formatter:off
     @Shadow public abstract boolean addFreshEntity(Entity entityIn);
@@ -33,7 +33,7 @@ public abstract class WorldGenRegionMixin implements WorldBridge {
 
     @Override
     public CraftWorld bridge$getWorld() {
-        return ((WorldBridge) this.level).bridge$getWorld();
+        return ((LevelBridge) this.level).bridge$getWorld();
     }
 
     @Override

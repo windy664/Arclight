@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.inventory;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.PosContainerBridge;
 import net.minecraft.world.inventory.CartographyTableMenu;
 import org.bukkit.Location;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(targets = "net/minecraft/world/inventory/CartographyTableMenu$1")
-public abstract class CartographyContainer1Mixin implements IInventoryBridge {
+public abstract class CartographyContainer1Mixin implements ContainerBridge {
     @Shadow(aliases = {"this$0", "f_39177_", "field_17298"}, remap = false)
     private CartographyTableMenu outerThis;
 

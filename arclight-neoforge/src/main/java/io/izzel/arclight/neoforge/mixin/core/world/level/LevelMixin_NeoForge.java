@@ -1,6 +1,6 @@
 package io.izzel.arclight.neoforge.mixin.core.world.level;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Level.class)
-public abstract class LevelMixin_NeoForge implements WorldBridge {
+public abstract class LevelMixin_NeoForge implements LevelBridge {
 
     // @formatter:off
     @Shadow(remap = false) public abstract void markAndNotifyBlock(BlockPos arg, @Nullable LevelChunk arg2, BlockState j, BlockState k, int j2, int k2);

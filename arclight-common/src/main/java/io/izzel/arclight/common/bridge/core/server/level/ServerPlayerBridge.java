@@ -15,53 +15,99 @@ import java.util.Optional;
 
 public interface ServerPlayerBridge extends PlayerBridge {
 
-    <L, R> Either<L, R> bridge$fireBedEvent(Either<L, R> e, BlockPos pos);
+    default <L, R> Either<L, R> bridge$fireBedEvent(Either<L, R> e, BlockPos pos) {
+        return null;
+    }
 
     @Override
-    CraftPlayer bridge$getBukkitEntity();
+    default CraftPlayer getBukkitEntity() {
+        return null;
+    }
 
-    void bridge$pushChangeDimensionCause(PlayerTeleportEvent.TeleportCause cause);
+    default void bridge$pushChangeDimensionCause(PlayerTeleportEvent.TeleportCause cause) {
 
-    void bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause cause);
+    }
 
-    Optional<PlayerTeleportEvent.TeleportCause> bridge$getTeleportCause();
+    default void bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause cause) {
 
-    void bridge$pushRespawnReason(PlayerRespawnEvent.RespawnReason respawnReason);
+    }
 
-    void bridge$setTransferCookieConnection(CraftPlayer.TransferCookieConnection transferCookieConnection);
+    default Optional<PlayerTeleportEvent.TeleportCause> bridge$getTeleportCause() {
+        return null;
+    }
 
-    CraftPlayer.TransferCookieConnection bridge$getTransferCookieConnection();
+    default void bridge$pushRespawnReason(PlayerRespawnEvent.RespawnReason respawnReason) {
 
-    void bridge$resendItemInHands();
+    }
 
-    BlockPos bridge$getSpawnPoint(ServerLevel world);
+    default void bridge$setTransferCookieConnection(CraftPlayer.TransferCookieConnection transferCookieConnection) {
 
-    boolean bridge$isMovementBlocked();
+    }
 
-    void bridge$setCompassTarget(Location location);
+    default CraftPlayer.TransferCookieConnection bridge$getTransferCookieConnection() {
+        return null;
+    }
 
-    boolean bridge$isJoining();
+    default void bridge$resendItemInHands() {
 
-    void bridge$reset();
+    }
 
-    boolean bridge$initialized();
+    default BlockPos bridge$getSpawnPoint(ServerLevel world) {
+        return null;
+    }
 
-    boolean bridge$isTrackerDirty();
+    default boolean bridge$isMovementBlocked() {
+        return false;
+    }
 
-    void bridge$setTrackerDirty(boolean flag);
+    default void bridge$setCompassTarget(Location location) {
 
-    boolean arclight$isKeepLevel();
+    }
 
-    void arclight$readDeathEvent(PlayerDeathEvent event);
+    default boolean bridge$isJoining() {
+        return false;
+    }
+
+    default void bridge$reset() {
+
+    }
+
+    default boolean bridge$initialized() {
+        return false;
+    }
+
+    default boolean bridge$isTrackerDirty() {
+        return false;
+    }
+
+    default void bridge$setTrackerDirty(boolean flag) {
+
+    }
+
+    default boolean arclight$isKeepLevel() {
+        return false;
+    }
+
+    default void arclight$readDeathEvent(PlayerDeathEvent event) {
+
+    }
 
     interface RespawnPosAngleBridge {
 
-        boolean bridge$isBedSpawn();
+        default boolean bridge$isBedSpawn() {
+            return false;
+        }
 
-        boolean bridge$isAnchorSpawn();
+        default boolean bridge$isAnchorSpawn() {
+            return false;
+        }
 
-        void bridge$setBedSpawn(boolean b);
+        default void bridge$setBedSpawn(boolean b) {
 
-        void bridge$setAnchorSpawn(boolean b);
+        }
+
+        default void bridge$setAnchorSpawn(boolean b) {
+
+        }
     }
 }

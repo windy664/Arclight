@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import io.izzel.arclight.common.bridge.bukkit.CraftServerBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.ExplosionBridge;
 import io.izzel.arclight.common.bridge.core.world.level.levelgen.flat.FlatLevelGeneratorSettingsBridge;
@@ -257,7 +257,7 @@ public abstract class ServerLevelMixin extends LevelMixin implements ServerLevel
         ((ServerChunkProviderBridge) this.chunkSource).bridge$setViewDistance(spigotConfig.viewDistance);
         ((ServerChunkProviderBridge) this.chunkSource).bridge$setSimulationDistance(spigotConfig.simulationDistance);
         if (arclight$isActual()) {
-            ((PrimaryLevelDataBridge) this.K).bridge$setWorld((ServerLevel) (Object) this);
+            ((PrimaryLevelDataBridge) this.K).setWorld((ServerLevel) (Object) this);
             var data = this.getDataStorage().computeIfAbsent(LevelPersistentData.factory(), "bukkit_pdc");
             this.getWorld().readBukkitValues(data.getTag());
             this.getCraftServer().addWorld(this.getWorld());
@@ -392,7 +392,7 @@ public abstract class ServerLevelMixin extends LevelMixin implements ServerLevel
     public void arclight$closeOnChunkUnloading(LevelChunk chunkIn, CallbackInfo ci) {
         for (BlockEntity tileentity : chunkIn.getBlockEntities().values()) {
             if (tileentity instanceof Container) {
-                for (HumanEntity h : Lists.newArrayList(((IInventoryBridge) tileentity).getViewers())) {
+                for (HumanEntity h : Lists.newArrayList(((ContainerBridge) tileentity).getViewers())) {
                     if (h instanceof CraftHumanEntity) {
                         ((CraftHumanEntity) h).getHandle().closeContainer();
                     }

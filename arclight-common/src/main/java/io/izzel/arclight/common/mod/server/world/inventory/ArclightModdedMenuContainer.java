@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mod.server.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.PosContainerBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import net.minecraft.world.Container;
@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ArclightModdedMenuContainer implements Container, IInventoryBridge {
+public class ArclightModdedMenuContainer implements Container, ContainerBridge {
 
     private final AbstractContainerMenu container;
     private InventoryHolder owner;

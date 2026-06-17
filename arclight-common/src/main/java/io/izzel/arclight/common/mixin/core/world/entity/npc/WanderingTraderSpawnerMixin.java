@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.npc;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.npc.WanderingTraderSpawner;
@@ -16,11 +16,11 @@ public class WanderingTraderSpawnerMixin {
 
     @Inject(method = "spawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityType;spawn(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/MobSpawnType;)Lnet/minecraft/world/entity/Entity;"))
     public void arclight$spawnReason1(ServerLevel serverWorld, CallbackInfoReturnable<Boolean> cir) {
-        ((WorldBridge) serverWorld).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
+        ((LevelBridge) serverWorld).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
     }
 
     @Inject(method = "tryToSpawnLlamaFor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityType;spawn(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/MobSpawnType;)Lnet/minecraft/world/entity/Entity;"))
     public void arclight$spawnReason2(ServerLevel serverWorld, WanderingTrader p_242373_2_, int p_242373_3_, CallbackInfo ci) {
-        ((WorldBridge) serverWorld).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
+        ((LevelBridge) serverWorld).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.NATURAL);
     }
 }

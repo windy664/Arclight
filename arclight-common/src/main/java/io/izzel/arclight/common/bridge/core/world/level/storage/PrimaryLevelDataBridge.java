@@ -8,15 +8,27 @@ import net.minecraft.world.level.dimension.LevelStem;
 
 public interface PrimaryLevelDataBridge {
 
-    void bridge$setWorld(ServerLevel world);
+    default void setWorld(ServerLevel world) {
 
-    ServerLevel bridge$getWorld();
+    }
 
-    LevelSettings bridge$getWorldSettings();
+    default ServerLevel bridge$getWorld() {
+        return null;
+    }
 
-    Lifecycle bridge$getLifecycle();
+    default LevelSettings bridge$getWorldSettings() {
+        return null;
+    }
 
-    void arclight$checkName(String name);
+    default Lifecycle bridge$getLifecycle() {
+        return null;
+    }
 
-    void arclight$offerCustomDimensions(Registry<LevelStem> registry);
+    default void checkName(String name) {
+
+    }
+
+    default void arclight$offerCustomDimensions(Registry<LevelStem> registry) {
+
+    }
 }

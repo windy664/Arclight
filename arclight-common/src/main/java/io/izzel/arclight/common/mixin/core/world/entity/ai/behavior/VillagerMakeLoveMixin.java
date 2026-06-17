@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.entity.ai.behavior;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.ai.behavior.VillagerMakeLove;
@@ -18,7 +18,7 @@ public class VillagerMakeLoveMixin {
     private Villager arclight$entityBreed(Villager lona, ServerLevel world, AgeableMob anonymous) {
         Villager child = lona.getBreedOffspring(world, anonymous);
         if (child != null && !CraftEventFactory.callEntityBreedEvent(child, lona, anonymous, null, null, 0).isCancelled()) {
-            ((WorldBridge) world).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.BREEDING);
+            ((LevelBridge) world).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.BREEDING);
             return child;
         } else {
             return null;

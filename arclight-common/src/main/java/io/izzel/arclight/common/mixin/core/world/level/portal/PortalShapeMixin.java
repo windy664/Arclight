@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.portal.PortalShape;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v.util.BlockStateListPopulator;
+import org.bukkit.craftbukkit.util.BlockStateListPopulator;
 import org.bukkit.event.world.PortalCreateEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

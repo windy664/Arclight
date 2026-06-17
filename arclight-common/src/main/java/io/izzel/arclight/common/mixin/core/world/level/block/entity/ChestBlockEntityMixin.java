@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
@@ -21,7 +21,7 @@ public abstract class ChestBlockEntityMixin extends BaseContainerBlockEntityMixi
     // @formatter:on
 
     public List<HumanEntity> transaction = new ArrayList<>();
-    private int maxStack = IInventoryBridge.MAX_STACK;
+    private int maxStack = ContainerBridge.MAX_STACK;
 
     @Override
     public List<ItemStack> getContents() {
@@ -49,7 +49,7 @@ public abstract class ChestBlockEntityMixin extends BaseContainerBlockEntityMixi
 
     @Override
     public int getMaxStackSize() {
-        if (maxStack == 0) maxStack = IInventoryBridge.MAX_STACK;
+        if (maxStack == 0) maxStack = ContainerBridge.MAX_STACK;
         return maxStack;
     }
 

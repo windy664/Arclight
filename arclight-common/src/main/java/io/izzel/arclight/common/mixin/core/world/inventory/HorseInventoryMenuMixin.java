@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,6 +35,6 @@ public abstract class HorseInventoryMenuMixin extends AbstractContainerMenuMixin
             return bukkitEntity;
         }
         return bukkitEntity = new CraftInventoryView<>(((PlayerBridge) playerInventory.player).bridge$getBukkitEntity(),
-            ((IInventoryBridge) this.horseContainer).getOwner().getInventory(), (HorseInventoryMenu) (Object) this);
+            ((ContainerBridge) this.horseContainer).getOwner().getInventory(), (HorseInventoryMenu) (Object) this);
     }
 }

@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
 import com.mojang.datafixers.DataFixer;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ChunkMapBridge;
 import io.izzel.arclight.common.mod.util.ArclightCallbackExecutor;
 import net.minecraft.core.registries.Registries;
@@ -60,7 +60,7 @@ public abstract class ChunkMapMixin implements ChunkMapBridge {
 
     @Redirect(method = "upgradeChunkTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;dimension()Lnet/minecraft/resources/ResourceKey;"))
     private ResourceKey<LevelStem> arclight$useTypeKey(ServerLevel serverWorld) {
-        return ((WorldBridge) serverWorld).bridge$getTypeKey();
+        return ((LevelBridge) serverWorld).bridge$getTypeKey();
     }
 
     public final ArclightCallbackExecutor callbackExecutor = new ArclightCallbackExecutor();

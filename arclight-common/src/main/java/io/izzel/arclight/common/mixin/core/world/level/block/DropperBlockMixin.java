@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.core.Direction;
@@ -27,9 +27,9 @@ public abstract class DropperBlockMixin extends BlockMixin {
         if (to instanceof CompoundContainer) {
             destinationInventory = new CraftInventoryDoubleChest((CompoundContainer) to);
         } else {
-            destinationInventory = ((IInventoryBridge) to).getOwnerInventory();
+            destinationInventory = ((ContainerBridge) to).getOwnerInventory();
         }
-        InventoryMoveItemEvent event = new InventoryMoveItemEvent(((IInventoryBridge) from).getOwner().getInventory(), craftItemStack, destinationInventory, true);
+        InventoryMoveItemEvent event = new InventoryMoveItemEvent(((ContainerBridge) from).getOwner().getInventory(), craftItemStack, destinationInventory, true);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return (ItemStack) DecorationOps.cancel().invoke();

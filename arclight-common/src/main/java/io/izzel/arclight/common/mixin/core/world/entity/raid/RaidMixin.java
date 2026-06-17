@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.entity.raid;
 
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.raid.RaidBridge;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
@@ -127,7 +127,7 @@ public class RaidMixin implements RaidBridge {
 
     @Inject(method = "joinRaid(ILnet/minecraft/world/entity/raid/Raider;Lnet/minecraft/core/BlockPos;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)V"))
     public void arclight$addEntity(int wave, Raider p_221317_2_, BlockPos p_221317_3_, boolean p_221317_4_, CallbackInfo ci) {
-        ((WorldBridge) this.level).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.RAID);
+        ((LevelBridge) this.level).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.RAID);
     }
 
     public Collection<Raider> getRaiders() {

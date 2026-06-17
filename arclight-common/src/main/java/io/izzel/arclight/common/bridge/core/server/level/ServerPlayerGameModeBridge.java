@@ -7,19 +7,35 @@ import net.minecraft.world.item.ItemStack;
 
 public interface ServerPlayerGameModeBridge {
 
-    boolean bridge$isFiredInteract();
+    default boolean bridge$isFiredInteract() {
+        return false;
+    }
 
-    void bridge$setFiredInteract(boolean b);
+    default void bridge$setFiredInteract(boolean b) {
 
-    boolean bridge$getInteractResult();
+    }
 
-    void bridge$setInteractResult(boolean b);
+    default boolean bridge$getInteractResult() {
+        return false;
+    }
 
-    void bridge$handleBlockDrop(ArclightCaptures.BlockBreakEventContext breakEventContext, BlockPos pos);
+    default void bridge$setInteractResult(boolean b) {
 
-    BlockPos bridge$getInteractPosition();
+    }
 
-    InteractionHand bridge$getInteractHand();
+    default void bridge$handleBlockDrop(ArclightCaptures.BlockBreakEventContext breakEventContext, BlockPos pos) {
 
-    ItemStack bridge$getInteractItemStack();
+    }
+
+    default BlockPos bridge$getInteractPosition() {
+        return null;
+    }
+
+    default InteractionHand bridge$getInteractHand() {
+        return null;
+    }
+
+    default ItemStack bridge$getInteractItemStack() {
+        return null;
+    }
 }

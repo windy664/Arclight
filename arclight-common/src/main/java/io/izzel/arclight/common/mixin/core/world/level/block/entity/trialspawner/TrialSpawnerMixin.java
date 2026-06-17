@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity.trialspawner;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
@@ -18,6 +18,6 @@ public class TrialSpawnerMixin {
 
     @Inject(method = "spawnMob", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"))
     private void arclight$cause(ServerLevel serverLevel, BlockPos blockPos, CallbackInfoReturnable<Optional<UUID>> cir) {
-        ((WorldBridge) serverLevel).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.TRIAL_SPAWNER);
+        ((LevelBridge) serverLevel).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.TRIAL_SPAWNER);
     }
 }

@@ -13,7 +13,7 @@ import org.bukkit.inventory.InventoryHolder;
 
 import java.util.List;
 
-public interface IInventoryBridge {
+public interface ContainerBridge {
 
     int MAX_STACK = 99;
 

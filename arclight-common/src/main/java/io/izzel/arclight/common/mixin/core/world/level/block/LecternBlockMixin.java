@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ public class LecternBlockMixin {
 
     @Redirect(method = "popBook", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockEntity(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/entity/BlockEntity;"))
     private BlockEntity arclight$noValidate(Level world, BlockPos pos) {
-        return ((WorldBridge) world).bridge$getTileEntity(pos, false);
+        return ((LevelBridge) world).bridge$getTileEntity(pos, false);
     }
 
     @Inject(method = "popBook", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Direction;getStepX()I"))

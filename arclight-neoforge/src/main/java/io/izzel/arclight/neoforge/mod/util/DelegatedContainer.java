@@ -1,7 +1,7 @@
 package io.izzel.arclight.neoforge.mod.util;
 
 import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.block.entity.BlockEntityBridge;
 import io.izzel.arclight.common.mixin.bukkit.CraftBlockEntityStateAccessor;
 import io.izzel.arclight.common.mod.server.ArclightServer;
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DelegatedContainer implements Container, IInventoryBridge {
+public class DelegatedContainer implements Container, ContainerBridge {
 
     private static boolean lastItemHandlerFound = false;
 
@@ -94,7 +94,7 @@ public class DelegatedContainer implements Container, IInventoryBridge {
     public static Inventory getOwnerInventory(Object nmsOwner, IItemHandler handler) {
         Container nms = getContainer(handler);
         if (nms != null) {
-            final var inventory = ((IInventoryBridge) nms).getOwnerInventory();
+            final var inventory = ((ContainerBridge) nms).getOwnerInventory();
             if (inventory != null) {
                 return inventory;
             }
@@ -240,7 +240,7 @@ public class DelegatedContainer implements Container, IInventoryBridge {
     @Override
     public InventoryHolder getOwner() {
         if (original != null) {
-            return ((IInventoryBridge) original).getOwner();
+            return ((ContainerBridge) original).getOwner();
         } else if (nmsOwner != null) {
             if (nmsOwner instanceof BlockEntity be) {
                 return ((BlockEntityBridge) be).bridge$getOwner(); // BlockEntity
@@ -262,7 +262,7 @@ public class DelegatedContainer implements Container, IInventoryBridge {
     @Override
     public Location getLocation() {
         if (original != null) {
-            return ((IInventoryBridge) original).getLocation();
+            return ((ContainerBridge) original).getLocation();
         } else if (nmsOwner != null) {
             if (nmsOwner instanceof BlockEntity be) {
                 return CraftLocation.toBukkit(be.getBlockPos());

@@ -23,6 +23,7 @@ public class RconConsoleSourceMixin implements CommandSourceBridge, RconConsoleS
         return ((MinecraftServerBridge) this.server).bridge$getRemoteConsole();
     }
 
+    @Override
     public void sendMessage(String message) {
         this.buffer.append(message);
     }
@@ -30,10 +31,5 @@ public class RconConsoleSourceMixin implements CommandSourceBridge, RconConsoleS
     @Override
     public CommandSender bridge$getBukkitSender(CommandSourceStack wrapper) {
         return getBukkitSender();
-    }
-
-    @Override
-    public void bridge$sendMessage(String message) {
-        sendMessage(message);
     }
 }

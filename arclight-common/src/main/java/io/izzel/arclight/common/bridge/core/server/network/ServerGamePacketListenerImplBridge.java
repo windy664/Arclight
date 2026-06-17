@@ -15,13 +15,21 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public interface ServerGamePacketListenerImplBridge extends ServerCommonPacketListenerImplBridge {
 
-    void bridge$pushTeleportCause(PlayerTeleportEvent.TeleportCause cause);
+    default void bridge$pushTeleportCause(PlayerTeleportEvent.TeleportCause cause) {
 
-    void bridge$teleport(Location dest);
+    }
 
-    void bridge$pushNoTeleportEvent();
+    default void bridge$teleport(Location dest) {
 
-    boolean bridge$teleportCancelled();
+    }
+
+    default void bridge$pushNoTeleportEvent() {
+
+    }
+
+    default boolean bridge$teleportCancelled() {
+        return false;
+    }
 
     default Product3<Boolean /* Cancelled */, ItemStack /* SwappedToMainHand */, ItemStack /* SwappedToOffHand */>
     bridge$platform$canSwapHandItems(LivingEntity entity) {
@@ -33,9 +41,23 @@ public interface ServerGamePacketListenerImplBridge extends ServerCommonPacketLi
         return null;
     }
 
-    void arclight$platform$setLastPosX(double d);
-    void arclight$platform$setLastPosY(double d);
-    void arclight$platform$setLastPosZ(double d);
-    void arclight$platform$setLastPitch(float f);
-    void arclight$platform$setLastYaw(float f);
+    default void arclight$platform$setLastPosX(double d) {
+
+    }
+
+    default void arclight$platform$setLastPosY(double d) {
+
+    }
+
+    default void arclight$platform$setLastPosZ(double d) {
+
+    }
+
+    default void arclight$platform$setLastPitch(float f) {
+
+    }
+
+    default void arclight$platform$setLastYaw(float f) {
+
+    }
 }

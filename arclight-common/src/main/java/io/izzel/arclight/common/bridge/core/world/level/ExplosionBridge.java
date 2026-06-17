@@ -8,17 +8,29 @@ import java.util.List;
 
 public interface ExplosionBridge {
 
-    Entity bridge$getExploder();
+    default Entity bridge$getExploder() {
+        return null;
+    }
 
-    float bridge$getSize();
+    default float bridge$getSize() {
+        return 0;
+    }
 
-    void bridge$setSize(float size);
+    default void bridge$setSize(float size) {
 
-    Explosion.BlockInteraction bridge$getMode();
+    }
 
-    boolean bridge$wasCancelled();
+    default Explosion.BlockInteraction bridge$getMode() {
+        return null;
+    }
 
-    float bridge$getYield();
+    default boolean bridge$wasCancelled() {
+        return false;
+    }
+
+    default float bridge$getYield() {
+        return 0;
+    }
 
     default void bridge$forge$onExplosionDetonate(Level level, Explosion explosion, List<Entity> list, double diameter) {}
 }

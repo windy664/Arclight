@@ -4,5 +4,7 @@ import java.util.Date;
 
 public interface BanListEntryBridge {
 
-    Date bridge$getCreated();
+    default Date getCreated() {
+        return null;
+    }
 }

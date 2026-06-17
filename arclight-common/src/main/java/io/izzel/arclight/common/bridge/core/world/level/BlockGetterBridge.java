@@ -6,5 +6,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public interface BlockGetterBridge {
 
-    BlockHitResult bridge$rayTraceBlock(ClipContext context, BlockPos pos);
+    default BlockHitResult clip(ClipContext context, BlockPos pos) {
+        return null;
+    }
 }

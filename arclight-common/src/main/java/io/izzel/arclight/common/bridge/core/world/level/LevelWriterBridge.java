@@ -3,7 +3,7 @@ package io.izzel.arclight.common.bridge.core.world.level;
 import net.minecraft.world.entity.Entity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-public interface IWorldWriterBridge {
+public interface LevelWriterBridge {
 
     boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason);
 

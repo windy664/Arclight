@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
 import io.izzel.arclight.common.mod.mixins.annotation.ShadowConstructor;
 import net.minecraft.core.NonNullList;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(SimpleContainer.class)
-public abstract class SimpleContainerMixin implements Container, IInventoryBridge {
+public abstract class SimpleContainerMixin implements Container, ContainerBridge {
 
     // @formatter:off
     @Shadow @Final public NonNullList<ItemStack> items;

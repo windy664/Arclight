@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.vanilla.world.entity.animal;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mixin.vanilla.world.entity.EntityMixin_Vanilla;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -33,7 +33,7 @@ public abstract class MushroomCowMixin_Vanilla extends EntityMixin_Vanilla {
         if (CraftEventFactory.callEntityTransformEvent((MushroomCow) (Object) this, cowEntity, EntityTransformEvent.TransformReason.SHEARED).isCancelled()) {
             ci.cancel();
         } else {
-            ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SHEARED);
+            ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SHEARED);
             this.bridge$pushEntityRemoveCause(EntityRemoveEvent.Cause.TRANSFORMATION);
             this.discard();
         }

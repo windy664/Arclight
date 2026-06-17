@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.inventory;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v.entity.CraftHumanEntity;
@@ -18,7 +18,7 @@ import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.ItemStack;
 
 @Mixin(ResultContainer.class)
-public abstract class ResultContainerMixin implements IInventoryBridge, Container {
+public abstract class ResultContainerMixin implements ContainerBridge, Container {
 
     // @formatter:off
     @Shadow @Final private NonNullList<ItemStack> itemStacks;

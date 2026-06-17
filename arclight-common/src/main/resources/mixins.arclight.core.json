@@ -558,7 +558,7 @@
     "world.level.levelgen.structure.templatesystem.StructureTemplateMixin",
     "world.level.material.FlowingFluidMixin",
     "world.level.material.LavaFluidMixin",
-    "world.level.portal.DimensionTransitionMixin",
+    "world.level.portal.TeleportTransitionMixin",
     "world.level.portal.PortalForcerMixin",
     "world.level.portal.PortalShapeMixin",
     "world.level.redstone.NeighborUpdaterMixin",

@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.TransientCraftingContainerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.PosContainerBridge;
 import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
 import io.izzel.arclight.common.mod.mixins.annotation.ShadowConstructor;
@@ -107,7 +107,7 @@ public abstract class TransientCraftingContainerMixin implements TransientCrafti
     @Override
     public void setMaxStackSize(int size) {
         this.maxStack = size;
-        ((IInventoryBridge) this.resultInventory).setMaxStackSize(size);
+        ((ContainerBridge) this.resultInventory).setMaxStackSize(size);
     }
 
     @Override

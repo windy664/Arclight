@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.entity.npc;
 
 import io.izzel.arclight.common.bridge.core.world.item.trading.MerchantBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.item.trading.MerchantOfferBridge;
 import io.izzel.arclight.common.mixin.core.world.entity.PathfinderMobMixin;
 import net.minecraft.world.SimpleContainer;
@@ -32,7 +32,7 @@ public abstract class AbstractVillagerMixin extends PathfinderMobMixin implement
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void arclight$init(EntityType<? extends net.minecraft.world.entity.npc.AbstractVillager> type, Level worldIn, CallbackInfo ci) {
-        ((IInventoryBridge) this.inventory).setOwner((InventoryHolder) this.getBukkitEntity());
+        ((ContainerBridge) this.inventory).setOwner((InventoryHolder) this.getBukkitEntity());
     }
 
     private CraftMerchant craftMerchant;

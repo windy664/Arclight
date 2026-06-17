@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.inventory;
 
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.TransientCraftingContainerBridge;
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.AbstractContainerMenuBridge;
 import io.izzel.arclight.common.bridge.core.world.inventory.PosContainerBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
@@ -64,7 +64,7 @@ public abstract class CraftingMenuMixin extends AbstractContainerMenuMixin imple
 
     @Decorate(method = "slotChangedCraftingGrid", at = @At(value = "INVOKE", remap = false, target = "Ljava/util/Optional;isPresent()Z"))
     private static boolean arclight$testRepair(Optional<RecipeHolder<CraftingRecipe>> optional, AbstractContainerMenu menu, Level level, Player player, CraftingContainer craftingContainer) throws Throwable {
-        ((IInventoryBridge) craftingContainer).setCurrentRecipe(optional.orElse(null));
+        ((ContainerBridge) craftingContainer).setCurrentRecipe(optional.orElse(null));
         arclight$isRepair = optional.map(RecipeHolder::value).orElse(null) instanceof RepairItemRecipe;
         return (boolean) DecorationOps.callsite().invoke(optional);
     }

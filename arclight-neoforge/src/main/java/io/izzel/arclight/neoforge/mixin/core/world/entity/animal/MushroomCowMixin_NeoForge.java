@@ -1,6 +1,6 @@
 package io.izzel.arclight.neoforge.mixin.core.world.entity.animal;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.neoforge.mixin.core.world.entity.MobMixin_NeoForge;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.animal.Cow;
@@ -35,7 +35,7 @@ public abstract class MushroomCowMixin_NeoForge extends MobMixin_NeoForge {
         if (CraftEventFactory.callEntityTransformEvent((MushroomCow) (Object) this, cowEntity, EntityTransformEvent.TransformReason.SHEARED).isCancelled()) {
             ci.cancel();
         } else {
-            ((WorldBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SHEARED);
+            ((LevelBridge) this.level()).bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason.SHEARED);
             this.bridge$pushEntityRemoveCause(EntityRemoveEvent.Cause.TRANSFORMATION);
             this.discard();
         }

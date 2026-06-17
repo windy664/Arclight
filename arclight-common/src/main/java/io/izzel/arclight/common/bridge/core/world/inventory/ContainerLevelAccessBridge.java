@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.bridge.core.world.inventory;
 
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
@@ -23,7 +23,7 @@ public interface ContainerLevelAccessBridge {
             return null;
         } else {
             Level level = bridge$getWorld();
-            CraftWorld world = level == null ? null : ((WorldBridge) level).bridge$getWorld();
+            CraftWorld world = level == null ? null : ((LevelBridge) level).bridge$getWorld();
             return new Location(world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
     }

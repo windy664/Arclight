@@ -2,7 +2,7 @@ package io.izzel.arclight.common.mixin.core.world.entity;
 
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.world.entity.MobBridge;
-import io.izzel.arclight.common.bridge.core.world.level.WorldBridge;
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.common.mod.server.ArclightServer;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
@@ -259,7 +259,7 @@ public abstract class MobMixin extends LivingEntityMixin implements MobBridge {
 
     @Inject(method = "convertTo", at = @At("RETURN"))
     private <T extends Mob> void arclight$cleanReason(EntityType<T> p_233656_1_, boolean p_233656_2_, CallbackInfoReturnable<T> cir) {
-        ((WorldBridge) this.level()).bridge$pushAddEntityReason(null);
+        ((LevelBridge) this.level()).bridge$pushAddEntityReason(null);
         this.arclight$transform = null;
     }
 
@@ -269,7 +269,7 @@ public abstract class MobMixin extends LivingEntityMixin implements MobBridge {
     }
 
     public <T extends Mob> T convertTo(EntityType<T> entityType, boolean flag, EntityTransformEvent.TransformReason transformReason, CreatureSpawnEvent.SpawnReason spawnReason) {
-        ((WorldBridge) this.level()).bridge$pushAddEntityReason(spawnReason);
+        ((LevelBridge) this.level()).bridge$pushAddEntityReason(spawnReason);
         bridge$pushTransformReason(transformReason);
         return this.convertTo(entityType, flag);
     }

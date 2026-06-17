@@ -1,6 +1,6 @@
 package io.izzel.arclight.common.mixin.core.world.level.block.entity;
 
-import io.izzel.arclight.common.bridge.core.world.IInventoryBridge;
+import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.DecoratedPotBlockEntity;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Mixin(DecoratedPotBlockEntity.class)
-public abstract class DecoratedPotBlockEntityMixin extends BlockEntityMixin implements IInventoryBridge, Container {
+public abstract class DecoratedPotBlockEntityMixin extends BlockEntityMixin implements ContainerBridge, Container {
 
     @Shadow private ItemStack item;
 
