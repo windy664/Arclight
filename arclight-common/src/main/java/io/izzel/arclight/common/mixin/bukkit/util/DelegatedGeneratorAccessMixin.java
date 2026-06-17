@@ -3,7 +3,7 @@ package io.izzel.arclight.common.mixin.bukkit.util;
 import io.izzel.arclight.common.bridge.core.world.level.LevelWriterBridge;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.WorldGenLevel;
-import org.bukkit.craftbukkit.v.util.DelegatedGeneratorAccess;
+import org.bukkit.craftbukkit.util.DelegatedGeneratorAccess;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

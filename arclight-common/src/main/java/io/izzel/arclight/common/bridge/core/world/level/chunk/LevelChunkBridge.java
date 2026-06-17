@@ -38,4 +38,8 @@ public interface LevelChunkBridge {
     default CraftPersistentDataContainer bridge$getPersistentContainer() {
         return null;
     }
+
+    default void setUnsaved(boolean b) {
+
+    }
 }

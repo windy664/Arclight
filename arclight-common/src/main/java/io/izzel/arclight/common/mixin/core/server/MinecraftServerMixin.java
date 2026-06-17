@@ -300,7 +300,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
      * @reason
      */
     @Overwrite
-    public final void prepareLevels(ChunkProgressListener listener) {
+    public final void prepareLevels() {
         ServerLevel serverworld = this.overworld();
         this.forceTicks = true;
         LOGGER.info("Preparing start region for dimension {}", serverworld.dimension().location());

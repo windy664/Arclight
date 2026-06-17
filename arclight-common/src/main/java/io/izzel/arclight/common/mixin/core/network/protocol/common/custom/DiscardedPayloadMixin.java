@@ -6,9 +6,8 @@ import io.izzel.arclight.common.mod.plugin.messaging.RawPayload;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.common.custom.DiscardedPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,10 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class DiscardedPayloadMixin implements RawPayload {
 
     @ShadowConstructor
-    public abstract void arclight$constructor(ResourceLocation rl);
+    public abstract void arclight$constructor(Identifier rl);
 
     @CreateConstructor
-    public void arclight$constructor(ResourceLocation rl, ByteBuf data) {
+    public void arclight$constructor(Identifier rl, ByteBuf data) {
         arclight$constructor(rl);
         this.data = data.copy();
     }
@@ -48,7 +47,7 @@ public abstract class DiscardedPayloadMixin implements RawPayload {
     }
 
     @Inject(method = "codec", at = @At("HEAD"), cancellable = true)
-    private static<T extends FriendlyByteBuf> void arclight$interceptCodec(ResourceLocation location, int i, CallbackInfoReturnable<StreamCodec<T, CustomPacketPayload>> cir) {
-        cir.setReturnValue(RawPayload.discardedCodec(location, i));
+    private static <T extends FriendlyByteBuf> void arclight$interceptCodec(Identifier id, int maxPayloadSize, CallbackInfoReturnable<StreamCodec<T, DiscardedPayload>> cir) {
+        //cir.setReturnValue(RawPayload.channelCodec(id, maxPayloadSize)); // TODO fixme
     }
 }

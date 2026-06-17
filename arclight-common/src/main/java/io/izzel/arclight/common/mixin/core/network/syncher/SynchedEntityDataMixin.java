@@ -34,7 +34,7 @@ public abstract class SynchedEntityDataMixin implements SynchedEntityDataBridge 
     private <T> void arclight$syncHealth(EntityDataAccessor<T> key, T value, boolean b, CallbackInfo ci) {
         if (key == LivingEntity.DATA_HEALTH_ID && this.entity instanceof ServerPlayerBridge
             && ((ServerPlayerBridge) this.entity).bridge$initialized()) {
-            CraftPlayer player = ((ServerPlayerBridge) this.entity).bridge$getBukkitEntity();
+            CraftPlayer player = ((ServerPlayerBridge) this.entity).getBukkitEntity();
             player.setRealHealth(((Float) value));
         }
     }

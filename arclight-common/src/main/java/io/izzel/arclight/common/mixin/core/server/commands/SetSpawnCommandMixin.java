@@ -16,10 +16,11 @@ import java.util.Collection;
 @Mixin(SetSpawnCommand.class)
 public class SetSpawnCommandMixin {
 
+    /*
     @Inject(method = "setSpawn", at = @At("HEAD"))
     private static void arclight$cause(CommandSourceStack p_138650_, Collection<ServerPlayer> players, BlockPos p_138652_, float p_138653_, CallbackInfoReturnable<Integer> cir) {
         for (ServerPlayer player : players) {
             ((ServerPlayerBridge) player).bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause.COMMAND);
         }
-    }
+    }*/
 }

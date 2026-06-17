@@ -42,7 +42,7 @@ public abstract class CommandSourceStackMixin implements CommandSourceStackBridg
 
     @Redirect(method = "broadcastToAdmins", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;isOp(Lnet/minecraft/server/players/NameAndId;)Z"))
     private boolean arclight$feedbackPermission(PlayerList instance, NameAndId nameAndId) {
-        return ((ServerPlayerBridge) instance.getPlayer(nameAndId.id())).bridge$getBukkitEntity().hasPermission("minecraft.admin.command_feedback");
+        return ((ServerPlayerBridge) instance.getPlayer(nameAndId.id())).getBukkitEntity().hasPermission("minecraft.admin.command_feedback");
     }
 
     @Override

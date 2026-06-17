@@ -46,9 +46,6 @@ public abstract class CommandsMixin implements CommandsBridge {
     @Final @Shadow private static ClientboundCommandsPacket.NodeInspector<SharedSuggestionProvider> COMMAND_NODE_INSPECTOR;
     // @formatter:on
 
-    @Shadow
-    protected abstract <S> void fillUsableCommands(CommandNode<S> source, CommandNode<S> target, S commandFilter, Map<CommandNode<S>, CommandNode<S>> converted);
-
     @CreateConstructor
     public void arclight$constructor() {
         this.dispatcher = new BukkitDispatcher((Commands) (Object) this);
@@ -87,7 +84,7 @@ public abstract class CommandsMixin implements CommandsBridge {
         for (CommandNode<SharedSuggestionProvider> child : node.getChildren()) {
             set.add(child.getName());
         }
-        PlayerCommandSendEvent event = new PlayerCommandSendEvent(((ServerPlayerBridge) player).bridge$getBukkitEntity(), new LinkedHashSet<>(set));
+        PlayerCommandSendEvent event = new PlayerCommandSendEvent(((ServerPlayerBridge) player).getBukkitEntity(), new LinkedHashSet<>(set));
         Bukkit.getPluginManager().callEvent(event);
         for (String s : set) {
             if (!event.getCommands().contains(s)) {

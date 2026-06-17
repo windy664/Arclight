@@ -18,8 +18,9 @@ public class GameRuleCommandMixin {
         return instance.getGameRules();
     }
 
+    /*
     @Redirect(method = "queryRule", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getGameRules()Lnet/minecraft/world/level/GameRules;"))
     private static GameRules arclight$perWorldGameRule2(MinecraftServer minecraftServer, CommandSourceStack source) {
         return source.getLevel().getGameRules();
-    }
+    }*/
 }

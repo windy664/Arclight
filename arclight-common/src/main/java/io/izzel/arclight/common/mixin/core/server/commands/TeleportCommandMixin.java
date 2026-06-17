@@ -14,11 +14,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.spongepowered.asm.mixin.*;
 
@@ -36,6 +35,7 @@ public class TeleportCommandMixin {
      * @author IzzelAliz
      * @reason
      */
+    /*
     @Overwrite
     private static void performTeleport(CommandSourceStack source, Entity entity, ServerLevel level, double x, double y, double z, Set<RelativeMovement> set, float yaw, float pitch, @Nullable TeleportCommand.LookAt p_139024_) throws CommandSyntaxException {
         var event = ((EntityBridge) entity).bridge$onEntityTeleportCommand(x, y, z);
@@ -99,5 +99,5 @@ public class TeleportCommandMixin {
 
             }
         }
-    }
+    }*/
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @Mixin(TimeCommand.class)
 public class TimeCommandMixin {
 
+    /*
     @Redirect(method = "setTime", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getAllLevels()Ljava/lang/Iterable;"))
     private static Iterable<ServerLevel> arclight$useSourceLevel1(MinecraftServer server, CommandSourceStack source) {
         return List.of(source.getLevel());
@@ -42,5 +43,5 @@ public class TimeCommandMixin {
         if (!event.isCancelled()) {
             serverWorld.setDayTime(serverWorld.getDayTime() + event.getSkipAmount());
         }
-    }
+    }*/
 }

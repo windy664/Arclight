@@ -42,6 +42,7 @@ public class ServerGamePacketListenerImpl_HandlerMixin {
 
     @Unique private transient Vec3 arclight$interactVec;
 
+    /*
     @Decorate(method = "performInteraction", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl$EntityInteraction;run(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;"))
     private InteractionResult arclight$playerInteractEvent(ServerGamePacketListenerImpl.EntityInteraction instance, ServerPlayer player, Entity entity, InteractionHand interactionHand) throws Throwable {
         PlayerInteractEntityEvent event;
@@ -103,5 +104,5 @@ public class ServerGamePacketListenerImpl_HandlerMixin {
         if (!itemstack.isEmpty() && itemstack.getCount() <= -1) {
             outerThis.player.containerMenu.sendAllDataToRemote();
         }
-    }
+    }*/
 }

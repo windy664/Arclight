@@ -165,10 +165,11 @@ public abstract class DedicatedServerMixin extends MinecraftServerMixin implemen
 
     @Override
     public void arclight$prepareAndAddLevel(ServerLevel internal, PrimaryLevelData levelData) {
-        this.initWorld(internal, levelData, levelData, levelData.worldGenOptions());
+        /*
+        this.initWorld(internal, levelData, levelData, levelData.bridge$getWorldSettings().wor);
         internal.setSpawnSettings(true, true);
         this.addLevel(internal);
-        this.prepareLevels(internal.getChunkSource().chunkMap.progressListener, internal);
-        internal.entityManager.tick();
+        this.prepareLevels();
+        internal.entityManager.tick();*/
     }
 }

@@ -6,6 +6,7 @@ import io.izzel.arclight.i18n.LocalizedException;
 import io.izzel.arclight.i18n.conf.EntityPropertySpec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -62,9 +63,9 @@ public class EntityTypeMixin implements EntityTypeBridge {
         this.factory = loc -> {
             if (loc != null && loc.getWorld() != null) {
                 ServerLevel world = ((CraftWorld) loc.getWorld()).getHandle();
-                net.minecraft.world.entity.Entity entity = handleType.create(world);
+                net.minecraft.world.entity.Entity entity = handleType.create(world, EntitySpawnReason.MOB_SUMMONED);
                 if (entity != null) {
-                    entity.moveTo(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+                    entity.snapTo(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
                 }
                 if (entity instanceof LivingEntity) {
                     entity.setYHeadRot(loc.getYaw());

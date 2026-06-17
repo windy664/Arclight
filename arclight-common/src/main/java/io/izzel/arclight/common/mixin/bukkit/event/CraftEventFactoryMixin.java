@@ -1,6 +1,7 @@
 package io.izzel.arclight.common.mixin.bukkit.event;
 
 import com.google.common.base.Function;
+import com.llamalad7.mixinextras.sugar.Local;
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.damagesource.DamageSourceBridge;
@@ -11,6 +12,7 @@ import io.izzel.arclight.common.mod.util.DistValidate;
 import io.izzel.arclight.mixin.Decorate;
 import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -37,6 +40,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
@@ -44,9 +48,11 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSignOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.util.Vector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -85,7 +91,7 @@ public abstract class CraftEventFactoryMixin {
         return source;
     }
 
-    @Inject(method = "handleEntityDamageEvent*", cancellable = true, at = @At(value = "NEW", target = "java/lang/IllegalStateException"))
+    @Inject(method = "handleEntityDamageEvent(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Ljava/util/Map;Ljava/util/Map;Z)Lorg/bukkit/event/entity/EntityDamageEvent;", cancellable = true, at = @At(value = "NEW", target = "java/lang/IllegalStateException"))
     private static void arclight$unhandledDamage(Entity entity, DamageSource source, Map<EntityDamageEvent.DamageModifier, Double> modifiers, Map<EntityDamageEvent.DamageModifier, Function<? super Double, Double>> modifierFunctions, boolean cancelled, CallbackInfoReturnable<EntityDamageEvent> cir) {
         // todo blockDamage is lost
         CraftDamageSource bukkitDamageSource = new CraftDamageSource(source);
@@ -93,12 +99,11 @@ public abstract class CraftEventFactoryMixin {
         cir.setReturnValue(event);
     }
 
-    @Decorate(method = "callPlayerInteractEvent*", at = @At(value = "INVOKE", target = "Lorg/bukkit/plugin/PluginManager;callEvent(Lorg/bukkit/event/Event;)V"))
-    private static void arclight$cancelPlayerInteractIfNecessary(PluginManager instance, Event event) throws Throwable {
+    @Inject(method = "callPlayerInteractEvent(Lnet/minecraft/world/entity/player/Player;Lorg/bukkit/event/block/Action;Lorg/bukkit/block/Block;Lorg/bukkit/block/BlockFace;Lnet/minecraft/world/item/ItemStack;ZLnet/minecraft/world/InteractionHand;Lorg/bukkit/util/Vector;)Lorg/bukkit/event/player/PlayerInteractEvent;", at = @At(value = "INVOKE", target = "Lorg/bukkit/plugin/PluginManager;callEvent(Lorg/bukkit/event/Event;)V"))
+    private static void arclight$cancelPlayerInteractIfNecessary(net.minecraft.world.entity.player.Player who, Action action, Block blockClicked, BlockFace blockFace, net.minecraft.world.item.ItemStack itemstack, boolean cancelledBlock, InteractionHand hand, Vector clickedPos, CallbackInfoReturnable<PlayerInteractEvent> cir, @Local(name = "event") PlayerInteractEvent event) throws Throwable {
         if (ArclightCaptures.shouldCancelPlayerInteract()) {
             ((Cancellable) event).setCancelled(true);
         }
-        DecorationOps.callsite().invoke(instance, event);
     }
 
     /**
@@ -108,7 +113,7 @@ public abstract class CraftEventFactoryMixin {
     @Overwrite
     public static EntityDeathEvent callEntityDeathEvent(net.minecraft.world.entity.LivingEntity victim, DamageSource damageSource, List<ItemStack> drops) {
         LivingEntityBridge living = (LivingEntityBridge) victim;
-        CraftLivingEntity craft = living.bridge$getBukkitEntity();
+        CraftLivingEntity craft = living.getBukkitEntity();
         EntityDeathEvent event = ArclightEventFactory.callEntityDeathEvent(victim, damageSource, drops);
 
         CraftWorld world = (CraftWorld) craft.getWorld();
@@ -270,7 +275,7 @@ public abstract class CraftEventFactoryMixin {
     @Inject(method = "callItemSpawnEvent", cancellable = true, at = @At("HEAD"))
     private static void arclight$noAirDrops(ItemEntity itemEntity, CallbackInfoReturnable<ItemSpawnEvent> cir) {
         if (itemEntity.getItem().isEmpty()) {
-            Item entity = (Item) itemEntity.bridge$getBukkitEntity();
+            Item entity = (Item) itemEntity.getBukkitEntity();
             ItemSpawnEvent event = new ItemSpawnEvent(entity);
             event.setCancelled(true);
             cir.setReturnValue(event);
@@ -291,7 +296,7 @@ public abstract class CraftEventFactoryMixin {
             sign = new CraftSign<>(((LevelBridge) tileEntitySign.getLevel()).bridge$getWorld(), tileEntitySign);
         }
         Side side = front ? Side.FRONT : Side.BACK;
-        return callPlayerSignOpenEvent(((ServerPlayerBridge) player).bridge$getBukkitEntity(), sign, side, cause);
+        return callPlayerSignOpenEvent(((ServerPlayerBridge) player).getBukkitEntity(), sign, side, cause);
     }
 
     /**
