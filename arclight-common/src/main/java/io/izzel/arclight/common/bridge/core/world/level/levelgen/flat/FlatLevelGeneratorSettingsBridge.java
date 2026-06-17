@@ -4,7 +4,15 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 
 public interface FlatLevelGeneratorSettingsBridge {
-    void bridge$setBiomeSource(BiomeSource biomeSource);
-    FlatLevelGeneratorSettings bridge$withBiomeSource(BiomeSource biomeSource);
-    BiomeSource bridge$getBiomeSource();
+    default void bridge$setBiomeSource(BiomeSource biomeSource) {
+
+    }
+
+    default FlatLevelGeneratorSettings bridge$withBiomeSource(BiomeSource biomeSource) {
+        return null;
+    }
+
+    default BiomeSource bridge$getBiomeSource() {
+        return null;
+    }
 }

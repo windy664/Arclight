@@ -4,5 +4,7 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 
 public interface InternalEntityBridge {
 
-    CraftEntity internal$getBukkitEntity();
+    default CraftEntity internal$getBukkitEntity() {
+        return null;
+    }
 }

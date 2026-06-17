@@ -80,7 +80,7 @@ public interface LivingEntityBridge extends EntityBridge {
     }
 
     @Override
-    default CraftLivingEntity bridge$getBukkitEntity() {
+    default CraftLivingEntity getBukkitEntity() {
         return null;
     }
 

@@ -235,6 +235,9 @@
     ],
     "net/minecraft/world/level/chunk/LevelChunk": [
       "io/izzel/arclight/common/bridge/core/world/level/chunk/LevelChunkBridge"
+    ],
+    "net/minecraft/world/entity/projectile/hurtingprojectile/AbstractHurtingProjectile": [
+      "io/izzel/arclight/common/bridge/core/world/entity/projectile/hurtingprojectile/AbstractHurtingProjectileBridge"
     ]
   }
 }

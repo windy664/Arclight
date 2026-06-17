@@ -79,7 +79,7 @@ public abstract class CraftEventFactoryMixin {
             if (source.is(DamageTypes.CACTUS)
                     || source.is(DamageTypes.SWEET_BERRY_BUSH)
                     || source.is(DamageTypes.HOT_FLOOR)) {
-                source = source.directBlock(CraftBlock.at(entity.getCommandSenderWorld(), damageEventBlock));
+                source = source.directBlock(CraftBlock.at(entity.level(), damageEventBlock));
             }
         }
         return source;
@@ -89,7 +89,7 @@ public abstract class CraftEventFactoryMixin {
     private static void arclight$unhandledDamage(Entity entity, DamageSource source, Map<EntityDamageEvent.DamageModifier, Double> modifiers, Map<EntityDamageEvent.DamageModifier, Function<? super Double, Double>> modifierFunctions, boolean cancelled, CallbackInfoReturnable<EntityDamageEvent> cir) {
         // todo blockDamage is lost
         CraftDamageSource bukkitDamageSource = new CraftDamageSource(source);
-        EntityDamageEvent event = callEntityDamageEvent(((DamageSourceBridge) source).bridge$getCausingEntity(), entity, EntityDamageEvent.DamageCause.CUSTOM, bukkitDamageSource, modifiers, modifierFunctions, cancelled);
+        EntityDamageEvent event = callEntityDamageEvent(((DamageSourceBridge) source).getCausingDamager(), entity, EntityDamageEvent.DamageCause.CUSTOM, bukkitDamageSource, modifiers, modifierFunctions, cancelled);
         cir.setReturnValue(event);
     }
 
@@ -230,7 +230,7 @@ public abstract class CraftEventFactoryMixin {
     @Overwrite
     public static boolean callEntityChangeBlockEvent(Entity entity, BlockPos position, net.minecraft.world.level.block.state.BlockState newBlock, boolean cancelled) {
         Block block = CraftBlock.at(entity.level(), position);
-        EntityChangeBlockEvent event = new EntityChangeBlockEvent(entity.bridge$getBukkitEntity(), block, CraftBlockData.fromData(newBlock));
+        EntityChangeBlockEvent event = new EntityChangeBlockEvent(entity.getBukkitEntity(), block, CraftBlockData.fromData(newBlock));
         event.setCancelled(cancelled);
         // Suppress during worldgen
         if (DistValidate.isValid(entity.level())) {
