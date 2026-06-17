@@ -35,7 +35,7 @@ public class DefaultTickingTracker implements TickingTracker {
     public Entity getTickingEntity() {
         var tickingEntity = ArclightCaptures.getTickingEntity();
         if (tickingEntity != null) {
-            return ((EntityBridge) tickingEntity).bridge$getBukkitEntity();
+            return ((EntityBridge) tickingEntity).getBukkitEntity();
         }
         return null;
     }

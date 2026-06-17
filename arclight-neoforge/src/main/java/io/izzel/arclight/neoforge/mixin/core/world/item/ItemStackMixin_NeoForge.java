@@ -2,9 +2,6 @@ package io.izzel.arclight.neoforge.mixin.core.world.item;
 
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerBridge;
 import io.izzel.arclight.common.bridge.core.world.item.ItemStackBridge;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
-import io.izzel.arclight.mixin.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,8 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.LevelReader;
 import net.neoforged.neoforge.common.extensions.IItemStackExtension;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
-import org.bukkit.craftbukkit.v.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -37,6 +34,7 @@ public abstract class ItemStackMixin_NeoForge implements ItemStackBridge, IItemS
     @Shadow private int count;
     // @formatter:on
 
+    /*
     @Decorate(method = "hurtAndBreak(ILnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;Ljava/util/function/Consumer;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;processDurabilityChange(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;I)I"))
     private int arclight$itemDamage(ServerLevel serverLevel, ItemStack itemStack, int i, @Local(ordinal = 0) LivingEntity damager) throws Throwable {
@@ -61,7 +59,7 @@ public abstract class ItemStackMixin_NeoForge implements ItemStackBridge, IItemS
         if (this.count == 1 && livingEntity instanceof ServerPlayer serverPlayer) {
             CraftEventFactory.callPlayerItemBreakEvent(serverPlayer, (ItemStack) (Object) this);
         }
-    }
+    }*/
 
     @Deprecated
     public void setItem(@Nullable Item item) {

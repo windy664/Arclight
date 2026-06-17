@@ -24,11 +24,12 @@ public class ArclightSpecialRecipe extends CraftComplexRecipe {
 
     @Override
     public @NotNull ItemStack getResult() {
-        return CraftItemStack.asCraftMirror(this.recipe.getResultItem(ArclightServer.getMinecraftServer().registryAccess()));
+        //return CraftItemStack.asCraftMirror(this.recipe.getResultItem(ArclightServer.getMinecraftServer().registryAccess()));
+        return null;
     }
 
     @Override
     public void addToCraftingManager() {
-        ((RecipeManagerBridge) ArclightServer.getMinecraftServer().getRecipeManager()).bridge$addRecipe(new RecipeHolder<>(CraftNamespacedKey.toMinecraft(this.getKey()), this.recipe));
+        //((RecipeManagerBridge) ArclightServer.getMinecraftServer().getRecipeManager()).bridge$addRecipe(new RecipeHolder<>(CraftNamespacedKey.toMinecraft(this.getKey()), this.recipe));
     }
 }

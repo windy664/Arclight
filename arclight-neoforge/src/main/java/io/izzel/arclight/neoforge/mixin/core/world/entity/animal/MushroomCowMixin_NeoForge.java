@@ -3,12 +3,11 @@ package io.izzel.arclight.neoforge.mixin.core.world.entity.animal;
 import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
 import io.izzel.arclight.neoforge.mixin.core.world.entity.MobMixin_NeoForge;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.MushroomCow;
+import net.minecraft.world.entity.animal.cow.MushroomCow;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.entity.EntityRemoveEvent;
@@ -26,6 +25,7 @@ public abstract class MushroomCowMixin_NeoForge extends MobMixin_NeoForge {
     // @formatter:off
     // @formatter:on
 
+    /*
     @Redirect(method = "shear", remap = false, at = @At(value = "INVOKE", remap = true, target = "Lnet/minecraft/world/entity/animal/MushroomCow;discard()V"))
     private void arclight$animalTransformPre(MushroomCow mushroomCow) {
     }
@@ -51,5 +51,5 @@ public abstract class MushroomCowMixin_NeoForge extends MobMixin_NeoForge {
         }
         this.level().addFreshEntity(itemEntity);
         return itemEntity;
-    }
+    }*/
 }

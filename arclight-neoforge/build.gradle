@@ -13,17 +13,25 @@ loom {
     }
 }
 
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+}
+
 dependencies {
     neoForge libs.neoforge
 
     implementation libs.izzel.tools
     implementation libs.arclight.api
-    implementation libs.mixin.tools
+    //implementation libs.mixin.tools
 
-    implementation(libs.bundles.spigot.shade) { transitive = false }
-    shadowBundle(libs.bundles.spigot.shade) { transitive = false }
-    implementation rootProject.ext.generatedSpigot
-    shadowBundle rootProject.ext.generatedSpigot
+    common(libs.bundles.spigot.shade) { transitive = false }
+    shadowCommon(libs.bundles.spigot.shade) { transitive = false }
+    common rootProject.ext.generatedSpigot
+    shadowCommon rootProject.ext.generatedSpigot
 
     // XXX: for compiling (arclight-api): NeoForgeArclightServer#registerForgeEvent
     compileOnly("net.minecraftforge:eventbus:4.0.0") { transitive = false }
@@ -31,7 +39,7 @@ dependencies {
     implementation(project(':i18n-config')) { transitive = false }
 
     common(project(path: ':arclight-common')) { transitive = false }
-    shadowBundle(project(path: ':arclight-common', configuration: 'transformProductionNeoForge')) { transitive = false }
+    shadowCommon(project(path: ':arclight-common', configuration: 'transformProductionNeoForge')) { transitive = false }
 }
 
 processResources {
@@ -43,13 +51,24 @@ processResources {
     }
 }
 
-shadowJar {
-    exclude 'fabric.mod.json'
-    exclude 'architectury.common.json'
-
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = "raw"
 }
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    dependsOn jar
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null
+    zip64 = true
+    from rootProject.file("LICENSE")
+}
+
+assemble.dependsOn shadowJar
 
 /*
 remapJar {
@@ -60,12 +79,12 @@ remapJar {
 */
 
 tasks.register('srgJar', Jar) {
-    from(tasks.remapJar.outputs.files.collect { it.isDirectory() ? it : zipTree(it) }) {
+    from(tasks.jar.outputs.files.collect { it.isDirectory() ? it : zipTree(it) }) {
         include 'io/izzel/**'
         exclude 'io/izzel/arclight/common/mixin/**'
     }
     archiveClassifier.set('srg')
-    dependsOn remapJar
+    dependsOn jar
 }
 
 sourcesJar {

@@ -2,8 +2,6 @@ package io.izzel.arclight.neoforge.mixin.core.server.level;
 
 import io.izzel.arclight.common.bridge.core.server.level.ServerPlayerGameModeBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
@@ -16,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.block.Action;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,6 +30,7 @@ public abstract class ServerPlayerGameModeMixin_NeoForge implements ServerPlayer
 
     @Shadow @Final protected ServerPlayer player;
 
+    /*
     @Inject(method = "destroyBlock", remap = true, at = @At(value = "INVOKE", remap = false, target = "Lnet/neoforged/neoforge/common/CommonHooks;fireBlockBreak(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/GameType;Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Lnet/neoforged/neoforge/event/level/BlockEvent$BreakEvent;"))
     private void arclight$beforePrimaryEventFired(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         ArclightCaptures.captureNextBlockBreakEventAsPrimaryEvent();
@@ -70,5 +69,5 @@ public abstract class ServerPlayerGameModeMixin_NeoForge implements ServerPlayer
             }
         }
         return event;
-    }
+    }*/
 }

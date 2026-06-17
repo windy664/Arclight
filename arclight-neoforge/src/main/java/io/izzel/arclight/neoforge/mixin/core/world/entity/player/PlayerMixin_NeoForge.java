@@ -3,9 +3,6 @@ package io.izzel.arclight.neoforge.mixin.core.world.entity.player;
 import io.izzel.arclight.common.bridge.core.world.entity.player.PlayerBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.ArclightDamageContainer;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
-import io.izzel.arclight.mixin.Local;
 import io.izzel.arclight.neoforge.mixin.core.world.entity.LivingEntityMixin_NeoForge;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -28,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public abstract class PlayerMixin_NeoForge extends LivingEntityMixin_NeoForge implements PlayerBridge, IPlayerExtension {
 
+    /*
     @Inject(method = "hurt", cancellable = true, at = @At("HEAD"))
     private void arclight$onPlayerAttack(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (CommonHooks.onEntityIncomingDamage((Player) (Object) this, new DamageContainer(source, amount))) {
@@ -88,7 +86,7 @@ public abstract class PlayerMixin_NeoForge extends LivingEntityMixin_NeoForge im
     @Inject(method = "actuallyHurt", at = @At("RETURN"))
     private void arclight$neoforge$popEntityDamageEvent(DamageSource arg, float g, CallbackInfo ci) {
         ArclightCaptures.popDamageContainer();
-    }
+    }*/
 
     @Override
     public boolean bridge$platform$mayfly() {

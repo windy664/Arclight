@@ -60,7 +60,7 @@ public abstract class ArclightEventFactory {
      */
     public static EntityDeathEvent callEntityDeathEvent(LivingEntity entity, DamageSource damageSource, List<ItemStack> drops) {
         CraftDamageSource bukkitDamageSource = new CraftDamageSource(damageSource);
-        CraftLivingEntity craftLivingEntity = ((LivingEntityBridge) entity).bridge$getBukkitEntity();
+        CraftLivingEntity craftLivingEntity = ((LivingEntityBridge) entity).getBukkitEntity();
         EntityDeathEvent event = new EntityDeathEvent(craftLivingEntity, bukkitDamageSource, drops, ((LivingEntityBridge) entity).bridge$getExpReward(damageSource.getEntity()));
         return callEvent(event);
     }
@@ -69,7 +69,7 @@ public abstract class ArclightEventFactory {
      * @see CraftEventFactory#callPlayerDeathEvent(ServerPlayer, DamageSource, List, String, boolean)
      */
     public static PlayerDeathEvent callPlayerDeathEvent(ServerPlayer victim, DamageSource damageSource, List<ItemStack> drops, int expReward, String deathMessage, boolean keepInventory) {
-        CraftPlayer entity = (CraftPlayer) victim.bridge$getBukkitEntity();
+        CraftPlayer entity = (CraftPlayer) victim.getBukkitEntity();
         CraftDamageSource bukkitDamageSource = new CraftDamageSource(damageSource);
         PlayerDeathEvent event = new PlayerDeathEvent(entity, bukkitDamageSource, drops, expReward, 0, deathMessage);
         event.setKeepInventory(keepInventory);
@@ -112,7 +112,7 @@ public abstract class ArclightEventFactory {
         }
 
         var bblock = CraftBlock.at(level, pos);
-        var event = new BlockBreakEvent(bblock, (Player) player.bridge$getBukkitEntity());
+        var event = new BlockBreakEvent(bblock, (Player) player.getBukkitEntity());
         ArclightCaptures.captureBlockBreakPlayer(event);
 
         // Sword + Creative mode pre-cancel

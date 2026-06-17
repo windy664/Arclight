@@ -1,6 +1,5 @@
 package io.izzel.arclight.common.mod.server.world;
 
-import io.izzel.arclight.common.mixin.core.world.level.LevelMixin;
 import org.spigotmc.SpigotWorldConfig;
 
 public class ArclightWorldConfig {

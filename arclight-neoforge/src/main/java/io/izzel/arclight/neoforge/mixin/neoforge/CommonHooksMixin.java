@@ -2,8 +2,6 @@ package io.izzel.arclight.neoforge.mixin.neoforge;
 
 import io.izzel.arclight.common.mod.server.event.EntityEventHandler;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -30,9 +28,10 @@ public abstract class CommonHooksMixin {
         ArclightCaptures.getPlaceEventHand(InteractionHand.MAIN_HAND);
     }
 
+    /*
     @Decorate(method = "onLivingDrops", remap = false, at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/event/entity/living/LivingDropsEvent;isCanceled()Z"))
     private static boolean arclight$monitorLivingDrops(LivingDropsEvent instance) throws Throwable {
         instance.setCanceled(EntityEventHandler.monitorLivingDrops(instance.getEntity(), instance.getSource(), (List<ItemEntity>) instance.getDrops(), instance.isCanceled()));
         return (boolean) DecorationOps.callsite().invoke(instance);
-    }
+    }*/
 }

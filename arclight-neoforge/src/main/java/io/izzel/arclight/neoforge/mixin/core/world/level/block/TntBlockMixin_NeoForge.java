@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.bukkit.craftbukkit.v.event.CraftEventFactory;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.block.TNTPrimeEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(TntBlock.class)
 public abstract class TntBlockMixin_NeoForge extends BlockMixin_NeoForge {
 
+    /*
     @Redirect(method = "playerWillDestroy", at = @At(value = "INVOKE", remap = false, target = "Lnet/minecraft/world/level/block/TntBlock;onCaughtFire(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/world/entity/LivingEntity;)V"))
     private void arclight$playerBreak(TntBlock instance, BlockState state, Level world, BlockPos pos, Direction face, LivingEntity igniter,
                                       Level p_57445_, BlockPos p_57446_, BlockState p_57447_, Player player) {
@@ -46,5 +47,5 @@ public abstract class TntBlockMixin_NeoForge extends BlockMixin_NeoForge {
             || !CraftEventFactory.callTNTPrimeEvent(worldIn, hit.getBlockPos(), TNTPrimeEvent.PrimeCause.PROJECTILE, projectile, null)) {
             ci.cancel();
         }
-    }
+    }*/
 }

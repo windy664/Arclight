@@ -21,6 +21,7 @@ public interface CraftRecipeMixin {
      * @author IzzelAliz
      * @reason
      */
+    /*
     @Overwrite
     default Ingredient toNMS(RecipeChoice bukkit, boolean requireNotEmpty) {
         Ingredient stack;
@@ -53,6 +54,7 @@ public interface CraftRecipeMixin {
      * @author IzzelAliz
      * @reason
      */
+    /*
     @Overwrite
     static RecipeChoice toBukkit(Ingredient list) {
         list.getItems();
@@ -77,5 +79,5 @@ public interface CraftRecipeMixin {
                 return new RecipeChoice.MaterialChoice(choices);
             }
         }
-    }
+    }*/
 }

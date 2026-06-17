@@ -14,6 +14,6 @@ public abstract class ExplosionMixin_NeoForge implements ExplosionBridge {
 
     @Override
     public void bridge$forge$onExplosionDetonate(Level level, Explosion explosion, List<Entity> list, double diameter) {
-        EventHooks.onExplosionDetonate(level, explosion, list, diameter);
+       // EventHooks.onExplosionDetonate(level, explosion, list, diameter);
     }
 }

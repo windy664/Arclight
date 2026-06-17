@@ -6,5 +6,5 @@ import net.minecraft.world.level.gamerules.GameRules;
 import java.util.Set;
 
 public interface GameRulesBridge {
-    Set<GameRules.Key<?>> arclight$getAllRules();
+    Set<GameRules> arclight$getAllRules();
 }

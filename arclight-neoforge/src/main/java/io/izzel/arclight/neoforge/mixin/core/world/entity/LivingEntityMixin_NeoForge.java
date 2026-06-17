@@ -3,9 +3,6 @@ package io.izzel.arclight.neoforge.mixin.core.world.entity;
 import io.izzel.arclight.common.bridge.core.world.entity.LivingEntityBridge;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.ArclightDamageContainer;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
-import io.izzel.arclight.mixin.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -33,7 +30,9 @@ import java.util.Stack;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin_NeoForge extends EntityMixin_NeoForge implements LivingEntityBridge {
 
+
     // @formatter:off
+    /*
     @Shadow protected abstract void dropExperience(@Nullable Entity entity);
     @Shadow protected Stack<DamageContainer> damageContainers;
     // @formatter:on
@@ -150,10 +149,10 @@ public abstract class LivingEntityMixin_NeoForge extends EntityMixin_NeoForge im
             amount = currentDamage - afterDamage;
         }
         DecorationOps.callsite().invoke(container, reduction, amount);
-    }
+    }*/
 
     @Inject(method = "actuallyHurt", at = @At("RETURN"))
-    private void arclight$vanilla$popEntityDamageEvent(DamageSource arg, float g, CallbackInfo ci) {
+    private void arclight$vanilla$popEntityDamageEvent(ServerLevel level, DamageSource source, float dmg, CallbackInfo ci) {
         ArclightCaptures.popDamageContainer();
     }
 
@@ -169,6 +168,6 @@ public abstract class LivingEntityMixin_NeoForge extends EntityMixin_NeoForge im
 
     @Override
     public boolean bridge$forge$canEntityDestroy(Level level, BlockPos pos, LivingEntity entity) {
-        return CommonHooks.canEntityDestroy(level, pos, entity);
+        return CommonHooks.canEntityDestroy((ServerLevel) level, pos, entity);
     }
 }

@@ -2,8 +2,8 @@ package io.izzel.arclight.common.mixin.bukkit;
 
 import io.izzel.arclight.api.EnumHelper;
 import io.izzel.arclight.common.mod.server.ArclightServer;
-import net.minecraft.world.entity.monster.SpellcasterIllager;
-import org.bukkit.craftbukkit.v.entity.CraftSpellcaster;
+import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
+import org.bukkit.craftbukkit.entity.CraftSpellcaster;
 import org.bukkit.entity.Spellcaster;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

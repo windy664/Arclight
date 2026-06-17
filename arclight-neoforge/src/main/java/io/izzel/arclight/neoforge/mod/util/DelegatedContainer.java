@@ -20,12 +20,12 @@ import net.neoforged.neoforge.items.wrapper.RangedWrapper;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v.block.CraftBlockEntityState;
-import org.bukkit.craftbukkit.v.entity.CraftEntity;
-import org.bukkit.craftbukkit.v.entity.CraftHumanEntity;
-import org.bukkit.craftbukkit.v.inventory.CraftBlockInventoryHolder;
-import org.bukkit.craftbukkit.v.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v.util.CraftLocation;
+import org.bukkit.craftbukkit.block.CraftBlockEntityState;
+import org.bukkit.craftbukkit.entity.CraftEntity;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.inventory.CraftBlockInventoryHolder;
+import org.bukkit.craftbukkit.inventory.CraftInventory;
+import org.bukkit.craftbukkit.util.CraftLocation;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -35,6 +35,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("removal")
 public class DelegatedContainer implements Container, ContainerBridge {
 
     private static boolean lastItemHandlerFound = false;
@@ -204,7 +205,7 @@ public class DelegatedContainer implements Container, ContainerBridge {
             if (nmsOwner instanceof BlockEntity be) {
                 return Container.stillValidBlockEntity(be, arg);
             } else if (nmsOwner instanceof Entity entity) {
-                return arg.canInteractWithEntity(entity, 4.0F);
+                return arg.isWithinEntityInteractionRange(entity, 4.0F);
             }
         }
         return true;
@@ -245,7 +246,7 @@ public class DelegatedContainer implements Container, ContainerBridge {
             if (nmsOwner instanceof BlockEntity be) {
                 return ((BlockEntityBridge) be).bridge$getOwner(); // BlockEntity
             } else if (nmsOwner instanceof EntityBridge entity) {
-                return entity.bridge$getBukkitEntity() instanceof InventoryHolder result ? result : null; // Entity
+                return entity.getBukkitEntity() instanceof InventoryHolder result ? result : null; // Entity
             }
         }
         return null;

@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.util.BlockSnapshot;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
-import org.bukkit.craftbukkit.v.block.CraftBlock;
+import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockMultiPlaceEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -28,7 +28,7 @@ public class BlockPlaceEventDispatcher {
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof ServerPlayerBridge playerEntity) {
-            Player player = playerEntity.bridge$getBukkitEntity();
+            Player player = playerEntity.getBukkitEntity();
             Direction direction = ArclightCaptures.getPlaceEventDirection();
             if (direction != null && DistValidate.isValid(event.getLevel())) {
                 InteractionHand hand = ArclightCaptures.getPlaceEventHand(InteractionHand.MAIN_HAND);
@@ -63,7 +63,7 @@ public class BlockPlaceEventDispatcher {
     public void onMultiPlace(BlockEvent.EntityMultiPlaceEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof ServerPlayerBridge playerEntity) {
-            Player player = playerEntity.bridge$getBukkitEntity();
+            Player player = playerEntity.getBukkitEntity();
             Direction direction = ArclightCaptures.getPlaceEventDirection();
             if (direction != null && DistValidate.isValid(event.getLevel())) {
                 InteractionHand hand = ArclightCaptures.getPlaceEventHand(InteractionHand.MAIN_HAND);

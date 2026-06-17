@@ -610,6 +610,7 @@ transitive-accessible method net/minecraft/server/level/ChunkMap tick (Ljava/uti
 transitive-accessible field net/minecraft/core/component/DataComponentPatch map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 transitive-accessible field net/minecraft/core/component/DataComponentPatch$Builder map Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 transitive-accessible class net/minecraft/world/phys/shapes/IndexMerger
+transitive-accessible class net/minecraft/server/network/ServerLoginPacketListenerImpl$State
 
 # Loom interface Injections
 transitive-inject-interface net/minecraft/advancements/AdvancementHolder io/izzel/arclight/common/bridge/core/advancements/AdvancementHolderBridge

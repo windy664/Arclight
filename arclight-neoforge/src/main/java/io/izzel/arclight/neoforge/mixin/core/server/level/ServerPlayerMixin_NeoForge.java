@@ -23,6 +23,7 @@ public abstract class ServerPlayerMixin_NeoForge extends io.izzel.arclight.neofo
     @Shadow @Final public MinecraftServer server;
     // @formatter:on
 
+    /*
     @Inject(method = "lambda$startSleepInBed$13", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V"))
     private void arclight$bedCause(BlockPos pos, CallbackInfoReturnable<Either<Player.BedSleepingProblem, Unit>> cir) {
         this.bridge$pushChangeSpawnCause(PlayerSpawnChangeEvent.Cause.BED);
@@ -32,5 +33,5 @@ public abstract class ServerPlayerMixin_NeoForge extends io.izzel.arclight.neofo
     private <L, R> Either<L, R> arclight$failSleep(L value, BlockPos pos) {
         Either<L, R> either = Either.left(value);
         return bridge$fireBedEvent(either, pos);
-    }
+    }*/
 }

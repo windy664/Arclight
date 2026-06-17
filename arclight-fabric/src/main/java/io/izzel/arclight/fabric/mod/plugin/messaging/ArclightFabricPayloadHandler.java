@@ -18,7 +18,7 @@ public record ArclightFabricPayloadHandler(ArclightPluginChannel<ArclightFabricP
     @Override
     public void receive(ArclightRawPayload pkt, ServerPlayNetworking.Context ctx) {
         ctx.server().executeIfPossible(() -> {
-            var bukkit = ((ServerPlayerBridge)ctx.player()).bridge$getBukkitEntity();
+            var bukkit = ((ServerPlayerBridge)ctx.player()).getBukkitEntity();
             channel.dispatchMessage(bukkit, pkt.arclight$leak());
         });
     }

@@ -69,7 +69,7 @@ public class ArclightPingEvent extends ServerListPingEvent {
                 ServerPlayer player = this.player;
                 this.player = null;
                 this.ret = this.i - 1;
-                return ((ServerPlayerBridge) player).bridge$getBukkitEntity();
+                return ((ServerPlayerBridge) player).getBukkitEntity();
             }
 
             @Override

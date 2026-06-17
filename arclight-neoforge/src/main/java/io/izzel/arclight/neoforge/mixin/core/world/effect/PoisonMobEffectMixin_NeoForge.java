@@ -9,8 +9,9 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(targets = "net.minecraft.world.effect.PoisonMobEffect")
 public class PoisonMobEffectMixin_NeoForge {
 
+    /*
     @ModifyArg(method = "applyEffectTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
     private DamageSource arclight$redirectPoison(DamageSource source) {
-        return ((DamageSourceBridge) source).bridge$poison();
-    }
+        return ((DamageSourceBridge) source).poison();
+    }*/
 }

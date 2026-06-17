@@ -32,8 +32,4 @@ public abstract class MinecraftServerMixin_NeoForge implements MinecraftServerBr
         this.markWorldsDirty();
     }
 
-    @Override
-    public void bridge$forge$reinstatePersistentChunks(ServerLevel level, ForcedChunksSavedData savedData) {
-        ForcedChunkManager.reinstatePersistentChunks(level, savedData);
-    }
 }

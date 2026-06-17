@@ -29,7 +29,7 @@ public class ArclightModdedMenuContainer implements Container, ContainerBridge {
 
     public ArclightModdedMenuContainer(AbstractContainerMenu container, Player owner) {
         this.container = container;
-        this.owner = ((PlayerBridge) owner).bridge$getBukkitEntity();
+        this.owner = ((PlayerBridge) owner).getBukkitEntity();
     }
 
     @Override

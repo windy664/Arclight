@@ -1,8 +1,6 @@
 package io.izzel.arclight.common.mixin.bukkit;
 
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,6 +24,7 @@ public abstract class CraftHumanEntityMixin extends CraftEntity {
         super(server, entity);
     }
 
+    /*
     @Decorate(method = "getOpenInventory", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/inventory/AbstractContainerMenu;getBukkitView()Lorg/bukkit/inventory/InventoryView;"))
     private InventoryView arclight$capturePlayer(AbstractContainerMenu instance) throws Throwable {
         Player handle = getHandle();
@@ -35,7 +34,7 @@ public abstract class CraftHumanEntityMixin extends CraftEntity {
         } finally {
             ArclightCaptures.popContainerOwner(handle);
         }
-    }
+    }*/
 
     @Override
     public void setHandle(Entity entity) {

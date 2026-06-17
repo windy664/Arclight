@@ -17,8 +17,8 @@ dependencies {
 
     implementation libs.izzel.tools
     implementation libs.arclight.api
-    implementation libs.mixin.tools
-    annotationProcessor(libs.mixin.tools) { transitive = false }
+    //implementation libs.mixin.tools
+    //annotationProcessor(libs.mixin.tools) { transitive = false }
 
     // spigot
     implementation libs.spigot.api

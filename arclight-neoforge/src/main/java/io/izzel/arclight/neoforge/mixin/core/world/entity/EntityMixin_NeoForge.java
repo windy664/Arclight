@@ -4,6 +4,7 @@ import io.izzel.arclight.common.bridge.core.world.entity.EntityBridge;
 import io.izzel.tools.product.Product;
 import io.izzel.tools.product.Product4;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,7 +32,6 @@ public abstract class EntityMixin_NeoForge implements EntityBridge, IEntityExten
     @Shadow private float yRot;
     @Shadow private float xRot;
     @Shadow public abstract float getXRot();
-    @Shadow public abstract void moveTo(double d, double e, double f, float g, float h);
     @Shadow public abstract void setDeltaMovement(Vec3 vec3);
     @Shadow public abstract void unRide();
     @Shadow public abstract float getYRot();
@@ -54,6 +54,7 @@ public abstract class EntityMixin_NeoForge implements EntityBridge, IEntityExten
         this.revive();
     }
 
+    /*
     @Redirect(method = "updateFluidHeightAndDoFluidPushing()V", remap = false, at = @At(value = "INVOKE", remap = true, target="Lnet/minecraft/world/level/material/FluidState;getFlow(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;"))
     private Vec3 arclight$setLava(FluidState instance, BlockGetter level, BlockPos pos) {
         if (instance.getType().is(FluidTags.LAVA)) {
@@ -69,7 +70,7 @@ public abstract class EntityMixin_NeoForge implements EntityBridge, IEntityExten
             drops = null;
         }
         return drops;
-    }
+    }*/
 
     @Override
     public boolean bridge$forge$isPartEntity() {
@@ -88,7 +89,7 @@ public abstract class EntityMixin_NeoForge implements EntityBridge, IEntityExten
 
     @Override
     public Product4<Boolean, Double, Double, Double> bridge$onEntityTeleportCommand(double x, double y, double z) {
-        var event = EventHooks.onEntityTeleportCommand((Entity) (Object) this, x, y, z);
+        var event = EventHooks.onEntityTeleportCommand((Entity) (Object) this, (ServerLevel) this.level(), x, y, z);
         return Product.of(event.isCanceled(), event.getTargetX(), event.getTargetY(), event.getTargetZ());
     }
 }

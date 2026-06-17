@@ -7,9 +7,6 @@ import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;
 import io.izzel.arclight.common.mod.ArclightConstants;
 import io.izzel.arclight.common.mod.plugin.messaging.PacketRecorder;
 import io.izzel.arclight.common.mod.plugin.messaging.RawPayload;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
-import io.izzel.arclight.mixin.Local;
 import net.minecraft.network.Connection;
 import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.protocol.Packet;
@@ -17,7 +14,7 @@ import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.ServerCommonPacketListener;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.extensions.ICommonPacketListener;
 import net.neoforged.neoforge.network.registration.NetworkPayloadSetup;
 import net.neoforged.neoforge.network.registration.NetworkRegistry;
@@ -39,10 +36,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Mixin(value = NetworkRegistry.class, remap = false)
 public abstract class NetworkRegistryMixin {
 
-    @Shadow @Final @Mutable private static Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS;
+    /*
+    @Shadow @Final @Mutable private static Map<ConnectionProtocol, Map<Identifier, PayloadRegistration<?>>> PAYLOAD_REGISTRATIONS;
 
     @Redirect(method = "<clinit>", at = @At(value = "FIELD", opcode = Opcodes.PUTSTATIC, target = "Lnet/neoforged/neoforge/network/registration/NetworkRegistry;PAYLOAD_REGISTRATIONS:Ljava/util/Map;"))
-    private static void arclight$useConcurrentMap(Map<ConnectionProtocol, Map<ResourceLocation, PayloadRegistration<?>>> value) {
+    private static void arclight$useConcurrentMap(Map<ConnectionProtocol, Map<Identifier, PayloadRegistration<?>>> value) {
         PAYLOAD_REGISTRATIONS = ImmutableMap.of(
                 ConnectionProtocol.CONFIGURATION, new ConcurrentHashMap<>(),
                 ConnectionProtocol.PLAY, new ConcurrentHashMap<>()
@@ -50,7 +48,7 @@ public abstract class NetworkRegistryMixin {
     }
 
     @Decorate(method = "getCodec", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V"))
-    private static void arclight$discardIllegal(Logger instance, String s, Object o, ResourceLocation id, ConnectionProtocol protocol, PacketFlow flow) throws Throwable {
+    private static void arclight$discardIllegal(Logger instance, String s, Object o, Identifier id, ConnectionProtocol protocol, PacketFlow flow) throws Throwable {
         // We always need to invoke warn() as there may be other implementation modifying return value / logic here.
         // But make sure we don't log loud warnings since they are always recorded quietly.
         // Designed to make it compatible with Oritech / Forgified Fabric API, </3 NeoForge
@@ -76,7 +74,7 @@ public abstract class NetworkRegistryMixin {
     }
 
     @Inject(method = "onMinecraftRegister", at = @At("RETURN"))
-    private static void arclight$syncChannelRegister(Connection connection, Set<ResourceLocation> channels, CallbackInfo ci) {
+    private static void arclight$syncChannelRegister(Connection connection, Set<Identifier> channels, CallbackInfo ci) {
         if (connection.getPacketListener() instanceof ServerCommonPacketListener listener) {
             var bridge = (ServerCommonPacketListenerImplBridge) listener;
             var mcserver = (MinecraftServerBridge) bridge.bridge$getCraftServer().getServer();
@@ -92,7 +90,7 @@ public abstract class NetworkRegistryMixin {
     }
 
     @Inject(method = "onMinecraftUnregister", at = @At("RETURN"))
-    private static void arclight$syncChannelUnregister(Connection connection, Set<ResourceLocation> channels, CallbackInfo ci) {
+    private static void arclight$syncChannelUnregister(Connection connection, Set<Identifier> channels, CallbackInfo ci) {
         if (connection.getPacketListener() instanceof ServerCommonPacketListener listener) {
             var bridge = (ServerCommonPacketListenerImplBridge) listener;
             var mcserver = (MinecraftServerBridge) bridge.bridge$getCraftServer().getServer();
@@ -120,5 +118,5 @@ public abstract class NetworkRegistryMixin {
                 bridge.bridge$getCraftPlayer().addChannel(channel.toString());
             }
         });
-    }
+    }*/
 }

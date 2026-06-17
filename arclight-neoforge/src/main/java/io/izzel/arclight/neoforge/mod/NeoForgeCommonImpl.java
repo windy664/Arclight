@@ -2,11 +2,11 @@ package io.izzel.arclight.neoforge.mod;
 
 import com.google.common.graph.Graph;
 import com.google.common.graph.Graphs;
-import cpw.mods.modlauncher.ClassTransformer;
-import cpw.mods.modlauncher.TransformingClassLoader;
 import io.izzel.arclight.api.Unsafe;
 import io.izzel.arclight.common.mod.ArclightCommon;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.classloading.transformation.ClassTransformer;
+import net.neoforged.fml.classloading.transformation.TransformingClassLoader;
 import net.neoforged.fml.loading.FMLLoader;
 import org.objectweb.asm.ClassReader;
 
@@ -44,7 +44,7 @@ public class NeoForgeCommonImpl implements ArclightCommon.Api {
 
     @Override
     public boolean isModLoaded(String modid) {
-        return ModList.get() != null ? ModList.get().isLoaded(modid) : FMLLoader.getLoadingModList().getModFileById(modid) != null;
+        return ModList.get() != null ? ModList.get().isLoaded(modid) : FMLLoader.getCurrent().getLoadingModList().getModFileById(modid) != null;
     }
 
     @Override

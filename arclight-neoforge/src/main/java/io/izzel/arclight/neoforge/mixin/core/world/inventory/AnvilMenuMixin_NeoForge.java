@@ -14,11 +14,13 @@ public abstract class AnvilMenuMixin_NeoForge implements AnvilMenuBridge {
 
     @Override
     public boolean bridge$forge$onAnvilChange(AnvilMenu container, @NotNull ItemStack left, @NotNull ItemStack right, Container outputSlot, String name, int baseCost, Player player) {
-        return CommonHooks.onAnvilChange(container, left, right, outputSlot, name, baseCost, player);
+        //return CommonHooks.onAnvilChange(container, left, right, outputSlot, name, baseCost, player);
+        return false;
     }
 
     @Override
     public boolean bridge$forge$isBookEnchantable(ItemStack a, ItemStack b) {
-        return a.isBookEnchantable(b);
+        //return a.isBookEnchantable(b);
+        return false;
     }
 }

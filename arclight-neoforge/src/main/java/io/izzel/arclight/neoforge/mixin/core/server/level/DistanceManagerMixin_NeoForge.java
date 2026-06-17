@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(DistanceManager.class)
 public abstract class DistanceManagerMixin_NeoForge implements DistanceManagerBridge {
 
+    /*
     // @formatter:off
     @Shadow(remap = false) @Final private Long2ObjectOpenHashMap<SortedArraySet<Ticket<?>>> forcedTickets;
     // @formatter:on
@@ -33,5 +34,5 @@ public abstract class DistanceManagerMixin_NeoForge implements DistanceManagerBr
         if (tickets != null) {
             tickets.remove(ticketIn);
         }
-    }
+    }*/
 }

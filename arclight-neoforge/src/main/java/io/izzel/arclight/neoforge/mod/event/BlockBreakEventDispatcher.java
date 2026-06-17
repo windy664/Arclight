@@ -6,14 +6,14 @@ import io.izzel.arclight.common.mod.util.DistValidate;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v.block.CraftBlock;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.craftbukkit.block.CraftBlock;
 
 public class BlockBreakEventDispatcher {
 
     // todo
+    /*
     @SubscribeEvent(receiveCanceled = true)
-    public void onBreakBlock(BlockEvent.BreakEvent event) {
+    public void onBreakBlock(BlockEvent event) {
         if (DistValidate.isValid(event.getLevel())) {
             CraftBlock craftBlock = CraftBlock.at(event.getLevel(), event.getPos());
             BlockBreakEvent breakEvent = new BlockBreakEvent(craftBlock, ((ServerPlayerBridge) event.getPlayer()).bridge$getBukkitEntity());
@@ -24,5 +24,5 @@ public class BlockBreakEventDispatcher {
             event.setCanceled(breakEvent.isCancelled());
             //event.setExpToDrop(breakEvent.getExpToDrop());
         }
-    }
+    }*/
 }

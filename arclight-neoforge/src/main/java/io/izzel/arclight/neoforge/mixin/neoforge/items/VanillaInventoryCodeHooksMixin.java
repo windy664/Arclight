@@ -3,8 +3,6 @@ package io.izzel.arclight.neoforge.mixin.neoforge.items;
 import com.google.common.base.Preconditions;
 import io.izzel.arclight.common.bridge.core.world.ContainerBridge;
 import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
-import io.izzel.arclight.mixin.Decorate;
-import io.izzel.arclight.mixin.DecorationOps;
 import io.izzel.arclight.neoforge.mod.util.DelegatedContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,12 +13,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.Hopper;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.VanillaInventoryCodeHooks;
+import net.neoforged.neoforge.transfer.item.VanillaInventoryCodeHooks;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v.block.CraftBlock;
-import org.bukkit.craftbukkit.v.inventory.CraftInventory;
-import org.bukkit.craftbukkit.v.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.inventory.CraftInventory;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.inventory.HopperInventorySearchEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -34,6 +32,7 @@ import java.util.Optional;
 @Mixin(VanillaInventoryCodeHooks.class)
 public abstract class VanillaInventoryCodeHooksMixin {
 
+    /*
     @Inject(method = "getItemHandlerAt", at = @At("RETURN"), remap = false)
     private static void arclight$recordResult(Level worldIn, double x, double y, double z, Direction side, CallbackInfoReturnable<Optional<Pair<IItemHandler, Object>>> cir) {
         if (cir.getReturnValue().isPresent()) {
@@ -112,6 +111,6 @@ public abstract class VanillaInventoryCodeHooksMixin {
         Bukkit.getServer().getPluginManager().callEvent(event);
         CraftInventory craftInventory = (CraftInventory) event.getInventory();
         return Optional.ofNullable(DelegatedContainer.makeItemHandlerPair(craftInventory));
-    }
+    }*/
 
 }

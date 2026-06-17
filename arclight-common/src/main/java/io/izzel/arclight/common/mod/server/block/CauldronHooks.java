@@ -45,7 +45,7 @@ public class CauldronHooks {
         newState.setData(state);
         CauldronLevelChangeEvent event = new CauldronLevelChangeEvent(
             CraftBlock.at(world, pos),
-            (entity == null) ? null : ((EntityBridge) entity).bridge$getBukkitEntity(),
+            (entity == null) ? null : ((EntityBridge) entity).getBukkitEntity(),
             reason, newState
         );
         Bukkit.getPluginManager().callEvent(event);
