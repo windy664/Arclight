@@ -16,5 +16,6 @@
   "mixinPriority": 500,
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "MixinCrashReport"
   ]
 }
