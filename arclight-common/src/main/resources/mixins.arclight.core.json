@@ -42,6 +42,7 @@
     "world.CompoundContainerMixin",
     "world.ContainerMixin",
     "world.SimpleContainerMixin",
+    "world.attribute.BedRuleMixin",
     "world.item.EggItemMixin",
     "world.level.LevelWriterMixin",
     "world.level.block.InfestedBlockMixin",
