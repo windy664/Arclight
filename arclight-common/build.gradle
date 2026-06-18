@@ -7,7 +7,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file('src/main/resources/arclight.classTweaker')
+    accessWidenerPath = file('src/main/resources/arclight.classtweaker')
 }
 
 dependencies {
