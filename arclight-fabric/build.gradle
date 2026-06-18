@@ -31,7 +31,7 @@ dependencies {
     shadowCommon rootProject.ext.generatedSpigot
 
     implementation libs.fabric.permissions.api
-    include libs.fabric.permissions.api
+    //include libs.fabric.permissions.api
 
     // XXX: for compiling (arclight-api): FabricArclightServer#registerForgeEvent
     compileOnly("net.minecraftforge:eventbus:4.0.0") { transitive = false }

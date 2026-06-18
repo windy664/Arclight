@@ -33,7 +33,7 @@ public class ArclightImplementer extends GameTransformer {
         this.getRawClassByteArray = MethodHandles.lookup().unreflect(method).bindTo(knotCl);
         this.implementers.put("inventory", new InventoryImplementer());
         this.implementers.put("switch", SwitchTableFixer.INSTANCE);
-        this.implementers.put("async", AsyncCatcher.INSTANCE);
+        //this.implementers.put("async", AsyncCatcher.INSTANCE);
         this.implementers.put("enum", new EnumDefinalizer());
         boolean logger = detectTransformLogger();
         if (logger) {

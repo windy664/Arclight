@@ -735,4 +735,4 @@ transitive-inject-interface net/minecraft/server/rcon/RconConsoleSource io/izzel
 transitive-inject-interface net/minecraft/server/MinecraftServer io/izzel/arclight/common/bridge/core/server/MinecraftServerBridge
 
 # enum extensions
-transitive-extend-enum net/minecraft/world/level/Level$ExplosionInteraction STANDARD
+# transitive-extend-enum net/minecraft/world/level/Level$ExplosionInteraction STANDARD
