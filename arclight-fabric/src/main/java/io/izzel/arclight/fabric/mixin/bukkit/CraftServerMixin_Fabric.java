@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = CraftServer.class, remap = false)
 public abstract class CraftServerMixin_Fabric {
-    @ModifyVariable(method = "dispatchCommand", remap = false, index = 2, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lorg/spigotmc/AsyncCatcher;catchOp(Ljava/lang/String;)V"))
-    private String arclight$forge$forgeCommandEvent(String commandLine, CommandSender sender) {
+    @ModifyVariable(method = "dispatchCommand", remap = false, index = 2, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lorg/spigotmc/AsyncCatcher;catchOp(Ljava/lang/String;)V"), argsOnly = true)
+    private String arclight$fabric$commandEvent(String commandLine, CommandSender sender) {
         CommandSourceStack commandSource;
         if (sender instanceof CraftEntity craftEntity) {
             commandSource = craftEntity.getHandle().createCommandSourceStackForNameResolution((ServerLevel) craftEntity.getHandle().level());

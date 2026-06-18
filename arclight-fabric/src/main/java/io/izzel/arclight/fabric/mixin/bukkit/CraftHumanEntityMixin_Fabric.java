@@ -2,20 +2,25 @@ package io.izzel.arclight.fabric.mixin.bukkit;
 
 import io.izzel.arclight.fabric.mod.permission.ArclightFabricPermissible;
 import io.izzel.arclight.i18n.ArclightConfig;
+import net.minecraft.world.entity.player.Player;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.ServerOperator;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = CraftHumanEntity.class, remap = false)
 public abstract class CraftHumanEntityMixin_Fabric {
 
+    @Shadow
+    public abstract Player getHandle();
+
     @Redirect(method = "<init>", at = @At(value = "NEW", target = "(Lorg/bukkit/permissions/ServerOperator;)Lorg/bukkit/permissions/PermissibleBase;"))
     private PermissibleBase arclight$forge$forwardPerm(ServerOperator opable) {
         if (ArclightConfig.spec().getCompat().isForwardPermissionReverse()) {
-            return new ArclightFabricPermissible(opable);
+            return new ArclightFabricPermissible(opable, getHandle());
         } else {
             return new PermissibleBase(opable);
         }

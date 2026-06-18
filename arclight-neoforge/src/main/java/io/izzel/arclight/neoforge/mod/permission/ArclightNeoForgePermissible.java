@@ -29,7 +29,7 @@ public class ArclightNeoForgePermissible extends PermissibleBase {
 
     @Override
     public boolean hasPermission(@NotNull String inName) {
-        var node = newNode(inName, (player, playerUUID, context) -> super.hasPermission(inName));
+        var node = newNode(inName, (_, _, _) -> super.hasPermission(inName));
         if (player.getHandle() instanceof ServerPlayer player) {
             return getHandler().getPermission(player, node);
         } else {
@@ -39,7 +39,7 @@ public class ArclightNeoForgePermissible extends PermissibleBase {
 
     @Override
     public boolean hasPermission(@NotNull Permission perm) {
-        var node = newNode(perm.getName(), (player, playerUUID, context) -> super.hasPermission(perm));
+        var node = newNode(perm.getName(), (_, _, _) -> super.hasPermission(perm));
         if (player.getHandle() instanceof ServerPlayer player) {
             return getHandler().getPermission(player, node);
         } else {

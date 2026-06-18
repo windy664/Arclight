@@ -48,6 +48,7 @@
     "event.CraftEventFactoryMixin",
     "event.EntityDamageEventMixin",
     "inventory.CraftItemStackMixin",
+    "permissions.PermissibleBaseMixin",
     "plugin.JavaPluginLoaderMixin",
     "plugin.JavaPluginMixin",
     "plugin.LibraryLoaderMixin",

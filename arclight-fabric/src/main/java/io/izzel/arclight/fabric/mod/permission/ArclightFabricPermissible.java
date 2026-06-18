@@ -1,9 +1,8 @@
 package io.izzel.arclight.fabric.mod.permission;
 
-import me.lucko.fabric.api.permissions.v0.Permissions;
+import net.fabricmc.fabric.api.permission.v1.PermissionContextOwner;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.server.level.ServerPlayer;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import net.minecraft.resources.Identifier;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.ServerOperator;
@@ -12,38 +11,34 @@ import org.jetbrains.annotations.Nullable;
 
 public class ArclightFabricPermissible extends PermissibleBase {
 
-    private final CraftHumanEntity player;
+    private final PermissionContextOwner owner;
 
-    public ArclightFabricPermissible(@Nullable ServerOperator opable) {
+    public ArclightFabricPermissible(@Nullable ServerOperator opable, @NotNull PermissionContextOwner owner) {
         super(opable);
-        this.player = (CraftHumanEntity) opable;
+        this.owner = owner;
     }
 
-    private @Nullable ServerPlayer nmsPlayer() {
-        return player != null ? (ServerPlayer) player.getHandle() : null;
+    private TriState checkPerm(String name) {
+        return owner.checkPermission(Identifier.fromNamespaceAndPath("bukkit", name));
     }
 
     @Override
     public boolean isPermissionSet(@NotNull String name) {
-        var nms = nmsPlayer();
-        return nms != null && Permissions.getPermissionValue(nms, name) != TriState.DEFAULT;
+        return checkPerm(name) != TriState.DEFAULT;
     }
 
     @Override
     public boolean isPermissionSet(@NotNull Permission perm) {
-        var nms = nmsPlayer();
-        return nms != null && Permissions.getPermissionValue(nms, perm.getName()) != TriState.DEFAULT;
+        return checkPerm(perm.getName()) != TriState.DEFAULT;
     }
 
     @Override
     public boolean hasPermission(@NotNull String name) {
-        var nms = nmsPlayer();
-        return nms != null && Permissions.check(nms, name);
+        return checkPerm(name).orElseGet(() -> super.hasPermission(name));
     }
 
     @Override
     public boolean hasPermission(@NotNull Permission perm) {
-        var nms = nmsPlayer();
-        return nms != null && Permissions.check(nms, perm.getName());
+        return checkPerm(perm.getName()).orElseGet(() -> super.hasPermission(perm));
     }
 }

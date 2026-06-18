@@ -1,9 +1,9 @@
 package io.izzel.arclight.fabric.mod.permission;
 
-import io.izzel.arclight.common.bridge.core.commands.CommandSourceStackBridge;
 import io.izzel.arclight.i18n.ArclightConfig;
-import me.lucko.fabric.api.permissions.v0.PermissionCheckEvent;
-import net.fabricmc.fabric.api.util.TriState;
+import net.fabricmc.fabric.api.permission.v1.PermissionContext;
+import net.fabricmc.fabric.api.permission.v1.PermissionEvents;
+import net.fabricmc.fabric.api.permission.v1.PermissionNode;
 
 public class ArclightPermissionImpl {
     public static void init() {
@@ -11,19 +11,36 @@ public class ArclightPermissionImpl {
             return;
         }
 
-        PermissionCheckEvent.EVENT.register((provider, permission) -> {
-            if (provider instanceof CommandSourceStackBridge stack) {
-                var sender = stack.getBukkitSender();
-                if (sender != null) {
-                    return TriState.of(sender.hasPermission(permission));
-                }
-            }
-            return TriState.DEFAULT;
-        });
+        PermissionEvents.ON_REQUEST.register(ArclightPermissionImpl::handlePermission);
 
         // Fixme: Bukkit didn't support offline player's permission.
 //        OfflinePermissionCheckEvent.EVENT.register((uuid, permission) -> {
 //            return CompletableFuture.completedFuture(TriState.FALSE);
 //        });
+    }
+
+    private static <T> T handlePermission(PermissionContext ctx, PermissionNode<T> perm) {
+        final Boolean result;
+        query: {
+            final var stack = ctx.get(PermissionContext.COMMAND_SOURCE_STACK);
+            if (stack != null) {
+                final var sender = stack.getBukkitSender();
+                if (sender != null) {
+                    result = sender.hasPermission(perm.toString());
+                    break query;
+                }
+            }
+            final var entity = ctx.get(PermissionContext.ENTITY);
+            if (entity != null) {
+                result = entity.getBukkitEntity().hasPermission(perm.toString());
+            } else {
+                result = null;
+            }
+        }
+        try {
+            return perm.cast(result);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

@@ -17,8 +17,7 @@
     "mixins.arclight.impl.optimization.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16",
-    "fabric-permissions-api-v0": ">=0.3"
+    "fabricloader": ">=0.16"
   },
   "entrypoints": {
     "main": [
