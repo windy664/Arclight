@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CrashReport.class)
-public class MixinCrashReport {
+public class CrashReportMixin {
 
     @Shadow
     @Final

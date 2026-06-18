@@ -16,6 +16,18 @@
   "mixinPriority": 500,
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "MixinCrashReport"
+    "CrashReportMixin",
+    "server.BootstrapMixin",
+    "server.Main_ServerShutdownThreadMixin",
+    "server.MainMixin",
+    "server.MinecraftServerMixin",
+    "server.PlayerAdvancementsMixin",
+    "server.ServerAdvancementManagerMixin",
+    "server.ServerFunctionManagerMixin",
+    "server.ServerScoreboardMixin",
+    "server.ServerTickRateManagerMixin",
+    "server.WorldLoaderMixin",
+    "server.dedicated.DedicatedPlayerListMixin",
+    "server.dedicated.DedicatedServerMixin"
   ]
 }

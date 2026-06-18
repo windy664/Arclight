@@ -42,10 +42,6 @@ public class FabricInstaller {
         return classpath(installInfo, path);
     }
 
-    private static final Set<String> BOOTSTRAP_LIBS = Set.of(
-        "net.fabricmc:intermediary:"
-    );
-
     private static final Set<String> BUILTIN_MODS = Set.of(
         "net.fabricmc.fabric-api:fabric-api:"
     );
@@ -54,24 +50,22 @@ public class FabricInstaller {
         var mcPath = String.format("libraries/net/minecraft/server/%1$s/server-%1$s.jar", info.installer.minecraft);
         System.setProperty("fabric.gameJarPath", Paths.get(mcPath).toAbsolutePath().toString());
         var gameLibs = info.fabricDeps().keySet().stream()
-            .filter(it -> BOOTSTRAP_LIBS.stream().noneMatch(it::startsWith) && BUILTIN_MODS.stream().noneMatch(it::startsWith))
-            .map(it -> "libraries/" + Util.mavenToPath(it)).collect(Collectors.joining(File.pathSeparator));
+                .filter(it -> BUILTIN_MODS.stream().noneMatch(it::startsWith))
+                .map(it -> "libraries/" + Util.mavenToPath(it)).collect(Collectors.joining(File.pathSeparator));
         System.setProperty("arclight.fabric.classpath", gameLibs);
         var builtinMods = info.fabricDeps().keySet().stream()
-            .filter(it -> BUILTIN_MODS.stream().anyMatch(it::startsWith))
-            .map(it -> "libraries/" + Util.mavenToPath(it)).collect(Collectors.joining(File.pathSeparator));
+                .filter(it -> BUILTIN_MODS.stream().anyMatch(it::startsWith))
+                .map(it -> "libraries/" + Util.mavenToPath(it)).collect(Collectors.joining(File.pathSeparator));
         System.setProperty("arclight.fabric.builtinMods", builtinMods);
         var libs = new ArrayList<Path>();
         fabricDeps(path).keySet().stream().map(it -> Paths.get("libraries", Util.mavenToPath(it))).forEach(libs::add);
-        info.fabricDeps().keySet().stream()
-            .filter(it -> BOOTSTRAP_LIBS.stream().anyMatch(it::startsWith))
-            .forEach(it -> libs.add(Paths.get("libraries", Util.mavenToPath(it))));
         libs.add(path);
         try (var file = new JarFile(path.toFile())) {
             var mainClass = file.getManifest().getMainAttributes().getValue(Attributes.Name.MAIN_CLASS);
             return Map.entry(mainClass, libs);
         }
     }
+
 
     private static boolean fabricClasspathMissing(Path fabricLoader) throws Exception {
         return fabricDeps(fabricLoader).keySet().stream().anyMatch(it -> !Files.exists(Paths.get("libraries", Util.mavenToPath(it))));

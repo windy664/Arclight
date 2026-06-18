@@ -1,6 +1,8 @@
 package io.izzel.arclight.common.bridge.core.server;
 
+import joptsimple.OptionSet;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.WorldLoader;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeSource;
 import org.bukkit.command.ConsoleCommandSender;
@@ -11,6 +13,10 @@ public interface MinecraftServerBridge {
 
     default void bridge$setConsole(ConsoleCommandSender console) {
 
+    }
+
+    default ConsoleCommandSender bridge$getConsole() {
+        return null;
     }
 
     default void bridge$setServer(CraftServer server) {
@@ -31,10 +37,6 @@ public interface MinecraftServerBridge {
 
     default void bridge$drainQueuedTasks() {
 
-    }
-
-    default boolean bridge$hasStopped() {
-        return false;
     }
 
     default Commands bridge$getVanillaCommands() {
@@ -59,5 +61,72 @@ public interface MinecraftServerBridge {
 
     default void arclight$extendNextTickTimeTo(TimeSource.NanoTimeSource timeSource) {
 
+    }
+
+    default WorldLoader.DataLoadContext bridge$getWorldLoader() {
+        return null;
+    }
+
+    default void bridge$setWorldLoader(WorldLoader.DataLoadContext worldLoader) {
+
+    }
+
+    default OptionSet bridge$getOptions() {
+        return null;
+    }
+
+    default void bridge$setOptions(OptionSet options) {
+
+    }
+
+    default java.util.Queue<Runnable> bridge$getProcessQueue() {
+        return null;
+    }
+
+    default void bridge$setProcessQueue(java.util.Queue<Runnable> processQueue) {
+
+    }
+
+    default int bridge$getAutosavePeriod() {
+        return 0;
+    }
+
+    default void bridge$setAutosavePeriod(int autosavePeriod) {
+
+    }
+
+    default void bridge$setForceTicks(boolean forceTicks) {
+
+    }
+
+    default boolean bridge$isForceTicks() {
+        return false;
+    }
+
+    default Commands bridge$getVanillaCommandDispatcher() {
+        return null;
+    }
+
+    default void bridge$setVanillaCommandDispatcher(Commands vanillaCommandDispatcher) {
+    }
+
+    default boolean hasStopped() {
+        return false;
+    }
+
+    default void addLevel(ServerLevel level) {
+
+    }
+
+    default void removeLevel(ServerLevel level) {
+
+    }
+
+    default boolean isDebugging() {
+        return false;
+    }
+
+    default java.util.concurrent.ExecutorService bridge$getChatExecutor() {
+        return null;
     }
 }
