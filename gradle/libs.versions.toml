@@ -19,7 +19,7 @@ cadixdev-at = '0.1.0-rc1'
 cadixdev-mercury = '0.1.4.17'
 special-source = '1.11.5'
 
-mixin = '0.8.5'
+mixin = '0.8.7'
 
 # arclight
 arclight-api = '1.7.3'
