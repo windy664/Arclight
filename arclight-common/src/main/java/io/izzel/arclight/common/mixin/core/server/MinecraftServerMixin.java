@@ -246,7 +246,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     }
 
     /**
-     * @author wdog5
+     * @author wdog5734
      * @reason Bukkit
      */
     @Overwrite

@@ -733,6 +733,7 @@ transitive-inject-interface net/minecraft/server/players/PlayerList io/izzel/arc
 transitive-inject-interface net/minecraft/server/players/StoredUserList io/izzel/arclight/common/bridge/core/server/players/StoredUserListBridge
 transitive-inject-interface net/minecraft/server/rcon/RconConsoleSource io/izzel/arclight/common/bridge/core/server/rcon/RconConsoleSourceBridge
 transitive-inject-interface net/minecraft/server/MinecraftServer io/izzel/arclight/common/bridge/core/server/MinecraftServerBridge
+transitive-inject-interface net/minecraft/world/Container io/izzel/arclight/common/bridge/core/world/ContainerBridge
 
 # enum extensions
 # transitive-extend-enum net/minecraft/world/level/Level$ExplosionInteraction STANDARD

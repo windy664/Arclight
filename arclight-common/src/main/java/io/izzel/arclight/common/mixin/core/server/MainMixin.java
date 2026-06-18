@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 public class MainMixin {
 
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"))
-    private static void arclight$createBukkitYml(String[] args, CallbackInfo ci, @Local(name = "options") OptionSet options) throws IOException {
+    private static void arclight$createBukkitYml(String[] args, CallbackInfo ci, @Local OptionSet options) throws IOException {
         // CraftBukkit start - SPIGOT-5761: Create bukkit.yml and commands.yml if not present
         File configFile = (File) options.valueOf("bukkit-settings");
         YamlConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);

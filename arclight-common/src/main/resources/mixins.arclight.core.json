@@ -17,6 +17,15 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "CrashReportMixin",
+    "advancements.AdvancementHolderMixin",
+    "commands.CommandsMixin",
+    "commands.CommandSource1Mixin",
+    "commands.CommandSourceMixin",
+    "commands.CommandSourceStackMixin",
+    "commands.arguments.EntityArgumentMixin",
+    "commands.arguments.blocks.BlockStateParserMixin",
+    "commands.arguments.selector.EntitySelectorParserMixin",
+    "core.component.DataComponentPatch_BuilderMixin",
     "server.BootstrapMixin",
     "server.Main_ServerShutdownThreadMixin",
     "server.MainMixin",
@@ -28,6 +37,14 @@
     "server.ServerTickRateManagerMixin",
     "server.WorldLoaderMixin",
     "server.dedicated.DedicatedPlayerListMixin",
-    "server.dedicated.DedicatedServerMixin"
+    "server.dedicated.DedicatedServerMixin",
+    "util.StringUtilMixin",
+    "world.CompoundContainerMixin",
+    "world.ContainerMixin",
+    "world.SimpleContainerMixin",
+    "world.item.EggItemMixin",
+    "world.level.LevelWriterMixin",
+    "world.level.block.InfestedBlockMixin",
+    "world.waypoints.WaypointTransmitterMixin"
   ]
 }

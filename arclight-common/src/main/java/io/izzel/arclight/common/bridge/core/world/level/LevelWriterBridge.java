@@ -5,9 +5,21 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public interface LevelWriterBridge {
 
-    boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason);
+    default boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
+        return false;
+    }
 
-    void bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason reason);
+    default void bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason reason) {
 
-    CreatureSpawnEvent.SpawnReason bridge$getAddEntityReason();
+    }
+
+    default CreatureSpawnEvent.SpawnReason bridge$getAddEntityReason() {
+        return null;
+    }
+
+    // CraftBukkit start
+    default boolean addFreshEntity(Entity entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason reason) {
+        return false;
+    }
+    // CraftBukkit end
 }
