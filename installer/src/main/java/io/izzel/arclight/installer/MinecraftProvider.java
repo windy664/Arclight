@@ -56,13 +56,9 @@ public class MinecraftProvider {
                                 var server = downloads.getAsJsonObject("server");
                                 var serverUrl = server.get("url").getAsString();
                                 var serverHash = server.get("sha1").getAsString();
-                                var mapping = downloads.getAsJsonObject("server_mappings");
-                                var mappingUrl = mapping.get("url").getAsString();
-                                var mappingHash = mapping.get("sha1").getAsString();
-                                logger.accept("Minecraft version: %s, server: %s, mappings: %s".formatted(info.installer.minecraft, serverHash, mappingHash));
+                                logger.accept("Minecraft version: %s, server: %s".formatted(info.installer.minecraft, serverHash));
                                 return new MinecraftProvider.MinecraftData(entry.getKey(),
-                                        Mirrors.mapMojangMirror(serverUrl, entry.getKey()), serverHash,
-                                        Mirrors.mapMojangMirror(mappingUrl, entry.getKey()), mappingHash);
+                                        Mirrors.mapMojangMirror(serverUrl, entry.getKey()), serverHash);
                             }
                         }
                     }
@@ -120,7 +116,6 @@ public class MinecraftProvider {
         return incomplete;
     }
 
-    record MinecraftData(String mirror, String serverUrl, String serverHash, String mappingUrl,
-                         String mappingHash) {
+    record MinecraftData(String mirror, String serverUrl, String serverHash) {
     }
 }

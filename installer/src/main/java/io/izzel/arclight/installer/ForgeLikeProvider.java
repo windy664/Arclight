@@ -101,14 +101,6 @@ public class ForgeLikeProvider {
             if (url == null || url.trim().isEmpty()) continue;
             ret.put(name, new AbstractMap.SimpleImmutableEntry<>(hash, url));
         }
-        if (object.has("data")) {
-            var data = object.getAsJsonObject("data");
-            if (data.has("MOJMAPS")) {
-                var serverMapping = data.getAsJsonObject("MOJMAPS").get("server").getAsString();
-                ret.put(serverMapping.substring(1, serverMapping.length() - 1),
-                        new AbstractMap.SimpleImmutableEntry<>(minecraftData.mappingHash(), minecraftData.mappingUrl()));
-            }
-        }
         return ret;
     }
 }

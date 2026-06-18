@@ -13,7 +13,7 @@ public class Mirrors {
     };
 
     private static final String[] MOJANG_MIRROR = {
-        "https://mojmirror.hypertention.cn",
+        //"https://mojmirror.hypertention.cn",
         "https://piston-meta.mojang.com"
     };
 
