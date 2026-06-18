@@ -113,4 +113,8 @@ public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
     }
 
     default void bridge$platform$endCaptureBlockBreak() {}
+
+    default CraftServer getCraftServer() {
+        return null;
+    }
 }
