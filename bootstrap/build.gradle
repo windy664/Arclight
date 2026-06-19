@@ -50,9 +50,9 @@ def installerLibs = [/*"org.spongepowered:mixin:$mixinVersion", */ 'org.yaml:sna
 
 def installerLibsFabric = [
         'net.minecrell:terminalconsoleappender:1.2.0',
-        'org.jline:jline-terminal:3.12.1',
-        'org.jline:jline-reader:3.12.1',
-        'org.fusesource.jansi:jansi:1.18',
+        'org.jline:jline-terminal:3.21.0',
+        'org.jline:jline-reader:3.21.0',
+        'org.fusesource.jansi:jansi:2.4.0',
         'org.apache.maven:maven-artifact:3.8.5',
         "net.fabricmc.fabric-api:fabric-api:${libs.versions.fabric.api.get()}"
 ]

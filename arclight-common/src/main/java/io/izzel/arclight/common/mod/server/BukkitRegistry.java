@@ -82,7 +82,7 @@ public class BukkitRegistry {
         loadMaterials();
         loadPotions();
         loadEnchantmentTargets();
-        loadEntities();
+        // loadEntities();
         // loadBiomes(console);
         // loadArts(console);
         loadStats();
@@ -92,7 +92,7 @@ public class BukkitRegistry {
         loadCraftingBookCategory();
         loadRecipeBookType();
         //loadFluids();
-        loadGameRules();
+        // loadGameRules();
         try {
             for (var field : org.bukkit.Registry.class.getFields()) {
                 if (Modifier.isStatic(field.getModifiers()) && field.get(null) instanceof org.bukkit.Registry.SimpleRegistry<?> registry) {

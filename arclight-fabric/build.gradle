@@ -16,6 +16,10 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+loom {
+    accessWidenerPath = file(project(":arclight-common").file('src/main/resources/arclight.classtweaker'))
+}
+
 dependencies {
     implementation libs.fabric.loader
     implementation libs.fabric.api

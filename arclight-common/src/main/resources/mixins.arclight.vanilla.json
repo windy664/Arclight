@@ -19,6 +19,7 @@
   "mixinPriority": 555,
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-
+    "server.dedicated.DedicatedServer_ServerInputThreadMixin_Vanilla",
+    "server.dedicated.DedicatedServerMixin_Vanilla"
   ]
 }

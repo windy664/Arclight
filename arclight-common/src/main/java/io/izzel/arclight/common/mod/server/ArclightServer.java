@@ -6,6 +6,7 @@ import io.izzel.arclight.common.bridge.bukkit.CraftServerBridge;
 import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;
 import io.izzel.arclight.common.mixin.bukkit.plugin.SimplePluginManagerAccessor;
 import io.izzel.arclight.common.mod.ArclightCommon;
+import io.izzel.arclight.common.mod.util.ArclightColouredConsoleSender;
 import io.izzel.arclight.common.mod.util.VelocitySupport;
 import io.izzel.arclight.common.mod.util.log.ArclightI18nLogger;
 import net.minecraft.resources.ResourceKey;
@@ -84,7 +85,7 @@ public class ArclightServer {
             try {
                 server = new CraftServer(console, playerList);
                 ((MinecraftServerBridge) console).bridge$setServer(server);
-                ((MinecraftServerBridge) console).bridge$setConsole(ColouredConsoleSender.getInstance());
+                ((MinecraftServerBridge) console).bridge$setConsole(ArclightColouredConsoleSender.getInstance());
 
                 Class.forName("org.sqlite.JDBC");
                 Class.forName("com.mysql.cj.jdbc.Driver");

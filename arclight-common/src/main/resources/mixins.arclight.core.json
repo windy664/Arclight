@@ -41,6 +41,8 @@
     "server.WorldLoaderMixin",
     "server.dedicated.DedicatedPlayerListMixin",
     "server.dedicated.DedicatedServerMixin",
+    "server.level.TicketMixin",
+    "server.level.TicketTypeMixin",
     "server.players.PlayerListMixin",
     "stats.ServerRecipeBookMixin",
     "stats.StatsCounterMixin",

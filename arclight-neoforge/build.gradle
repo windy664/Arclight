@@ -13,6 +13,10 @@ loom {
     }
 }
 
+loom {
+    accessWidenerPath = file(project(":arclight-common").file('src/main/resources/arclight.classtweaker'))
+}
+
 configurations {
     common
     shadowCommon

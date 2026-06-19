@@ -352,6 +352,9 @@
     ],
     "net/minecraft/world/Container": [
       "io/izzel/arclight/common/bridge/core/world/ContainerBridge"
+    ],
+    "net/minecraft/server/level/Ticket": [
+      "io/izzel/arclight/common/bridge/core/server/level/TicketBridge"
     ]
   }
 }
