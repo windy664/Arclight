@@ -22,6 +22,18 @@ import java.util.List;
 
 public interface EntityBridge extends CommandSourceBridge {
 
+    default float getBukkitYaw() {
+        return 0;
+    }
+
+    default boolean isChunkLoaded() {
+        return false;
+    }
+
+    default int getDefaultMaxAirSupply() {
+        return 0;
+    }
+
     default void bridge$setOnFire(float seconds, boolean callEvent) {
 
     }

@@ -65,20 +65,25 @@ public interface DamageSourceBridge {
         return null;
     }
 
-    default DamageSource bridge$setDirectBlock(org.bukkit.block.Block block) {
-        return null;
+    default void bridge$setDirectBlock(org.bukkit.block.Block block) {
     }
 
 
-    default DamageSource bridge$setDirectBlockState(org.bukkit.block.BlockState blockState) {
-        return null;
+    default void bridge$setDirectBlockState(org.bukkit.block.BlockState blockState) {
     }
 
-    default DamageSource bridge$setCustomCausingEntity(Entity customEntityDamager) {
-        return null;
+    default void bridge$setCustomCausingEntity(Entity customEntityDamager) {
     }
 
-    default DamageSource bridge$setCustomCausingEntityDamager(Entity entity) {
-        return null;
+    default void bridge$setCustomCausingEntityDamager(Entity entity) {
+    }
+
+    default void bridge$setSweep(boolean sweep) {
+    }
+
+    default void bridge$setMelting(boolean melting) {
+    }
+
+    default void bridge$setPoison(boolean poison) {
     }
 }
