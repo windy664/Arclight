@@ -5,6 +5,10 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeSource;
+import net.minecraft.world.level.levelgen.WorldOptions;
+import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.level.storage.ServerLevelData;
+import net.minecraft.world.level.storage.WorldData;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -128,5 +132,21 @@ public interface MinecraftServerBridge {
 
     default java.util.concurrent.ExecutorService bridge$getChatExecutor() {
         return null;
+    }
+
+    default ServerLevel findRespawnDimension(ServerLevel world) {
+        return null;
+    }
+
+    default void setRespawnData(LevelData.RespawnData respawnData, ServerLevel world) {
+    }
+
+    default void arclight$tickSpigotWatchdogInternal() {
+    }
+
+    default void initWorld(ServerLevel serverWorld, ServerLevelData worldInfo, WorldData saveData, WorldOptions worldOptions) {
+    }
+
+    default void prepareLevels(ServerLevel serverWorld) {
     }
 }

@@ -72,8 +72,10 @@ public class BukkitRegistry {
             .put(LevelStem.NETHER, World.Environment.NETHER)
             .put(LevelStem.END, World.Environment.THE_END)
             .build());
+    /*
     private static final Map<String, Art> ART_BY_NAME = Unsafe.getStatic(Art.class, "BY_NAME");
     private static final Map<Integer, Art> ART_BY_ID = Unsafe.getStatic(Art.class, "BY_ID");
+    */
     private static final BiMap<Identifier, Statistic> STATS = HashBiMap.create(Unsafe.getStatic(CraftStatistic.class, "statistics"));
 
     public static void registerAll(DedicatedServer console) {
@@ -81,15 +83,15 @@ public class BukkitRegistry {
         loadPotions();
         loadEnchantmentTargets();
         loadEntities();
-        loadBiomes(console);
-        loadArts(console);
+        // loadBiomes(console);
+        // loadArts(console);
         loadStats();
         loadSpawnCategory();
         loadEndDragonPhase();
         loadCookingBookCategory();
         loadCraftingBookCategory();
         loadRecipeBookType();
-        loadFluids();
+        //loadFluids();
         loadGameRules();
         try {
             for (var field : org.bukkit.Registry.class.getFields()) {
@@ -294,8 +296,8 @@ public class BukkitRegistry {
                 bukkit = EnumHelper.makeEnum(Art.class, standardName, i, ImmutableList.of(int.class, int.class, int.class), ImmutableList.of(i, paintingType.width(), paintingType.height()));
                 newTypes.add(bukkit);
                 Unsafe.putObject(bukkit, keyOffset, CraftNamespacedKey.fromMinecraft(location));
-                ART_BY_ID.put(i, bukkit);
-                ART_BY_NAME.put(lookupName, bukkit);
+                //ART_BY_ID.put(i, bukkit);
+                //ART_BY_NAME.put(lookupName, bukkit);
                 ArclightServer.LOGGER.debug("Registered {} as art {}", location, bukkit);
                 i++;
             }

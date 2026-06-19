@@ -41,6 +41,7 @@
     "server.WorldLoaderMixin",
     "server.dedicated.DedicatedPlayerListMixin",
     "server.dedicated.DedicatedServerMixin",
+    "server.players.PlayerListMixin",
     "stats.ServerRecipeBookMixin",
     "stats.StatsCounterMixin",
     "util.StringUtilMixin",

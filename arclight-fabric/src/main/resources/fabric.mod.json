@@ -19,6 +19,7 @@
   "depends": {
     "fabricloader": ">=0.16"
   },
+  "accessWidener": "arclight.classtweaker",
   "entrypoints": {
     "main": [
       "io.izzel.arclight.fabric.ArclightModEntrypoint"

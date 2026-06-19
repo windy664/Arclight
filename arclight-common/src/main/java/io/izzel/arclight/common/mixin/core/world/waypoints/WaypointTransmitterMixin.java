@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(WaypointTransmitter.class)
-public class WaypointTransmitterMixin {
+public interface WaypointTransmitterMixin {
 
     @Inject(method = "doesSourceIgnoreReceiver", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isSpectator()Z"), cancellable = true)
     private static void arclight$checkCanSee(LivingEntity source, ServerPlayer receiver, CallbackInfoReturnable<Boolean> cir) {

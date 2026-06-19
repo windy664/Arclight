@@ -18,23 +18,5 @@
   "mixinPriority": 555,
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "bukkit.CraftBlockCommandSenderMixin_Fabric",
-    "bukkit.CraftEntityMixin_Fabric",
-    "bukkit.CraftHumanEntityMixin_Fabric",
-    "bukkit.CraftServerMixin_Fabric",
-    "bukkit.StandardMessengerMixin_Fabric",
-    "core.server.MinecraftServerMixin_Fabric",
-    "core.server.level.ServerPlayerMixin_Fabric",
-    "core.server.network.ServerCommonPacketListenerImplMixin_Fabric",
-    "core.server.network.ServerConfigurationPacketListenerImplMixin_Fabric",
-    "core.server.network.ServerLoginPacketListenerImplMixin_Fabric",
-    "core.world.entity.EntityMixin_Fabric",
-    "core.world.entity.LivingEntityMixin_Fabric",
-    "core.world.entity.animal.SheepMixin_Fabric",
-    "core.world.entity.animal.WolfMixin_Fabric",
-    "core.world.entity.monster.ZombieMixin_Fabric",
-    "core.world.entity.player.PlayerMixin_Fabric",
-    "core.world.level.block.FireBlockMixin_Fabric",
-    "fabric.base.EventFactoryMixin"
   ]
 }

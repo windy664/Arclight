@@ -12,12 +12,15 @@ import net.minecraft.server.Services;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.WorldStem;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.LevelLoadListener;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.rcon.RconConsoleSource;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.PrimaryLevelData;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.event.server.ServerCommandEvent;
@@ -54,6 +57,13 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements De
         ((CraftServer) Bukkit.getServer()).loadPlugins();
         ((CraftServer) Bukkit.getServer()).enablePlugins(PluginLoadOrder.STARTUP);
         this.bridge$forge$lockRegistries();
+    }
+
+    @Inject(method = "initServer", at = @At("RETURN"))
+    private void arclight$tickWatchdogIfLaunch(CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ()) {
+            arclight$tickSpigotWatchdogInternal();
+        }
     }
 
     @Redirect(method = "handleConsoleInputs", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/Commands;performPrefixedCommand(Lnet/minecraft/commands/CommandSourceStack;Ljava/lang/String;)V"))
@@ -97,7 +107,7 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements De
 
     /**
      * @author IzzelAliz
-     * @reason
+     * @reason Bukkit
      */
     @Overwrite
     public String getPluginNames() {
@@ -135,5 +145,14 @@ public abstract class DedicatedServerMixin extends MinecraftServer implements De
         if (this.bridge$getOptions().has("forceUpgrade")) {
             net.minecraft.server.Main.forceUpgrade(worldSession, DataFixers.getDataFixer(), this.bridge$getOptions().has("eraseCache"), () -> true, dimensions, this.bridge$getOptions().has("recreateRegionFiles"));
         }
+    }
+
+    @Override
+    public void arclight$prepareAndAddLevel(ServerLevel internal, PrimaryLevelData levelData, WorldOptions worldOptions) {
+        this.initWorld(internal, levelData, levelData, worldOptions);
+        internal.setSpawnSettings(true);
+        this.addLevel(internal);
+        this.prepareLevels(internal);
+        internal.entityManager.tick();
     }
 }
