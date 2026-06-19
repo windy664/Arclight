@@ -165,7 +165,7 @@ public abstract class CraftServerMixin implements CraftServerBridge {
         if (world == null) {
             return;
         }
-        this.worlds.remove(world.bridge$getWorld().getName().toLowerCase(Locale.ROOT));
+        this.worlds.remove(world.getWorld().getName().toLowerCase(Locale.ROOT));
     }
 
     /**

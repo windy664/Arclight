@@ -23,7 +23,7 @@ public interface ContainerLevelAccessBridge {
             return null;
         } else {
             Level level = bridge$getWorld();
-            CraftWorld world = level == null ? null : ((LevelBridge) level).bridge$getWorld();
+            CraftWorld world = level == null ? null : ((LevelBridge) level).getWorld();
             return new Location(world, blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }
     }

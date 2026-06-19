@@ -159,7 +159,7 @@ public abstract class CraftEventFactoryMixin {
             world.setBlock(pos, newData, flag);
             return true;
         }
-        Block block = world.bridge$getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ());
+        Block block = world.getWorld().getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         CraftBlockState state = (CraftBlockState) block.getState();
         state.setData(newData);
 
@@ -291,7 +291,7 @@ public abstract class CraftEventFactoryMixin {
         if (CraftBlockStates.getBlockState(block) instanceof Sign sign1) {
             sign = sign1;
         } else {
-            sign = new CraftSign<>(((LevelBridge) tileEntitySign.getLevel()).bridge$getWorld(), tileEntitySign);
+            sign = new CraftSign<>(((LevelBridge) tileEntitySign.getLevel()).getWorld(), tileEntitySign);
         }
         Side side = front ? Side.FRONT : Side.BACK;
         return callPlayerSignOpenEvent(((ServerPlayerBridge) player).getBukkitEntity(), sign, side, cause);

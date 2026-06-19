@@ -12,8 +12,11 @@
     "conformVisibility": true,
     "requireAnnotations": false
   },
+  "mixinextras": {
+    "minVersion": "0.5.4"
+  },
   "mixinPriority": 555,
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "bukkit.CraftHumanEntityMixin_NeoForge",
     "bukkit.CraftServerMixin_NeoForge",

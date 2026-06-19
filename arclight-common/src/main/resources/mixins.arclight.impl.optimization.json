@@ -4,7 +4,10 @@
   "package": "io.izzel.arclight.common.mixin.optimization.general",
   "target": "@env(DEFAULT)",
   "plugin": "io.izzel.arclight.common.mod.ArclightMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
+  "mixinextras": {
+    "minVersion": "0.5.4"
+  },
   "mixins": [
 
   ]

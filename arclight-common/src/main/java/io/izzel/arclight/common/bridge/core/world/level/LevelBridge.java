@@ -25,11 +25,27 @@ import java.util.Map;
 
 public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
 
+    default boolean bridge$isCaptureTreeGeneration() {
+        return false;
+    }
+
+    default void bridge$setCaptureTreeGeneration(boolean captureTreeGeneration) {
+
+    }
+
+    default Map<BlockPos, CapturedBlockState> bridge$getCapturedBlockStates() {
+        return null;
+    }
+
+    default void bridge$setCapturedBlockStates(Map<BlockPos, CapturedBlockState> capturedBlockStates) {
+
+    }
+
     default CraftServer bridge$getServer() {
         return null;
     }
 
-    default CraftWorld bridge$getWorld() {
+    default CraftWorld getWorld() {
         return null;
     }
 
