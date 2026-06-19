@@ -96,6 +96,7 @@
     "world.level.block.DecoratedPotBlockMixin",
     "world.level.block.DetectorRailBlockMixin",
     "world.level.block.DiodeBlockMixin",
+    "world.level.block.DirtPathBlockMixin",
     "world.level.block.DoorBlockMixin",
     "world.level.block.DoublePlantBlockMixin",
     "world.level.block.DragonEggBlockMixin",
@@ -131,6 +132,8 @@
     "world.level.block.TripWireHookBlockMixin",
     "world.level.block.TurtleEggBlockMixin",
     "world.level.block.VegetationBlockMixin",
+    "world.level.block.WeatheringCopperGolemStatueBlockMixin",
+    "world.level.block.WitherRoseBlockMixin",
     "world.level.block.grower.TreeGrowerMixin",
     "world.waypoints.WaypointTransmitterMixin"
   ]
