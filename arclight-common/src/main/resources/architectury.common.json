@@ -355,6 +355,9 @@
     ],
     "net/minecraft/server/level/Ticket": [
       "io/izzel/arclight/common/bridge/core/server/level/TicketBridge"
+    ],
+    "net/minecraft/network/protocol/common/custom/DiscardedPayload": [
+      "io/izzel/arclight/common/bridge/core/network/protocol/common/custom/DiscardedPayloadBridge"
     ]
   }
 }

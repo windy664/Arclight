@@ -737,6 +737,7 @@ transitive-inject-interface net/minecraft/server/MinecraftServer io/izzel/arclig
 transitive-inject-interface net/minecraft/world/Container io/izzel/arclight/common/bridge/core/world/ContainerBridge
 transitive-inject-interface net/minecraft/world/attribute/BedRule io/izzel/arclight/common/bridge/core/world/attribute/BedRuleBridge
 transitive-inject-interface net/minecraft/server/level/Ticket io/izzel/arclight/common/bridge/core/server/level/TicketBridge
+transitive-inject-interface net/minecraft/network/protocol/common/custom/DiscardedPayload io/izzel/arclight/common/bridge/core/network/protocol/common/custom/DiscardedPayloadBridge
 
 # enum extensions
 # transitive-extend-enum net/minecraft/world/level/Level$ExplosionInteraction STANDARD

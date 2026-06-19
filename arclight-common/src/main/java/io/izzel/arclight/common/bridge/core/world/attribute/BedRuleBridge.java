@@ -4,6 +4,10 @@ import org.bukkit.event.player.PlayerBedEnterEvent;
 
 public interface BedRuleBridge {
 
+    default PlayerBedEnterEvent.BedEnterResult bukkit() {
+        return null;
+    }
+
     default void bridge$pushBedEnterResult(PlayerBedEnterEvent.BedEnterResult bukkit) {
 
     }

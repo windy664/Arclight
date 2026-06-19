@@ -35,4 +35,9 @@ public class BedRuleMixin implements BedRuleBridge {
     public void bridge$pushBedEnterResult(PlayerBedEnterEvent.BedEnterResult bukkit) {
         this.bukkit = bukkit;
     }
+
+    @Override
+    public PlayerBedEnterEvent.BedEnterResult bukkit() {
+        return bukkit;
+    }
 }
