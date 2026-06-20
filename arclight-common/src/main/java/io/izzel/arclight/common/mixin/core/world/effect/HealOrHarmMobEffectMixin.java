@@ -18,7 +18,7 @@ public class HealOrHarmMobEffectMixin {
         mob.bridge$pushHealReason(EntityRegainHealthEvent.RegainReason.MAGIC);
     }
 
-    @Inject(method = "applyInstantenousEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;heal(F)V"))
+    @Inject(method = "applyInstantaneousEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;heal(F)V"))
     private void arclight$pushRegainReasonWhenInstant(ServerLevel serverLevel, Entity source, Entity owner, LivingEntity mob, int amplification, double scale, CallbackInfo ci) {
         mob.bridge$pushHealReason(EntityRegainHealthEvent.RegainReason.MAGIC);
     }

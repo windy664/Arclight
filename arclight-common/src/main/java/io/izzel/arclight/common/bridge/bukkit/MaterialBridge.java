@@ -8,8 +8,8 @@ import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.craftbukkit.inventory.CraftMetaItem;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Function;
 
 public interface MaterialBridge {

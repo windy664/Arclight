@@ -34,6 +34,7 @@ import net.minecraft.server.WorldLoader;
 import net.minecraft.server.WorldStem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.LevelLoadListener;
+import net.minecraft.server.notifications.NotificationManager;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.TimeSource;
@@ -120,7 +121,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void arclight$loadOptions(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Optional gameRules, Proxy proxy, DataFixer fixerUpper, Services services, LevelLoadListener levelLoadListener, boolean propagatesCrashes, CallbackInfo ci) {
+    public void arclight$loadOptions(Thread serverThread, LevelStorageSource.LevelStorageAccess storageSource, PackRepository packRepository, WorldStem worldStem, Optional gameRules, Proxy proxy, DataFixer fixerUpper, Services services, LevelLoadListener levelLoadListener, boolean propagatesCrashes, NotificationManager notificationManager, CallbackInfo ci) {
         OVERLOADED_THRESHOLD_NANOS = 30L * TimeUtil.NANOSECONDS_PER_SECOND / 20L; // CraftBukkit
         String[] arguments = ManagementFactory.getRuntimeMXBean().getInputArguments().toArray(new String[0]);
         OptionParser parser = new BukkitOptionParser();

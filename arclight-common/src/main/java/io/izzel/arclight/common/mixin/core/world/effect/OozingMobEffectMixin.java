@@ -1,7 +1,7 @@
 package io.izzel.arclight.common.mixin.core.world.effect;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.level.Level;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;

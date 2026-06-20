@@ -5,9 +5,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
 public class WrappedContents extends NonNullList<ItemStack> {
 
     private final Container inventory;

@@ -432,7 +432,6 @@ transitive-accessible field net/minecraft/world/level/block/entity/BeaconBlockEn
 transitive-accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity name Lnet/minecraft/network/chat/Component;
 transitive-accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity primaryPower Lnet/minecraft/core/Holder;
 transitive-accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity secondaryPower Lnet/minecraft/core/Holder;
-transitive-accessible field net/minecraft/world/level/block/entity/BedBlockEntity color Lnet/minecraft/world/item/DyeColor;
 transitive-accessible field net/minecraft/world/level/block/entity/BeehiveBlockEntity savedFlowerPos Lnet/minecraft/core/BlockPos;
 transitive-accessible field net/minecraft/world/level/block/entity/BellBlockEntity resonating Z
 transitive-accessible field net/minecraft/world/level/block/entity/BellBlockEntity resonationTicks I
