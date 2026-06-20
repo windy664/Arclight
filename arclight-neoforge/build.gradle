@@ -9,12 +9,11 @@ architectury {
 }
 
 loom {
-    neoForge {
-    }
-}
+    accessWidenerPath = project(":arclight-common").loom.accessWidenerPath
 
-loom {
-    accessWidenerPath = file(project(":arclight-common").file('src/main/resources/arclight.classtweaker'))
+    neoForge {
+        convertAccessWideners(tasks.named("shadowJar", Jar), "arclight.classtweaker")
+    }
 }
 
 configurations {

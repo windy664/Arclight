@@ -17,7 +17,8 @@ configurations {
 }
 
 loom {
-    accessWidenerPath = file(project(":arclight-common").file('src/main/resources/arclight.classtweaker'))
+    accessWidenerPath = project(":arclight-common").loom.accessWidenerPath
+    injectAccessWidener(tasks.named('jar'))
 }
 
 dependencies {
