@@ -1,0 +1,81 @@
+package io.izzel.arclight.common.mixin.core.world.level.chunk;
+
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
+import io.izzel.arclight.common.bridge.core.world.level.chunk.ChunkGeneratorBridge;
+import io.izzel.arclight.common.mod.mixins.annotation.InvokeSpecial;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import org.bukkit.craftbukkit.generator.CraftLimitedRegion;
+import org.bukkit.craftbukkit.util.RandomSourceWrapper;
+import org.bukkit.generator.BlockPopulator;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ChunkGenerator.class)
+public abstract class ChunkGeneratorMixin implements ChunkGeneratorBridge {
+
+    // @formatter:off
+    @Shadow public abstract void applyBiomeDecoration(WorldGenLevel p_187712_, ChunkAccess p_187713_, StructureManager p_187714_);
+    @Shadow @Final @Mutable protected BiomeSource biomeSource;
+    // @formatter:on
+
+    @Inject(method = "applyBiomeDecoration", at = @At("RETURN"))
+    private void arclight$addBukkitDecoration(WorldGenLevel level, ChunkAccess chunkAccess, StructureManager manager, CallbackInfo ci) {
+        this.addDecorations(level, chunkAccess, manager);
+    }
+
+    @InvokeSpecial
+    private void arclight$this$applyBiomeDecoration(WorldGenLevel p_187712_, ChunkAccess p_187713_, StructureManager p_187714_) {
+        applyBiomeDecoration(p_187712_, p_187713_, p_187714_);
+    }
+
+    // TODO SpigotWorldConfig support to provide different seed according to the structure kind
+
+    public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunkAccess, StructureManager structureFeatureManager, boolean vanilla) {
+        if (vanilla) {
+            arclight$this$applyBiomeDecoration(level, chunkAccess, structureFeatureManager);
+        } else {
+            this.addDecorations(level, chunkAccess, structureFeatureManager);
+        }
+    }
+
+    private void addDecorations(WorldGenLevel region, ChunkAccess chunk, StructureManager structureManager) {
+        if (!(region.getLevel() instanceof LevelBridge bridge)) {
+            return;
+        }
+        final org.bukkit.World world;
+        try {
+            world = bridge.getWorld();
+        } catch (UnsupportedOperationException ignored) {
+            return;
+        }
+        // only call when a populator is present (prevents unnecessary entity conversion)
+        if (!world.getPopulators().isEmpty()) {
+            CraftLimitedRegion limitedRegion = new CraftLimitedRegion(region, chunk.getPos());
+            int x = chunk.getPos().x();
+            int z = chunk.getPos().z();
+            for (BlockPopulator populator : world.getPopulators()) {
+                WorldgenRandom random = new WorldgenRandom(new LegacyRandomSource(region.getSeed()));
+                random.setDecorationSeed(region.getSeed(), x, z);
+                populator.populate(world, new RandomSourceWrapper.RandomWrapper(random), x, z, limitedRegion);
+            }
+            limitedRegion.saveEntities();
+            limitedRegion.breakLink();
+        }
+    }
+
+    @Override
+    public void bridge$setBiomeSource(BiomeSource biomeSource) {
+        this.biomeSource = biomeSource;
+    }
+}

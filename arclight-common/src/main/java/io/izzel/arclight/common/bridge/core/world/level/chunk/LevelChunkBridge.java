@@ -11,7 +11,7 @@ public interface LevelChunkBridge {
         return null;
     }
 
-    default BlockState bridge$setType(BlockPos pos, BlockState state, boolean isMoving, boolean doPlace) {
+    default BlockState bridge$setType(BlockPos pos, BlockState state, int flags, boolean doPlace) {
         return null;
     }
 
@@ -41,5 +41,17 @@ public interface LevelChunkBridge {
 
     default void setUnsaved(boolean b) {
 
+    }
+
+    default void loadCallback() {
+
+    }
+
+    default void unloadCallback() {
+
+    }
+
+    default BlockState setBlockState(BlockPos pos, BlockState state, int flags, boolean doPlace) {
+        return null;
     }
 }

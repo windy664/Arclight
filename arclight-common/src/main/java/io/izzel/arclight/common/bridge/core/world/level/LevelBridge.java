@@ -41,16 +41,8 @@ public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
 
     }
 
-    default CraftServer bridge$getServer() {
-        return null;
-    }
-
     default CraftWorld getWorld() {
         return null;
-    }
-
-    default boolean bridge$isPvpMode() {
-        return false;
     }
 
     default boolean bridge$isPopulating() {
@@ -65,7 +57,7 @@ public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
         return null;
     }
 
-    default BlockEntity bridge$getTileEntity(BlockPos pos, boolean validate) {
+    default BlockEntity getBlockEntity(BlockPos pos, boolean validate) {
         return null;
     }
 
@@ -132,5 +124,13 @@ public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
 
     default CraftServer getCraftServer() {
         return null;
+    }
+
+    default ResourceKey<LevelStem> getTypeKey(){
+        return null;
+    }
+
+    default void notifyAndUpdatePhysics(BlockPos blockpos, LevelChunk levelchunk, BlockState oldBlock, BlockState newBlock, BlockState actualBlock, int i, int j) {
+
     }
 }

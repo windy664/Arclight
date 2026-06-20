@@ -75,6 +75,7 @@
     "world.item.SpawnEggItemMixin",
     "world.item.StandingAndWallBlockItemMixin",
     "world.item.alchemy.PotionContentsMixin",
+    "world.level.LevelMixin",
     "world.level.LevelWriterMixin",
     "world.level.block.AbstractCandleBlockMixin",
     "world.level.block.BambooSaplingBlockMixin",
@@ -135,6 +136,15 @@
     "world.level.block.WeatheringCopperGolemStatueBlockMixin",
     "world.level.block.WitherRoseBlockMixin",
     "world.level.block.grower.TreeGrowerMixin",
+    "world.level.border.WorldBorderMixin",
+    "world.level.chunk.ChunkAccessMixin",
+    "world.level.chunk.ChunkGeneratorMixin",
+    "world.level.chunk.LevelChunk_BoundTickingBlockEntityMixin",
+    "world.level.chunk.LevelChunkMixin",
+    "world.level.chunk.LevelChunkSectionMixin",
+    "world.level.chunk.status.ChunkStatusTasksMixin",
+    "world.level.chunk.storage.RegionFileMixin",
+    "world.level.chunk.storage.RegionFileStorageMixin",
     "world.waypoints.WaypointTransmitterMixin"
   ]
 }

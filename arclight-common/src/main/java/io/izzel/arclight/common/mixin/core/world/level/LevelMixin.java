@@ -1,0 +1,299 @@
+package io.izzel.arclight.common.mixin.core.world.level;
+
+import io.izzel.arclight.common.bridge.core.world.level.LevelBridge;
+import io.izzel.arclight.common.mod.mixins.annotation.CreateConstructor;
+import io.izzel.arclight.common.mod.mixins.annotation.ShadowConstructor;
+import io.izzel.arclight.common.mod.mixins.annotation.TransformAccess;
+import io.izzel.arclight.common.mod.server.world.ArclightWorldConfig;
+import io.izzel.arclight.common.mod.util.ArclightCaptures;
+import io.izzel.arclight.common.mod.util.DistValidate;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.FullChunkStatus;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.level.storage.WritableLevelData;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.block.CapturedBlockState;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.craftbukkit.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.craftbukkit.util.CraftSpawnCategory;
+import org.bukkit.entity.SpawnCategory;
+import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.generator.ChunkGenerator;
+import org.jspecify.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
+import org.spigotmc.SpigotWorldConfig;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Mixin(Level.class)
+public abstract class LevelMixin implements LevelAccessor, AutoCloseable, LevelBridge {
+
+    @Shadow
+    public abstract void setBlocksDirty(BlockPos pos, BlockState oldState, BlockState newState);
+
+    @Shadow
+    public abstract boolean isClientSide();
+
+    @Shadow
+    public abstract void sendBlockUpdated(BlockPos blockPos, BlockState blockState, BlockState blockState1, @Block.UpdateFlags int i);
+
+    @Shadow
+    public abstract void updateNeighbourForOutputSignal(BlockPos pos, Block changedBlock);
+
+    @Shadow
+    public abstract void updatePOIOnBlockStateChange(BlockPos pos, BlockState oldState, BlockState newState);
+
+    @Shadow
+    public abstract void neighborChanged(BlockPos pos, Block changedBlock, @Nullable Orientation orientation);
+
+    // CraftBukkit start Added the following
+    private CraftWorld world;
+    public org.bukkit.generator.ChunkGenerator generator;
+    protected org.bukkit.World.Environment environment;
+    protected org.bukkit.generator.BiomeProvider biomeProvider;
+    public boolean preventPoiUpdated = false; // CraftBukkit - SPIGOT-5710
+    public boolean captureBlockStates = false;
+    public boolean captureTreeGeneration = false;
+    public Map<BlockPos, CapturedBlockState> capturedBlockStates = new java.util.LinkedHashMap<>();
+    public Map<BlockPos, BlockEntity> capturedTileEntities = new HashMap<>();
+    public List<ItemEntity> captureDrops;
+    public final it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SpawnCategory> ticksPerSpawnCategory = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
+    public boolean populating;
+    public org.spigotmc.SpigotWorldConfig spigotConfig;
+    @TransformAccess(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
+    private static BlockPos lastPhysicsProblem; // Spigot
+
+    @Unique
+    private boolean arclight$isActual;
+
+    @ShadowConstructor
+    public void arclight$constructor(final WritableLevelData levelData, final ResourceKey<Level> dimension, final RegistryAccess registryAccess, final Holder<DimensionType> dimensionTypeRegistration, final boolean isClientSide, final boolean isDebug, final long biomeZoomSeed, final int maxChainedNeighborUpdates) {
+        throw new RuntimeException();
+    }
+
+    @CreateConstructor
+    public void arclight$constructor(final WritableLevelData levelData, final ResourceKey<Level> dimension, final RegistryAccess registryAccess, final Holder<DimensionType> dimensionTypeRegistration, final boolean isClientSide, final boolean isDebug, final long biomeZoomSeed, final int maxChainedNeighborUpdates, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env) {
+        arclight$constructor(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
+        this.generator = gen;
+        this.environment = env;
+        this.biomeProvider = biomeProvider;
+    }
+
+    @SuppressWarnings({"DefaultAnnotationParam", "UnnecessaryUnsafe"})
+    // InitAuther97: unsafe = true can't be removed because unsafe is default to false on Forge
+    @Inject(method = "<init>", at = @At(value = "CTOR_HEAD", unsafe = true))
+    private void arclight$preInit(WritableLevelData levelData, ResourceKey dimension, RegistryAccess registryAccess, Holder dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates, CallbackInfo ci) {
+        this.arclight$isActual = DistValidate.isValid((LevelAccessor) (Object) this);
+    }
+
+    // InitAuther97: inject later than ironsspellbooks, see their LevelMixin
+    @Inject(method = "<init>", at = @At("RETURN"), order = 1001)
+    private void arclight$init(WritableLevelData levelData, ResourceKey dimension, RegistryAccess registryAccess, Holder dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates, CallbackInfo ci) {
+        this.getWorldBorder().bridge$setWorld((Level) (Object) this);
+        for (SpawnCategory spawnCategory : SpawnCategory.values()) {
+            if (CraftSpawnCategory.isValidForLimits(spawnCategory)) {
+                this.ticksPerSpawnCategory.put(spawnCategory, this.getCraftServer().getTicksPerSpawns(spawnCategory));
+            }
+        }
+    }
+
+    @Override
+    public CraftWorld getWorld() {
+        return this.world;
+    }
+
+    @Override
+    public CraftServer getCraftServer() {
+        return (CraftServer) Bukkit.getServer();
+    }
+
+    @Override
+    public abstract ResourceKey<LevelStem> getTypeKey();
+
+    @Override
+    public Map<BlockPos, CapturedBlockState> bridge$getCapturedBlockState() {
+        return this.capturedBlockStates;
+    }
+
+    @Override
+    public boolean arclight$isActual() {
+        return arclight$isActual;
+    }
+
+    @Override
+    public Map<BlockPos, BlockEntity> bridge$getCapturedBlockEntity() {
+        return this.capturedTileEntities;
+    }
+
+    @Override
+    public void bridge$setLastPhysicsProblem(BlockPos pos) {
+        lastPhysicsProblem = pos;
+    }
+
+    @Override
+    public Object2LongOpenHashMap<SpawnCategory> bridge$ticksPerSpawnCategory() {
+        return this.ticksPerSpawnCategory;
+    }
+
+    @Override
+    public ResourceKey<LevelStem> bridge$getTypeKey() {
+        return getTypeKey();
+    }
+
+    @Override
+    public SpigotWorldConfig bridge$spigotConfig() {
+        if (spigotConfig == null) {
+            return ArclightWorldConfig.DEFAULT;
+        }
+        return this.spigotConfig;
+    }
+
+    @Inject(method = "setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;II)Z",
+            at = @At("HEAD"), cancellable = true)
+    private void arclight$hooks(BlockPos pos, BlockState blockState, int updateFlags, int updateLimit, CallbackInfoReturnable<Boolean> cir) {
+        if (!ArclightCaptures.setLastEntityChangeBlockResult(processCaptures(pos, blockState, updateFlags))) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    private boolean processCaptures(BlockPos pos, BlockState newState, int flags) {
+        Entity entityChangeBlock = ArclightCaptures.getEntityChangeBlock();
+        if (entityChangeBlock != null) {
+            return CraftEventFactory.callEntityChangeBlockEvent(entityChangeBlock, pos, newState);
+        }
+        return true;
+    }
+
+    // CraftBukkit start - Split off from above in order to directly send client and physic updates
+    @Override
+    public void notifyAndUpdatePhysics(BlockPos blockpos, LevelChunk levelchunk, BlockState oldBlock, BlockState newBlock, BlockState actualBlock, int i, int j) {
+        this.bridge$forge$notifyAndUpdatePhysics(blockpos, levelchunk, oldBlock, newBlock, i, j);
+    }
+    // CraftBukkit end
+
+    @Override
+    public void bridge$forge$notifyAndUpdatePhysics(BlockPos pos, @Nullable LevelChunk levelchunk, BlockState oldBlock, BlockState newBlock, int j, int k) {
+        Block block = newBlock.getBlock();
+        BlockState blockstate1 = this.getBlockState(pos);
+        if (blockstate1 == newBlock) {
+            if (oldBlock != blockstate1) {
+                this.setBlocksDirty(pos, oldBlock, blockstate1);
+            }
+
+            if ((j & 2) != 0 && (!this.isClientSide() || (j & 4) == 0) && (this.isClientSide() || levelchunk == null || levelchunk.getFullStatus() != null && levelchunk.getFullStatus().isOrAfter(FullChunkStatus.BLOCK_TICKING))) {
+                this.sendBlockUpdated(pos, oldBlock, newBlock, j);
+            }
+
+            if ((j & 1) != 0) {
+                this.neighborChanged(pos, oldBlock.getBlock(), net.minecraft.world.level.redstone.Orientation.fromIndex(0));
+                if (!this.isClientSide() && newBlock.hasAnalogOutputSignal()) {
+                    this.updateNeighbourForOutputSignal(pos, block);
+                }
+            }
+
+            if ((j & 16) == 0 && k > 0) {
+                int i = j & -34;
+                oldBlock.updateIndirectNeighbourShapes(this, pos, i, k - 1);
+                try {
+                    if (this.world != null) {
+                        BlockPhysicsEvent event = new BlockPhysicsEvent(CraftBlock.at(this, pos), CraftBlockData.fromData(newBlock));
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (event.isCancelled()) {
+                            return;
+                        }
+                    }
+                } catch (StackOverflowError e) {
+                    lastPhysicsProblem = pos;
+                }
+                newBlock.updateNeighbourShapes(this, pos, i, k - 1);
+                newBlock.updateIndirectNeighbourShapes(this, pos, i, k - 1);
+            }
+
+            if (!this.preventPoiUpdated) {
+                this.updatePOIOnBlockStateChange(pos, oldBlock, blockstate1);
+            }
+        }
+    }
+
+    @Override
+    public BlockEntity getBlockEntity(BlockPos pos, boolean validate) {
+        return getBlockEntity(pos);
+    }
+
+    @Override
+    public boolean bridge$isPopulating() {
+        return this.populating;
+    }
+
+    @Override
+    public void bridge$setPopulating(boolean populating) {
+        this.populating = populating;
+    }
+
+    @Override
+    public ChunkGenerator bridge$getGenerator() {
+        return this.generator;
+    }
+
+    @Override
+    public boolean bridge$addEntity(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
+        if (getWorld().getHandle() != (Object) this) {
+            return getWorld().getHandle().bridge$addEntity(entity, reason);
+        } else {
+            this.bridge$pushAddEntityReason(reason);
+            return this.addFreshEntity(entity);
+        }
+    }
+
+    @Override
+    public void bridge$pushAddEntityReason(CreatureSpawnEvent.SpawnReason reason) {
+        if (getWorld().getHandle() != (Object) this) {
+            getWorld().getHandle().bridge$pushAddEntityReason(reason);
+        }
+    }
+
+    @Override
+    public CreatureSpawnEvent.SpawnReason bridge$getAddEntityReason() {
+        if (getWorld().getHandle() != (Object) this) {
+            return getWorld().getHandle().bridge$getAddEntityReason();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean bridge$preventPoiUpdated() {
+        return this.preventPoiUpdated;
+    }
+
+    @Override
+    public void bridge$preventPoiUpdated(boolean b) {
+        this.preventPoiUpdated = b;
+    }
+}

@@ -5,7 +5,7 @@ import net.minecraft.world.level.biome.Biome;
 
 public interface LevelChunkSectionBridge {
 
-    default void bridge$setBiome(int x, int y, int z, Holder<Biome> biome) {
+    default void setBiome(int x, int y, int z, Holder<Biome> biome) {
 
     }
 }
