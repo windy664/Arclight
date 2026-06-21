@@ -13,6 +13,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.FullChunkStatus;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
@@ -74,7 +75,7 @@ public abstract class LevelMixin implements LevelAccessor, AutoCloseable, LevelB
     public abstract void neighborChanged(BlockPos pos, Block changedBlock, @Nullable Orientation orientation);
 
     // CraftBukkit start Added the following
-    private CraftWorld world;
+    protected CraftWorld world;
     public org.bukkit.generator.ChunkGenerator generator;
     protected org.bukkit.World.Environment environment;
     protected org.bukkit.generator.BiomeProvider biomeProvider;
@@ -116,7 +117,6 @@ public abstract class LevelMixin implements LevelAccessor, AutoCloseable, LevelB
     // InitAuther97: inject later than ironsspellbooks, see their LevelMixin
     @Inject(method = "<init>", at = @At("RETURN"), order = 1001)
     private void arclight$init(WritableLevelData levelData, ResourceKey dimension, RegistryAccess registryAccess, Holder dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates, CallbackInfo ci) {
-        this.getWorldBorder().bridge$setWorld((Level) (Object) this);
         for (SpawnCategory spawnCategory : SpawnCategory.values()) {
             if (CraftSpawnCategory.isValidForLimits(spawnCategory)) {
                 this.ticksPerSpawnCategory.put(spawnCategory, this.getCraftServer().getTicksPerSpawns(spawnCategory));

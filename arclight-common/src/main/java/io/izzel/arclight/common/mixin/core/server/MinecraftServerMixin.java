@@ -26,6 +26,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetDefaultSpawnPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
+import net.minecraft.network.protocol.status.ServerStatus;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Services;
@@ -39,6 +40,7 @@ import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.util.TimeSource;
 import net.minecraft.util.TimeUtil;
+import net.minecraft.util.Util;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.world.clock.ServerClockManager;
 import net.minecraft.world.level.Level;
@@ -67,6 +69,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -75,6 +78,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.management.ManagementFactory;
 import java.net.Proxy;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -103,6 +107,9 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     @Shadow public WorldData worldData;
     // @formatter:on
 
+    @Shadow
+    public abstract int getAbsoluteMaxWorldSize();
+
     // CraftBukkit start
     public WorldLoader.DataLoadContext worldLoader;
     public org.bukkit.craftbukkit.CraftServer server;
@@ -115,6 +122,14 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     public Commands vanillaCommandDispatcher;
     private boolean forceTicks;
     // CraftBukkit end
+    public final double[] recentTps = new double[3];
+    @Unique
+    private long arclight$tpsTickSection;
+    @Unique
+    private long arclight$tpsTickCount;
+    private static final int TPS = 20;
+    private static final int TICK_TIME = 1000000000 / TPS;
+    private static final int SAMPLE_INTERVAL = 100;
 
     public MinecraftServerMixin(String name, boolean propagatesCrashes) {
         super(name, propagatesCrashes);
@@ -146,6 +161,33 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         }
     }
     // CraftBukkit end
+
+    @WrapOperation(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;buildServerStatus()Lnet/minecraft/network/protocol/status/ServerStatus;"))
+    private ServerStatus arclight$initTickParam(MinecraftServer instance, Operation<ServerStatus> original) {
+        var serverStatus = original.call(instance);
+        Arrays.fill(recentTps, 20);
+        this.arclight$tpsTickSection = Util.getMillis();
+        this.arclight$tpsTickCount = 1;
+        return serverStatus;
+    }
+
+    @WrapOperation(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;waitUntilNextTick()V"))
+    private void arclight$updateTickParam(MinecraftServer instance, Operation<Void> original, @Local long tickSection, @Local long tickCount) {
+        if (tickCount++ % SAMPLE_INTERVAL == 0) {
+            long curTime = Util.getMillis();
+            double currentTps = 1E3 / (curTime - tickSection) * SAMPLE_INTERVAL;
+            recentTps[0] = calcTps(recentTps[0], 0.92, currentTps); // 1/exp(5sec/1min)
+            recentTps[1] = calcTps(recentTps[1], 0.9835, currentTps); // 1/exp(5sec/5min)
+            recentTps[2] = calcTps(recentTps[2], 0.9945, currentTps); // 1/exp(5sec/15min)
+            tickSection = curTime;
+        }
+        currentTick = (int) (System.currentTimeMillis() / 50);
+        original.call(instance);
+    }
+
+    private static double calcTps(double avg, double exp, double tps) {
+        return (avg * exp) + (tps * (1 - exp));
+    }
 
     @Inject(method = "stopServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/PacketProcessor;close()V"), cancellable = true)
     private void arclight$preventDoubleStopping(CallbackInfo ci) {
@@ -198,11 +240,6 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     @WrapWithCondition(method = "runServer", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V"))
     private boolean arclight$warnOnLoad(Logger instance, String s, Object o1, Object o2) {
         return server.getWarnOnOverload();
-    }
-
-    @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;startMeasuringTaskExecutionTime()V"))
-    private void arclight$updateTickParam(CallbackInfo ci) {
-        currentTick = (int) (System.currentTimeMillis() / 50);
     }
 
     @Inject(method = "tickServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;tickConnection()V"))
@@ -261,6 +298,11 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
             level.getWorldBorder().addListener(ArclightBorderChangeListener.typed());
         }
         return original.call(instance, k, v);
+    }
+
+    private void initWorldBorder(ServerLevel serverlevel1) {
+        serverlevel1.getWorldBorder().setAbsoluteMaxSize(this.getAbsoluteMaxWorldSize());
+        this.getPlayerList().addWorldborderListener(serverlevel1);
     }
 
     @Redirect(method = "forceGameTimeSynchronization", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastAll(Lnet/minecraft/network/protocol/Packet;)V"))

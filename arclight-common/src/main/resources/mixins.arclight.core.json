@@ -44,6 +44,8 @@
     "server.WorldLoaderMixin",
     "server.dedicated.DedicatedPlayerListMixin",
     "server.dedicated.DedicatedServerMixin",
+    "server.level.ServerChunkCacheMixin",
+    "server.level.ServerLevelMixin",
     "server.level.TicketMixin",
     "server.level.TicketTypeMixin",
     "server.players.PlayerListMixin",
@@ -136,14 +138,11 @@
     "world.level.block.WitherRoseBlockMixin",
     "world.level.block.grower.TreeGrowerMixin",
     "world.level.border.WorldBorderMixin",
-    "world.level.chunk.ChunkAccessMixin",
-    "world.level.chunk.ChunkGeneratorMixin",
-    "world.level.chunk.LevelChunk_BoundTickingBlockEntityMixin",
-    "world.level.chunk.LevelChunkMixin",
-    "world.level.chunk.LevelChunkSectionMixin",
-    "world.level.chunk.status.ChunkStatusTasksMixin",
-    "world.level.chunk.storage.RegionFileMixin",
-    "world.level.chunk.storage.RegionFileStorageMixin",
+    "world.level.levelgen.FlatLevelSourceMixin",
+    "world.level.levelgen.PatrolSpawnerMixin",
+    "world.level.levelgen.PhantomSpawnerMixin",
+    "world.level.levelgen.flat.FlatLevelGeneratorSettingsMixin",
+    "world.level.storage.PrimaryLevelDataMixin",
     "world.waypoints.WaypointTransmitterMixin"
   ]
 }
