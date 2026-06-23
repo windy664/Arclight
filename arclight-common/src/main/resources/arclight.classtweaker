@@ -21,6 +21,7 @@ transitive-accessible method net/minecraft/world/entity/projectile/hurtingprojec
 transitive-accessible method net/minecraft/world/entity/projectile/hurtingprojectile/windcharge/BreezeWindCharge explode (Lnet/minecraft/world/phys/Vec3;)V
 transitive-accessible method net/minecraft/world/entity/projectile/hurtingprojectile/windcharge/WindCharge explode (Lnet/minecraft/world/phys/Vec3;)V
 transitive-accessible field net/minecraft/ChatFormatting code C
+transitive-accessible field net/minecraft/world/level/storage/DerivedLevelData wrapped Lnet/minecraft/world/level/storage/ServerLevelData;
 transitive-accessible field net/minecraft/commands/CommandSourceStack source Lnet/minecraft/commands/CommandSource;
 transitive-accessible method  net/minecraft/nbt/ListTag <init> (Ljava/util/List;)V
 transitive-accessible method  net/minecraft/nbt/ListTag identifyRawElementType ()B

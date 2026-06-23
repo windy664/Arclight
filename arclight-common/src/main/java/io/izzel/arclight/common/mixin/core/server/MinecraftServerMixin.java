@@ -290,12 +290,12 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                          level.bridge$getGenerator().getDefaultPopulators(
                                 level.getWorld()));
             }
-            Bukkit.getPluginManager().callEvent(new WorldInitEvent(level.getWorld()));
+            //Bukkit.getPluginManager().callEvent(new WorldInitEvent(level.getWorld()));
 
             // Arclight: move world border listener initialization to world registration
             // Arclight: ArclightBorderChangeListener is singleton so won't be added more than once
             // Arclight: since it seems that we can't apply multiple Decorators to a target on Forge...
-            level.getWorldBorder().addListener(ArclightBorderChangeListener.typed());
+            //level.getWorldBorder().addListener(ArclightBorderChangeListener.typed());
         }
         return original.call(instance, k, v);
     }

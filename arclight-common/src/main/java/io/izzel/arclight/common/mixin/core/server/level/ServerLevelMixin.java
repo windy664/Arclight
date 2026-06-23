@@ -29,7 +29,6 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.gamerules.GameRuleMap;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
@@ -167,6 +166,7 @@ public abstract class ServerLevelMixin extends LevelMixin implements WorldGenLev
             this.K = primary;
         } else {
             // damn spigot again
+            this.K = DelegateWorldInfo.wrap(worldInfo);
         }
 
         if (arclight$isActual()) {
@@ -204,7 +204,7 @@ public abstract class ServerLevelMixin extends LevelMixin implements WorldGenLev
                 if (raw instanceof NoiseBasedChunkGenerator noise) {
                     raw = new NoiseBasedChunkGenerator(biomeSource, noise.settings);
                 } else if (raw instanceof FlatLevelSource flat) {
-                    raw = new FlatLevelSource(((FlatLevelGeneratorSettingsBridge) flat.settings()).bridge$withBiomeSource(biomeSource));
+                    raw = new FlatLevelSource(flat.settings().bridge$withBiomeSource(biomeSource));
                 } else {
                     ArclightServer.LOGGER.warn("Level {} has unknown customized generator -- requested biome provider won't be satisfied.", this.serverLevelData.getLevelName());
                 }
@@ -215,6 +215,11 @@ public abstract class ServerLevelMixin extends LevelMixin implements WorldGenLev
             // CraftBukkit end
         }
         return raw;
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void arclight$addWorld(MinecraftServer server, Executor executor, LevelStorageSource.LevelStorageAccess levelStorage, ServerLevelData levelData, ResourceKey dimension, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, CallbackInfo ci) {
+        this.getCraftServer().addWorld(this.getWorld()); // CraftBukkit
     }
 }
 

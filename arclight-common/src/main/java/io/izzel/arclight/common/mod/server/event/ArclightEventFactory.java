@@ -124,7 +124,7 @@ public abstract class ArclightEventFactory {
         var itemstack = player.getItemBySlot(EquipmentSlot.MAINHAND);
 
         if (!event.isCancelled() && !controller.isCreative() && player.hasCorrectToolForDrops(nmsBlock.defaultBlockState())) {
-            event.setExpToDrop(((BlockBridge) nmsBlock).bridge$getExpDrop(state, level, pos, itemstack));
+            event.setExpToDrop(((BlockBridge) nmsBlock).bridge$getExpDrop(state, level, pos, itemstack, true));
         }
 
         Bukkit.getPluginManager().callEvent(event);

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface BlockBridge {
 
-    default int bridge$getExpDrop(BlockState blockState, ServerLevel world, BlockPos blockPos, ItemStack itemStack) {
+    default int bridge$getExpDrop(BlockState blockState, ServerLevel world, BlockPos blockPos, ItemStack itemStack, boolean dropExperience) {
         return 0;
     }
 
