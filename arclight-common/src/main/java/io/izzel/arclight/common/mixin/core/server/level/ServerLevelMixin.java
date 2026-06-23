@@ -167,7 +167,6 @@ public abstract class ServerLevelMixin extends LevelMixin implements WorldGenLev
             this.K = primary;
         } else {
             // damn spigot again
-            this.K = DelegateWorldInfo.wrap(worldInfo);
         }
 
         if (arclight$isActual()) {

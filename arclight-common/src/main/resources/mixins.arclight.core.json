@@ -76,6 +76,7 @@
     "world.item.SpawnEggItemMixin",
     "world.item.StandingAndWallBlockItemMixin",
     "world.item.alchemy.PotionContentsMixin",
+    "world.level.LevelAccessorMixin",
     "world.level.LevelMixin",
     "world.level.LevelWriterMixin",
     "world.level.block.AbstractCandleBlockMixin",

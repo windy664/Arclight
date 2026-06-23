@@ -14,7 +14,7 @@ public interface LevelAccessorBridge {
         return DistValidate.isValid((LevelAccessor) this);
     }
 
-    default ServerLevel bridge$getMinecraftWorld() {
+    default ServerLevel getMinecraftWorld() {
         throw new UnsupportedOperationException(String.format("No server level found for %s.\n This is likely because the specified world is not a ServerLevelAccessor and thus it shouldn't be a logic world.\n Otherwise it is a bug of Arclight.", getClass().getName()));
     }
 }
