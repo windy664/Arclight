@@ -163,11 +163,6 @@ public abstract class LevelMixin implements LevelAccessor, AutoCloseable, LevelB
     }
 
     @Override
-    public ResourceKey<LevelStem> bridge$getTypeKey() {
-        return getTypeKey();
-    }
-
-    @Override
     public SpigotWorldConfig bridge$spigotConfig() {
         if (spigotConfig == null) {
             return ArclightWorldConfig.DEFAULT;

@@ -18,22 +18,22 @@ public class ArclightBorderChangeListener implements BorderChangeListener {
 
     @Override
     public void onSetSize(WorldBorder border, double size) {
-        arclight$broadcastToDimension(border, ClientboundSetBorderSizePacket::new);
+        //arclight$broadcastToDimension(border, ClientboundSetBorderSizePacket::new);
     }
 
     @Override
     public void onLerpSize(WorldBorder border, double from, double to, long time, long startTime) {
-        arclight$broadcastToDimension(border, ClientboundSetBorderLerpSizePacket::new);
+        //arclight$broadcastToDimension(border, ClientboundSetBorderLerpSizePacket::new);
     }
 
     @Override
     public void onSetCenter(WorldBorder border, double x, double z) {
-        arclight$broadcastToDimension(border, ClientboundSetBorderCenterPacket::new);
+        //arclight$broadcastToDimension(border, ClientboundSetBorderCenterPacket::new);
     }
 
     @Override
     public void onSetWarningTime(WorldBorder border, int time) {
-        arclight$broadcastToDimension(border, ClientboundSetBorderWarningDelayPacket::new);
+        //arclight$broadcastToDimension(border, ClientboundSetBorderWarningDelayPacket::new);
     }
 
     @Override
