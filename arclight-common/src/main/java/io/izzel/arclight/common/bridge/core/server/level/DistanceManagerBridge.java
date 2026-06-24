@@ -8,14 +8,6 @@ import net.minecraft.world.level.ChunkPos;
 
 public interface DistanceManagerBridge {
 
-    default boolean bridge$addTicketAtLevel(TicketType type, ChunkPos pos, int level, Object value) {
-        return false;
-    }
-
-    default boolean bridge$removeTicketAtLevel(TicketType type, ChunkPos pos, int level, Object value) {
-        return false;
-    }
-
     default boolean bridge$addTicket(long chunkPos, Ticket ticket) {
         return false;
     }

@@ -76,10 +76,6 @@ public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
         return null;
     }
 
-    default ResourceKey<LevelStem> bridge$getTypeKey() {
-        return null;
-    }
-
     default void bridge$setLastPhysicsProblem(BlockPos pos) {
 
     }

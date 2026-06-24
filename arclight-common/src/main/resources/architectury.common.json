@@ -358,6 +358,9 @@
     ],
     "net/minecraft/network/protocol/common/custom/DiscardedPayload": [
       "io/izzel/arclight/common/bridge/core/network/protocol/common/custom/DiscardedPayloadBridge"
+    ],
+    "net/minecraft/world/level/ServerLevelAccessor": [
+      "io/izzel/arclight/common/bridge/core/world/level/ServerLevelAccessorBridge"
     ]
   }
 }
