@@ -38,7 +38,7 @@ public class ArclightBorderChangeListener implements BorderChangeListener {
 
     @Override
     public void onSetWarningBlocks(WorldBorder border, int distance) {
-        arclight$broadcastToDimension(border, ClientboundSetBorderWarningDistancePacket::new);
+        // arclight$broadcastToDimension(border, ClientboundSetBorderWarningDistancePacket::new);
     }
 
     @Override
@@ -49,8 +49,9 @@ public class ArclightBorderChangeListener implements BorderChangeListener {
     public void onSetSafeZone(WorldBorder border, double safeZone) {
     }
 
+    /*
     private void arclight$broadcastToDimension(WorldBorder border, Function<WorldBorder, Packet<?>> packet) {
         final var level = ((WorldBorderBridge) border).bridge$getWorld();
         level.getServer().getPlayerList().broadcastAll(packet.apply(border), level.dimension());
-    }
+    }*/
 }

@@ -296,4 +296,14 @@ public abstract class LevelMixin implements LevelAccessor, AutoCloseable, LevelB
     public void bridge$preventPoiUpdated(boolean b) {
         this.preventPoiUpdated = b;
     }
+
+    @Override
+    public boolean bridge$isCaptureBlockStates() {
+        return this.captureBlockStates;
+    }
+
+    @Override
+    public void bridge$setCaptureBlockStates(boolean captureBlockStates) {
+        this.captureBlockStates = captureBlockStates;
+    }
 }

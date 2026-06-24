@@ -25,6 +25,13 @@ import java.util.Map;
 
 public interface LevelBridge extends LevelWriterBridge, LevelAccessorBridge {
 
+    default boolean bridge$isCaptureBlockStates() {
+        return false;
+    }
+
+    default void bridge$setCaptureBlockStates(boolean captureBlockStates) {
+    }
+
     default boolean bridge$isCaptureTreeGeneration() {
         return false;
     }
