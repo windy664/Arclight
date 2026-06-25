@@ -361,6 +361,9 @@
     ],
     "net/minecraft/world/level/ServerLevelAccessor": [
       "io/izzel/arclight/common/bridge/core/world/level/ServerLevelAccessorBridge"
+    ],
+    "net/minecraft/server/network/ServerConnectionListener": [
+      "io/izzel/arclight/common/bridge/core/server/network/ServerConnectionListenerBridge"
     ]
   }
 }

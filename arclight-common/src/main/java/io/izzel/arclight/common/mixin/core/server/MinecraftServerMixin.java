@@ -1,11 +1,14 @@
 package io.izzel.arclight.common.mixin.core.server;
 
+import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.DataFixer;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.Lifecycle;
 import io.izzel.arclight.api.ArclightVersion;
 import io.izzel.arclight.common.bridge.bukkit.CraftServerBridge;
 import io.izzel.arclight.common.bridge.core.server.MinecraftServerBridge;
@@ -15,42 +18,88 @@ import io.izzel.arclight.common.mod.server.world.border.ArclightBorderChangeList
 import io.izzel.arclight.common.mod.server.world.border.ArclightDelegatedBorderListener;
 import io.izzel.arclight.common.mod.util.ArclightCaptures;
 import io.izzel.arclight.common.mod.util.BukkitOptionParser;
+import io.izzel.arclight.common.mod.util.LevelStorageSourceUtil;
 import io.izzel.arclight.common.util.IteratorUtil;
 import io.izzel.arclight.i18n.ArclightConfig;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.CrashReport;
 import net.minecraft.ReportedException;
+import net.minecraft.SharedConstants;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.LayeredRegistryAccess;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtException;
+import net.minecraft.nbt.ReportedNbtException;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundSetDefaultSpawnPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTimePacket;
 import net.minecraft.network.protocol.status.ServerStatus;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.ServerScoreboard;
 import net.minecraft.server.Services;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.WorldStem;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.dedicated.DedicatedServerProperties;
+import net.minecraft.server.level.ChunkLoadCounter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.LevelLoadListener;
+import net.minecraft.server.network.ServerConnectionListener;
 import net.minecraft.server.notifications.NotificationManager;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.PlayerList;
+import net.minecraft.util.ModCheck;
 import net.minecraft.util.TimeSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.Util;
+import net.minecraft.util.datafix.DataFixers;
+import net.minecraft.util.profiling.jfr.Environment;
+import net.minecraft.util.profiling.jfr.JvmProfiler;
+import net.minecraft.util.profiling.jfr.callback.ProfiledDuration;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
+import net.minecraft.util.worldupdate.UpgradeProgress;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.Stopwatches;
+import net.minecraft.world.clock.ClockTimeMarkers;
 import net.minecraft.world.clock.ServerClockManager;
+import net.minecraft.world.clock.WorldClocks;
+import net.minecraft.world.entity.ai.village.VillageSiege;
+import net.minecraft.world.entity.npc.CatSpawner;
+import net.minecraft.world.entity.npc.wanderingtrader.WanderingTraderSpawner;
+import net.minecraft.world.level.CustomSpawner;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelSettings;
+import net.minecraft.world.level.TicketStorage;
+import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.level.levelgen.PatrolSpawner;
+import net.minecraft.world.level.levelgen.PhantomSpawner;
+import net.minecraft.world.level.levelgen.WorldDimensions;
+import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraft.world.level.levelgen.WorldOptions;
+import net.minecraft.world.level.levelgen.presets.WorldPresets;
+import net.minecraft.world.level.storage.CommandStorage;
 import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.level.storage.LevelDataAndDimensions;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.LevelSummary;
+import net.minecraft.world.level.storage.PrimaryLevelData;
+import net.minecraft.world.level.storage.SavedDataStorage;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraft.world.level.storage.WorldData;
+import net.minecraft.world.level.validation.ContentValidationException;
+import net.minecraft.world.scores.ScoreboardSaveData;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.CraftRegistry;
@@ -68,6 +117,7 @@ import org.spigotmc.WatchdogThread;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -76,15 +126,20 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.Proxy;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.function.BooleanSupplier;
 
 @Mixin(MinecraftServer.class)
@@ -105,10 +160,10 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     @Shadow @Final public LevelLoadListener levelLoadListener;
     @Shadow protected abstract void setupDebugLevel(WorldData worldData);
     @Shadow public WorldData worldData;
+    @Shadow public abstract int getAbsoluteMaxWorldSize();
+    @Shadow public ServerConnectionListener connection;
+    @Shadow public abstract RegistryAccess.Frozen registryAccess();
     // @formatter:on
-
-    @Shadow
-    public abstract int getAbsoluteMaxWorldSize();
 
     // CraftBukkit start
     public WorldLoader.DataLoadContext worldLoader;
@@ -446,6 +501,106 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         this.runAllTasks();
         this.bridge$drainQueuedTasks();
         java.util.concurrent.locks.LockSupport.parkNanos("executing tasks", 1000L);
+    }
+
+    protected void loadLevel(String s) { // CraftBukkit
+        boolean startedWorldLoadProfiling = !JvmProfiler.INSTANCE.isRunning() && SharedConstants.DEBUG_JFR_PROFILING_ENABLE_LEVEL_LOADING && JvmProfiler.INSTANCE.start(Environment.from(((MinecraftServer) (Object) this)));
+        ProfiledDuration profiledDuration = JvmProfiler.INSTANCE.onWorldLoadedStarted();
+        if (profiledDuration != null) {
+            profiledDuration.finish(true);
+        }
+
+        if (startedWorldLoadProfiling) {
+            try {
+                JvmProfiler.INSTANCE.stop();
+            } catch (Throwable t) {
+                MinecraftServer.LOGGER.warn("Failed to stop JFR profiling", t);
+            }
+        }
+
+    }
+
+    private void setupDebugLevel(WorldData worldData, ServerLevel serverlevel) { // CraftBukkit - added level
+        worldData.setDifficulty(Difficulty.PEACEFUL);
+        worldData.setDifficultyLocked(true);
+        ServerLevelData serverleveldata = worldData.overworldData();
+        serverlevel.getGameRules().set(GameRules.ADVANCE_WEATHER, false, serverlevel.getServer()); // CraftBukkit
+        serverlevel.clockManager().moveToTimeMarker(this.registryAccess().getOrThrow(WorldClocks.OVERWORLD), ClockTimeMarkers.NOON); // CraftBukkit
+        serverleveldata.setGameType(GameType.SPECTATOR);
+    }
+
+    /**
+     * @author wdog5734
+     * @reason Bukkit
+     */
+    @Overwrite
+    public final void prepareLevels() {
+        this.forceTicks = true;
+        // CraftBukkit end
+        ChunkLoadCounter chunkLoadCounter = new ChunkLoadCounter();
+
+        for(ServerLevel level : this.levels.values()) {
+            chunkLoadCounter.track(level, () -> {
+                TicketStorage savedTickets = (TicketStorage)level.getDataStorage().get(TicketStorage.TYPE);
+                if (savedTickets != null) {
+                    savedTickets.activateAllDeactivatedTickets();
+                }
+
+            });
+        }
+
+        this.levelLoadListener.start(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS, chunkLoadCounter.totalChunks());
+
+        do {
+            this.levelLoadListener.update(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS, chunkLoadCounter.readyChunks(), chunkLoadCounter.totalChunks());
+            // CraftBukkit start
+            // this.nextTickTimeNanos = Util.getNanos() + MinecraftServer.PREPARE_LEVELS_DEFAULT_DELAY_NANOS;
+            this.executeModerately();
+            // CraftBukkit end
+        } while(chunkLoadCounter.pendingChunks() > 0);
+
+        this.levelLoadListener.finish(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS);
+        // CraftBukkit start
+        // this.updateMobSpawningFlags();
+
+        this.forceTicks = false;
+        // CraftBukkit end
+        this.updateEffectiveRespawnData();
+    }
+
+    @Override
+    public void prepareLevels(ServerLevel serverlevel) {
+        this.forceTicks = true;
+        // CraftBukkit end
+        ChunkLoadCounter chunkLoadCounter = new ChunkLoadCounter();
+
+        {
+            chunkLoadCounter.track(serverlevel, () -> {
+                TicketStorage savedTickets = (TicketStorage)serverlevel.getDataStorage().get(TicketStorage.TYPE);
+                if (savedTickets != null) {
+                    savedTickets.activateAllDeactivatedTickets();
+                }
+
+            });
+        }
+
+        this.levelLoadListener.start(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS, chunkLoadCounter.totalChunks());
+
+        do {
+            this.levelLoadListener.update(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS, chunkLoadCounter.readyChunks(), chunkLoadCounter.totalChunks());
+            // CraftBukkit start
+            // this.nextTickTimeNanos = Util.getNanos() + MinecraftServer.PREPARE_LEVELS_DEFAULT_DELAY_NANOS;
+            this.executeModerately();
+            // CraftBukkit end
+        } while(chunkLoadCounter.pendingChunks() > 0);
+
+        this.levelLoadListener.finish(LevelLoadListener.Stage.LOAD_INITIAL_CHUNKS);
+        // CraftBukkit start
+        // this.updateMobSpawningFlags();
+
+        this.forceTicks = false;
+        // CraftBukkit end
+        this.updateEffectiveRespawnData();
     }
 
     @Override

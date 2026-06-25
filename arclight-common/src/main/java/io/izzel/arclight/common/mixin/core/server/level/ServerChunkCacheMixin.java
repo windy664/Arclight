@@ -1,5 +1,7 @@
 package io.izzel.arclight.common.mixin.core.server.level;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.izzel.arclight.common.bridge.core.server.level.ServerChunkCacheBridge;
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ChunkLevel;
@@ -151,5 +153,10 @@ public abstract class ServerChunkCacheMixin implements ServerChunkCacheBridge {
     public int arclight$useOldTicketLevel(ChunkHolder chunkHolder) {
         // XXX: Disable for C2ME (#1597)
         return  chunkHolder.bridge$getOldTicketLevel();
+    }
+
+    @WrapOperation(method = "tickChunks(Lnet/minecraft/util/profiling/ProfilerFiller;J)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/gamerules/GameRules;get(Lnet/minecraft/world/level/gamerules/GameRule;)Ljava/lang/Object;"))
+    private Object arclight$noPlayer(GameRules instance, GameRule<Boolean> gameRule, Operation<Boolean> original) {
+        return original.call(instance, gameRule) && !this.level.players().isEmpty();
     }
 }
